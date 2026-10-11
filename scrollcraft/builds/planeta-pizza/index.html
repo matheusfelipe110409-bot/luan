@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Planeta Pizza · A melhor pizza da cidade pelo melhor preço</title>
+<meta name="description" content="Pizza delivery em Araguari. Massa aberta na hora, recheio até a borda e o melhor preço da cidade. Veja o cardápio e faça seu pedido.">
+<meta name="theme-color" content="#B8141B">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Planeta Pizza · A melhor pizza da cidade pelo melhor preço">
+<meta property="og:description" content="Só delivery, em Araguari. Feita na hora e entregue quentinha.">
+<meta property="og:image" content="assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/bricolage.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="assets/vt/ball-m.webp" imagesrcset="assets/vt/ball-m.webp 960w, assets/vt/ball-d.webp 1440w" imagesizes="(max-width: 860px) 94vw, 44vw">
+<link rel="stylesheet" href="scrollcraft.css">
+<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="assets/vt/frames.css">
+<noscript><style>
+  /* Without the engine nothing drives the cues or the film: show the
+     finished pizza and every line of copy, still. */
+  [data-sc-cue] { opacity: 1 !important; transform: none !important; }
+  .vt .L, .vt .drops, .vt .steam, .vt .glow, .beat:not(.beat--hero) { display: none; }
+  .vt .L-final { display: block; opacity: 1; }
+  .vitrine { height: auto !important; }
+  .vitrine [data-sc-stage] { position: relative; }
+</style></noscript>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Restaurant","name":"Planeta Pizza","servesCuisine":"Pizza","address":{"@type":"PostalAddress","addressLocality":"Araguari","addressRegion":"MG","addressCountry":"BR"},"sameAs":["https://www.instagram.com/planetapizzaaraguari"]}
+</script>
+</head>
+<body>
+
+<!-- Icons: Lucide (ISC licence), inlined as a sprite. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-insta" viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></symbol>
+  <symbol id="i-bike" viewBox="0 0 24 24"><circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></symbol>
+  <symbol id="i-mark" viewBox="0 0 64 64"><path d="M7 41c-3-5 9-14 25-19s30-6 32-1" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" opacity=".55"/><circle cx="32" cy="32" r="17" fill="currentColor" stroke="none"/><circle cx="26" cy="27" r="3.4" fill="var(--mark-dot, #B8141B)" stroke="none"/><circle cx="38" cy="30" r="3" fill="var(--mark-dot, #B8141B)" stroke="none"/><circle cx="30" cy="39" r="3.2" fill="var(--mark-dot, #B8141B)" stroke="none"/><path d="M57 23c3 5-9 14-25 19S2 48 0 43" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></symbol>
+</svg>
+
+<a class="skip" href="#cardapio">Pular para o cardápio</a>
+<div class="sc-grain" aria-hidden="true"></div>
+
+<header class="bar">
+  <a class="brand" href="#topo" aria-label="Planeta Pizza, voltar ao início">
+    <svg class="brand__mark" aria-hidden="true"><use href="#i-mark"/></svg>
+    <span class="brand__name">Planeta <b>Pizza</b></span>
+  </a>
+  <p class="status" data-status>
+    <span class="status__dot" aria-hidden="true"></span>
+    <span data-status-text>Todos os dias, 18h às 23h30</span>
+  </p>
+  <a class="btn btn--light bar__cta" href="#cardapio" data-order>
+    <svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg>
+    <span>Fazer pedido</span>
+    <span class="count" data-count hidden>0</span>
+  </a>
+</header>
+
+<main>
+
+  <!-- ===================================================== VITRINE ====
+       One pinned act. Promise, proof, payoff. The engine publishes --sc-p
+       on this section; site.css drives every layer of the pizza from it. -->
+  <section id="topo" class="vitrine" data-sc-act="pin" data-sc-span="3.3" aria-label="A pizza da casa, montada na sua frente">
+    <div data-sc-stage class="vt">
+      <div class="vt__ground" aria-hidden="true"></div>
+      <div class="vt__ground vt__ground--hot" aria-hidden="true"></div>
+
+      <div class="props props--far" aria-hidden="true">
+        <div class="prop prop--flour" data-sc-parallax="-0.4"><img src="assets/vt/prop-flour-m.webp" srcset="assets/vt/prop-flour-m.webp 360w, assets/vt/prop-flour-d.webp 560w" sizes="30vw" alt="" width="560" height="560"></div>
+        <div class="prop prop--tomatoes" data-sc-parallax="-0.9"><img src="assets/vt/prop-tomatoes-m.webp" srcset="assets/vt/prop-tomatoes-m.webp 360w, assets/vt/prop-tomatoes-d.webp 560w" sizes="(max-width: 860px) 34vw, 16vw" alt="" width="560" height="560"></div>
+        <div class="prop prop--olives" data-sc-parallax="-0.6"><img src="assets/vt/prop-olives-m.webp" srcset="assets/vt/prop-olives-m.webp 360w, assets/vt/prop-olives-d.webp 560w" sizes="(max-width: 860px) 26vw, 12vw" alt="" width="560" height="560"></div>
+        <div class="prop prop--calabresa" data-sc-parallax="-1.1"><img src="assets/vt/prop-calabresa-m.webp" srcset="assets/vt/prop-calabresa-m.webp 360w, assets/vt/prop-calabresa-d.webp 560w" sizes="(max-width: 860px) 40vw, 18vw" alt="" width="560" height="560"></div>
+        <div class="prop prop--basil" data-sc-parallax="-0.7"><img src="assets/vt/prop-basil-m.webp" srcset="assets/vt/prop-basil-m.webp 360w, assets/vt/prop-basil-d.webp 560w" sizes="(max-width: 860px) 30vw, 14vw" alt="" width="560" height="560"></div>
+      </div>
+
+      <div class="pizza" data-sc-tilt="4">
+        <div class="pizza__spin">
+          <img class="L L-ball" src="assets/vt/ball-m.webp" srcset="assets/vt/ball-m.webp 960w, assets/vt/ball-d.webp 1440w" sizes="(max-width: 860px) 94vw, 44vw" alt="" width="1440" height="1440" fetchpriority="high">
+          <img class="L L-dough" src="assets/vt/dough-m.webp" srcset="assets/vt/dough-m.webp 960w, assets/vt/dough-d.webp 1440w" sizes="(max-width: 860px) 92vw, 44vw" alt="" width="1440" height="1440">
+          <img class="L L-sauce" src="assets/vt/sauce-m.webp" srcset="assets/vt/sauce-m.webp 960w, assets/vt/sauce-d.webp 1440w" sizes="(max-width: 860px) 92vw, 44vw" alt="" width="1440" height="1440" fetchpriority="low" decoding="async">
+          <img class="L L-c L-c1" src="assets/vt/cheese1-m.webp" srcset="assets/vt/cheese1-m.webp 960w, assets/vt/cheese1-d.webp 1440w" sizes="(max-width: 860px) 92vw, 44vw" alt="" width="1440" height="1440" fetchpriority="low" decoding="async">
+          <img class="L L-c L-c2" src="assets/vt/cheese2-m.webp" srcset="assets/vt/cheese2-m.webp 960w, assets/vt/cheese2-d.webp 1440w" sizes="(max-width: 860px) 92vw, 44vw" alt="" width="1440" height="1440" fetchpriority="low" decoding="async">
+          <img class="L L-c L-c3" src="assets/vt/cheese3-m.webp" srcset="assets/vt/cheese3-m.webp 960w, assets/vt/cheese3-d.webp 1440w" sizes="(max-width: 860px) 92vw, 44vw" alt="" width="1440" height="1440" fetchpriority="low" decoding="async">
+          <img class="L L-melt" src="assets/vt/melt-m.webp" srcset="assets/vt/melt-m.webp 960w, assets/vt/melt-d.webp 1440w" sizes="(max-width: 860px) 92vw, 44vw" alt="" width="1440" height="1440" fetchpriority="low" decoding="async">
+          <img class="L L-baked" src="assets/vt/baked-m.webp" srcset="assets/vt/baked-m.webp 960w, assets/vt/baked-d.webp 1440w" sizes="(max-width: 860px) 92vw, 44vw" alt="" width="1440" height="1440" fetchpriority="low" decoding="async">
+          <div class="drops" aria-hidden="true" data-drops></div>
+          <img class="L L-final" src="assets/vt/final-m.webp" srcset="assets/vt/final-m.webp 960w, assets/vt/final-d.webp 1440w" sizes="(max-width: 860px) 92vw, 44vw" alt="Pizza de calabresa vista de cima: borda dourada, mussarela derretida, calabresa fatiada, cebola, azeitona e orégano" width="1440" height="1440" fetchpriority="low" decoding="async">
+        </div>
+        <div class="glow" aria-hidden="true"></div>
+        <div class="steam" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      </div>
+
+      <div class="props props--near" aria-hidden="true">
+        <div class="prop prop--near-basil" data-sc-parallax="2.6"><img src="assets/vt/prop-basil-blur-m.webp" srcset="assets/vt/prop-basil-blur-m.webp 360w, assets/vt/prop-basil-blur-d.webp 560w" sizes="(max-width: 860px) 52vw, 26vw" alt="" width="560" height="560"></div>
+        <div class="prop prop--near-tomato" data-sc-parallax="2.2"><img src="assets/vt/prop-tomatoes-blur-m.webp" srcset="assets/vt/prop-tomatoes-blur-m.webp 360w, assets/vt/prop-tomatoes-blur-d.webp 560w" sizes="(max-width: 860px) 48vw, 24vw" alt="" width="560" height="560"></div>
+      </div>
+
+      <!-- The signature: the ticket prints a line as each layer lands, then
+           takes the stamp. Below the fold the same ticket is the order. -->
+      <aside class="ticket ticket--vt" data-ticket aria-label="Comanda da pizza de calabresa">
+        <div class="ticket__paper">
+          <p class="ticket__head"><span>Planeta Pizza</span><span>Comanda · Delivery</span></p>
+          <ol class="ticket__lines">
+            <li data-line="1"><span>1x</span><span>Massa aberta na hora</span></li>
+            <li data-line="2"><span>1x</span><span>Molho da casa</span></li>
+            <li data-line="3"><span>1x</span><span>Mussarela</span></li>
+            <li data-line="4"><span>1x</span><span>Calabresa, cebola, azeitona</span></li>
+          </ol>
+          <p class="ticket__total" data-line="5"><span>Total</span><span>R$ 39,90</span></p>
+          <p class="stamp" aria-hidden="true"><span>Melhor preço</span><span>da cidade</span></p>
+        </div>
+      </aside>
+
+      <div class="beat beat--hero" data-sc-cue="0 0.11 0 0.4">
+        <h1 class="display display--hero" data-sc-kinetic="lines">A melhor pizza da cidade pelo melhor preço.</h1>
+        <p class="lede">Só delivery, em Araguari. Feita na hora e entregue quentinha.</p>
+      </div>
+
+      <div class="beat" data-sc-cue="0.10 0.265 0.2 0.2">
+        <h2 class="display display--beat">Primeiro, a massa.</h2>
+        <p class="lede">Aberta na hora. Leve no meio, borda que estala.</p>
+      </div>
+      <div class="beat" data-sc-cue="0.255 0.415 0.2 0.2">
+        <h2 class="display display--beat">Depois, o molho.</h2>
+        <p class="lede">Tomate encorpado, temperado do nosso jeito.</p>
+      </div>
+      <div class="beat" data-sc-cue="0.405 0.575 0.2 0.2">
+        <h2 class="display display--beat">Mussarela sem dó.</h2>
+        <p class="lede">Cai muita. Derrete no forno e chega puxando fio.</p>
+      </div>
+      <div class="beat" data-sc-cue="0.565 0.77 0.2 0.2">
+        <h2 class="display display--beat">Recheio até a borda.</h2>
+        <p class="lede">Calabresa, cebola e azeitona. Sem economizar.</p>
+      </div>
+
+      <div class="beat beat--payoff" data-sc-cue="0.835 1 0.18 0">
+        <p class="payoff__lead">Tudo isso por</p>
+        <p class="price price--hero"><span class="price__cur">R$</span><span class="price__int">39</span><span class="price__dec">,90</span></p>
+        <p class="payoff__note">Calabresa grande, 8 fatias. A melhor pizza da cidade, pelo melhor preço.</p>
+        <a class="btn btn--light btn--lg" href="#cardapio" data-order data-payoff-cta data-sc-magnet="0.24">
+          <svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg><span>Fazer pedido</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================== BALCÃO ====
+       The counter. Plain document flow, nothing scroll-driven: tabs,
+       photos from the same shoot, prices front and centre. -->
+  <section id="cardapio" class="balcao" data-sc-act="flow" aria-labelledby="cardapio-title">
+    <div class="wrap balcao__head">
+      <h2 id="cardapio-title" class="display display--section">Cardápio</h2>
+      <p class="balcao__sub">Preço grande, sem letra miúda. Toda pizza é grande, com 8 fatias.</p>
+    </div>
+
+    <nav class="tabs" aria-label="Categorias do cardápio">
+      <div class="tabs__track wrap">
+        <a href="#tradicionais" class="tab" aria-current="true">Tradicionais</a>
+        <a href="#especiais" class="tab">Especiais</a>
+        <a href="#doces" class="tab">Doces</a>
+        <a href="#bebidas" class="tab">Bebidas</a>
+      </div>
+    </nav>
+
+    <div class="wrap menu">
+      <section id="tradicionais" class="cat" aria-labelledby="h-trad">
+        <h3 id="h-trad" class="cat__title">Tradicionais</h3>
+        <ul class="items" data-sc-in data-sc-stagger="50">
+          <li class="item">
+            <img class="item__img" src="assets/menu/mussarela.webp" alt="Pizza de mussarela com tomate e azeitona, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+            <div class="item__txt"><h4 class="item__name">Mussarela</h4><p class="item__desc">Molho de tomate, mussarela, tomate, azeitona e orégano.</p></div>
+            <p class="price"><span class="price__cur">R$</span><span class="price__int">37</span><span class="price__dec">,90</span></p>
+            <button class="add" type="button" data-add data-id="mussarela" data-name="Mussarela" data-price="37.90"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Adicionar</span><span class="sr"> Mussarela</span></button>
+          </li>
+          <li class="item">
+            <img class="item__img" src="assets/menu/calabresa.webp" alt="Pizza de calabresa com cebola e azeitona, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+            <div class="item__txt"><h4 class="item__name">Calabresa</h4><p class="item__desc">Molho de tomate, mussarela, calabresa fatiada, cebola, azeitona e orégano.</p></div>
+            <p class="price"><span class="price__cur">R$</span><span class="price__int">39</span><span class="price__dec">,90</span></p>
+            <button class="add" type="button" data-add data-id="calabresa" data-name="Calabresa" data-price="39.90"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Adicionar</span><span class="sr"> Calabresa</span></button>
+          </li>
+          <li class="item">
+            <img class="item__img" src="assets/menu/marguerita.webp" alt="Pizza marguerita com tomate e manjericão, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+            <div class="item__txt"><h4 class="item__name">Marguerita</h4><p class="item__desc">Molho de tomate, mussarela, tomate, manjericão fresco e orégano.</p></div>
+            <p class="price"><span class="price__cur">R$</span><span class="price__int">41</span><span class="price__dec">,90</span></p>
+            <button class="add" type="button" data-add data-id="marguerita" data-name="Marguerita" data-price="41.90"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Adicionar</span><span class="sr"> Marguerita</span></button>
+          </li>
+          <li class="item">
+            <img class="item__img" src="assets/menu/portuguesa.webp" alt="Pizza portuguesa com presunto, ovo, ervilha e azeitona, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+            <div class="item__txt"><h4 class="item__name">Portuguesa</h4><p class="item__desc">Molho de tomate, mussarela, presunto, ovo, cebola, ervilha e azeitona.</p></div>
+            <p class="price"><span class="price__cur">R$</span><span class="price__int">44</span><span class="price__dec">,90</span></p>
+            <button class="add" type="button" data-add data-id="portuguesa" data-name="Portuguesa" data-price="44.90"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Adicionar</span><span class="sr"> Portuguesa</span></button>
+          </li>
+        </ul>
+      </section>
+
+      <section id="especiais" class="cat" aria-labelledby="h-esp">
+        <h3 id="h-esp" class="cat__title">Especiais</h3>
+        <ul class="items" data-sc-in data-sc-stagger="50">
+          <li class="item">
+            <img class="item__img" src="assets/menu/frango-catupiry.webp" alt="Pizza de frango com Catupiry, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+            <div class="item__txt"><h4 class="item__name">Frango com Catupiry</h4><p class="item__desc">Molho de tomate, mussarela, frango desfiado temperado e Catupiry.</p></div>
+            <p class="price"><span class="price__cur">R$</span><span class="price__int">45</span><span class="price__dec">,90</span></p>
+            <button class="add" type="button" data-add data-id="frango-catupiry" data-name="Frango com Catupiry" data-price="45.90"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Adicionar</span><span class="sr"> Frango com Catupiry</span></button>
+          </li>
+          <li class="item">
+            <img class="item__img" src="assets/menu/quatro-queijos.webp" alt="Pizza quatro queijos, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+            <div class="item__txt"><h4 class="item__name">Quatro Queijos</h4><p class="item__desc">Mussarela, provolone, parmesão e Catupiry.</p></div>
+            <p class="price"><span class="price__cur">R$</span><span class="price__int">47</span><span class="price__dec">,90</span></p>
+            <button class="add" type="button" data-add data-id="quatro-queijos" data-name="Quatro Queijos" data-price="47.90"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Adicionar</span><span class="sr"> Quatro Queijos</span></button>
+          </li>
+          <li class="item">
+            <img class="item__img" src="assets/menu/pepperoni.webp" alt="Pizza de pepperoni, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+            <div class="item__txt"><h4 class="item__name">Pepperoni</h4><p class="item__desc">Molho de tomate, mussarela e pepperoni fatiado.</p></div>
+            <p class="price"><span class="price__cur">R$</span><span class="price__int">47</span><span class="price__dec">,90</span></p>
+            <button class="add" type="button" data-add data-id="pepperoni" data-name="Pepperoni" data-price="47.90"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Adicionar</span><span class="sr"> Pepperoni</span></button>
+          </li>
+          <li class="item">
+            <img class="item__img" src="assets/menu/bacon.webp" alt="Pizza de bacon com cebola, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+            <div class="item__txt"><h4 class="item__name">Bacon</h4><p class="item__desc">Molho de tomate, mussarela, bacon crocante e cebola.</p></div>
+            <p class="price"><span class="price__cur">R$</span><span class="price__int">45</span><span class="price__dec">,90</span></p>
+            <button class="add" type="button" data-add data-id="bacon" data-name="Bacon" data-price="45.90"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Adicionar</span><span class="sr"> Bacon</span></button>
+          </li>
+        </ul>
+      </section>
+
+      <section id="doces" class="cat" aria-labelledby="h-doc">
+        <h3 id="h-doc" class="cat__title">Doces</h3>
+        <ul class="items" data-sc-in data-sc-stagger="50">
+          <li class="item">
+            <img class="item__img" src="assets/menu/chocolate-morango.webp" alt="Pizza de chocolate com morango, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+            <div class="item__txt"><h4 class="item__name">Chocolate com Morango</h4><p class="item__desc">Chocolate ao leite, morangos frescos e granulado.</p></div>
+            <p class="price"><span class="price__cur">R$</span><span class="price__int">44</span><span class="price__dec">,90</span></p>
+            <button class="add" type="button" data-add data-id="chocolate-morango" data-name="Chocolate com Morango" data-price="44.90"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Adicionar</span><span class="sr"> Chocolate com Morango</span></button>
+          </li>
+          <li class="item">
+            <img class="item__img" src="assets/menu/romeu-julieta.webp" alt="Pizza Romeu e Julieta com goiabada, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+            <div class="item__txt"><h4 class="item__name">Romeu e Julieta</h4><p class="item__desc">Mussarela e goiabada cremosa.</p></div>
+            <p class="price"><span class="price__cur">R$</span><span class="price__int">39</span><span class="price__dec">,90</span></p>
+            <button class="add" type="button" data-add data-id="romeu-julieta" data-name="Romeu e Julieta" data-price="39.90"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Adicionar</span><span class="sr"> Romeu e Julieta</span></button>
+          </li>
+          <li class="item">
+            <img class="item__img" src="assets/menu/banana-canela.webp" alt="Pizza de banana com canela, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+            <div class="item__txt"><h4 class="item__name">Banana com Canela</h4><p class="item__desc">Mussarela, banana, leite condensado e canela.</p></div>
+            <p class="price"><span class="price__cur">R$</span><span class="price__int">37</span><span class="price__dec">,90</span></p>
+            <button class="add" type="button" data-add data-id="banana-canela" data-name="Banana com Canela" data-price="37.90"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Adicionar</span><span class="sr"> Banana com Canela</span></button>
+          </li>
+        </ul>
+      </section>
+
+      <section id="bebidas" class="cat cat--plain" aria-labelledby="h-beb">
+        <h3 id="h-beb" class="cat__title">Bebidas</h3>
+        <ul class="items items--plain" data-sc-in data-sc-stagger="50">
+          <li class="item item--plain">
+            <div class="item__txt"><h4 class="item__name">Refrigerante 2 L</h4><p class="item__desc">Cola, guaraná ou laranja.</p></div>
+            <p class="price"><span class="price__cur">R$</span><span class="price__int">14</span><span class="price__dec">,00</span></p>
+            <button class="add" type="button" data-add data-id="refri-2l" data-name="Refrigerante 2 L" data-price="14.00"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Adicionar</span><span class="sr"> Refrigerante 2 L</span></button>
+          </li>
+          <li class="item item--plain">
+            <div class="item__txt"><h4 class="item__name">Refrigerante lata 350 ml</h4><p class="item__desc">Cola, guaraná ou laranja.</p></div>
+            <p class="price"><span class="price__cur">R$</span><span class="price__int">6</span><span class="price__dec">,00</span></p>
+            <button class="add" type="button" data-add data-id="refri-lata" data-name="Refrigerante lata 350 ml" data-price="6.00"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Adicionar</span><span class="sr"> Refrigerante lata</span></button>
+          </li>
+          <li class="item item--plain">
+            <div class="item__txt"><h4 class="item__name">Água mineral 500 ml</h4><p class="item__desc">Com ou sem gás.</p></div>
+            <p class="price"><span class="price__cur">R$</span><span class="price__int">4</span><span class="price__dec">,00</span></p>
+            <button class="add" type="button" data-add data-id="agua" data-name="Água mineral 500 ml" data-price="4.00"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Adicionar</span><span class="sr"> Água mineral</span></button>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </section>
+
+  <!-- ===================================================== COMANDA ====
+       The close: the same ticket, now carrying what the visitor picked. -->
+  <section id="comanda" class="fecho" data-sc-act="flow" aria-labelledby="comanda-title">
+    <div class="wrap fecho__grid">
+      <div class="fecho__copy">
+        <h2 id="comanda-title" class="display display--section">Sua comanda</h2>
+        <p class="lede">Escolha no cardápio e ela se imprime aqui. Fechou, é só pedir.</p>
+        <ul class="facts">
+          <li><svg class="ico" aria-hidden="true"><use href="#i-bike"/></svg>Só delivery, em Araguari</li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-clock"/></svg>Todos os dias, das 18h às 23h30</li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-insta"/></svg><a href="https://www.instagram.com/planetapizzaaraguari" rel="noopener" target="_blank">@planetapizzaaraguari</a></li>
+        </ul>
+      </div>
+      <div class="ticket ticket--order" data-order-ticket data-sc-reveal="up" data-sc-reveal-at="0.04 0.40">
+        <div class="ticket__paper">
+          <p class="ticket__head"><span>Planeta Pizza</span><span>Seu pedido</span></p>
+          <ol class="ticket__lines" data-order-lines aria-live="polite"></ol>
+          <div class="ticket__empty" data-order-empty>
+            <p>Sua comanda ainda está em branco.</p>
+            <button class="add add--inline" type="button" data-add data-id="calabresa" data-name="Calabresa" data-price="39.90"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Começar pela Calabresa, R$ 39,90</span></button>
+          </div>
+          <p class="ticket__total"><span>Total</span><span data-total>R$ 0,00</span></p>
+          <button class="btn btn--red btn--block" type="button" data-checkout><svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg><span>Fazer pedido</span></button>
+        </div>
+      </div>
+    </div>
+    <footer class="foot wrap">
+      <span class="brand brand--foot"><svg class="brand__mark" aria-hidden="true"><use href="#i-mark"/></svg><span class="brand__name">Planeta <b>Pizza</b></span></span>
+      <p>Demonstração de cardápio online. Preços, horários e fotos são ilustrativos.</p>
+    </footer>
+  </section>
+</main>
+
+<div class="orderbar" data-orderbar>
+  <a class="btn btn--red btn--block orderbar__btn" href="#cardapio" data-order>
+    <svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg>
+    <span>Fazer pedido</span>
+    <span class="orderbar__sum" data-sum hidden></span>
+  </a>
+</div>
+
+<p class="toast" role="status" aria-live="polite" data-toast></p>
+
+<script type="application/json" id="drops-layout">{"frame":1440,"atlas":[1024,620],"sprites":[{"kind":"calabresa","x":0.74514,"y":0.37049,"w":0.10833,"h":0.10347,"box":[346,193,156,149]},{"kind":"calabresa","x":0.41771,"y":0.24653,"w":0.10625,"h":0.09028,"box":[0,490,153,130]},{"kind":"calabresa","x":0.56597,"y":0.24167,"w":0.09306,"h":0.09444,"box":[144,346,134,136]},{"kind":"calabresa","x":0.61771,"y":0.73472,"w":0.10764,"h":0.10417,"box":[189,193,155,150]},{"kind":"calabresa","x":0.27951,"y":0.61146,"w":0.12986,"h":0.10486,"box":[0,193,187,151]},{"kind":"calabresa","x":0.31111,"y":0.35,"w":0.09861,"h":0.09861,"box":[0,346,142,142]},{"kind":"calabresa","x":0.73819,"y":0.5191,"w":0.12639,"h":0.10208,"box":[645,193,182,147]},{"kind":"calabresa","x":0.45417,"y":0.7125,"w":0.12361,"h":0.09306,"box":[562,346,178,134]},{"kind":"calabresa","x":0.28819,"y":0.45799,"w":0.1,"h":0.09236,"box":[742,346,144,133]},{"kind":"calabresa","x":0.63542,"y":0.33681,"w":0.09583,"h":0.09444,"box":[422,346,138,136]},{"kind":"calabresa","x":0.66563,"y":0.62882,"w":0.10347,"h":0.13264,"box":[0,0,149,191]},{"kind":"calabresa","x":0.37431,"y":0.64653,"w":0.10417,"h":0.12222,"box":[290,0,150,176]},{"kind":"calabresa","x":0.54722,"y":0.3434,"w":0.10417,"h":0.09931,"box":[829,193,150,143]},{"kind":"calabresa","x":0.65521,"y":0.46736,"w":0.09514,"h":0.125,"box":[151,0,137,180]},{"kind":"calabresa","x":0.52431,"y":0.6441,"w":0.10417,"h":0.10903,"box":[593,0,150,157]},{"kind":"calabresa","x":0.36736,"y":0.50313,"w":0.1125,"h":0.10486,"box":[745,0,162,151]},{"kind":"calabresa","x":0.42882,"y":0.42014,"w":0.10347,"h":0.11528,"box":[442,0,149,166]},{"kind":"calabresa","x":0.45139,"y":0.56875,"w":0.09722,"h":0.09444,"box":[280,346,140,136]},{"kind":"calabresa","x":0.5059,"y":0.48715,"w":0.09653,"h":0.10347,"box":[504,193,139,149]},{"kind":"azeitona","x":0.58958,"y":0.41979,"w":0.05139,"h":0.04514,"box":[155,490,74,65]}]}</script>
+<script src="scrollcraft.js"></script>
+<script src="site.js"></script>
+</body>
+</html>

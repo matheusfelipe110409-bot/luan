@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+scrollcraft/lab/
+node_modules/
