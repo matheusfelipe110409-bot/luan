@@ -232,3 +232,115 @@ whose job is the build-up, so they were kept. The peak is unambiguous.
 
 **Not verified:** a real phone (iOS Safari, touch scrolling, Low Power Mode).
 Headless Chromium cannot stand in for it.
+
+---
+
+# Revisão 2 (pedido do cliente depois da primeira prévia)
+
+## O que o cliente pediu, nas palavras dele
+
+> "Está perfeito só altere mais umas coisas, ainda está muito simples, e não
+> deve falar o preço ali logo no início, deve falar a partir de 38, pode fazer
+> prompts pra eu jogar no chat gpt e gerar imagens pra compor e pra passar
+> mais uma experiência de scroll, e pode ficar mais profissional estilo ifood"
+
+Ele gerou as imagens no ChatGPT e enviou 14 delas pelo GitHub: V1 a V6, V4b,
+Q1, Q2, E1 a E4 e L1. O mapa de cada arquivo está em `assets/src/ORIGENS.md`.
+
+## O que mudou
+
+- **Preço:** a vitrine não mostra mais um preço fechado. A comanda imprime
+  "Pizza grande · 8 fatias" no lugar do total, e o fechamento diz "Pizzas a
+  partir de **R$ 38**". No cardápio, Mussarela, Calabresa e Banana com Canela
+  custam R$ 38,00. Os preços continuam sendo de exemplo.
+- **A vitrine é fotografia:** as sete etapas são as fotos do ChatGPT, montadas
+  pelo `tools/ingest.py`. Os 32 pedaços de recheio caem no lugar exato da V6.
+- **Dois atos novos (mais scroll):**
+  - *Puxa*: a fatia sobe e o queijo estica. É uma foto e a edição dela, que
+    entra de baixo para cima por uma máscara, então os fios aparecem antes da
+    fatia lá no alto.
+  - *Entrega*: a tampa fecha, o carimbo da casa bate na caixa, a caixa encolhe
+    até virar a bag do motoboy e ele atravessa a rua à noite.
+- **Loja no formato dos apps de delivery:**
+  - capa e cartão da loja (logo, selo de aberto, horário, "a partir de R$ 38");
+  - busca que ignora acentos e destaques;
+  - abas fixas e itens com a foto à direita;
+  - janela do item com meio a meio, borda recheada, observação, quantidade e
+    "Adicionar R$ X";
+  - gaveta "Sua comanda".
+  
+  Só os padrões de uso vêm desses apps: nenhuma marca, nota ou avaliação
+  inventada.
+
+## Gramática: **Vitrine, balcão e entrega** (revisão da "Vitrine e balcão")
+
+- **Sequência:**
+  1. vitrine fixa no topo;
+  2. um ato curto fixo (puxa) que ainda é apetite;
+  3. corte seco para o balcão, em fluxo normal;
+  4. um segundo ato fixo (entrega), que só aparece depois do cardápio;
+  5. a comanda.
+- **Navegação:** o botão "Fazer pedido" está sempre na tela e pula os atos.
+  Com itens, vira "Ver comanda" e abre a gaveta.
+- **Proibido:**
+  - `pan`;
+  - vídeo em `scrub`;
+  - efeito de scroll dentro do balcão (o balcão é ferramenta);
+  - esconder preço atrás de interação (o preço fica na linha; a janela só
+    soma extras);
+  - indicador de scroll;
+  - números de entrega inventados (tempo, taxa, nota).
+
+## Curva de sentimento (revisão 2)
+
+| Ato | Sentimento | O que causa |
+|---|---|---|
+| Vitrine: promessa | Fome, curiosidade | A bola de massa enfarinhada no vermelho, a promessa grande |
+| Vitrine: montagem | Antecipação, desejo, fartura | Massa, molho, queijo que cai, forno, recheio caindo |
+| (silêncio) | Respiração presa | Pizza pronta, vapor, comanda impressa |
+| Vitrine: carimbo | Prazer, surpresa (**PICO**) | O carimbo "Melhor preço da cidade" e "Pizzas a partir de R$ 38" |
+| Puxa | Vontade, devagar | Close: a fatia sobe e o queijo estica |
+| Loja | Confiança, facilidade | Um app que todo mundo já sabe usar |
+| Entrega | Segurança, antecipação | A caixa fecha, o carimbo, a bag, a moto na rua |
+| Comanda | Decisão | O seu pedido, o total, um botão |
+
+O pico continua no carimbo e continua sendo o maior trecho da página (3,3
+telas). O ato seguinte (puxa) é mais calmo no movimento, para não disputar com
+ele.
+
+**Frase para contar a alguém:** "É o site em que a pizza se monta enquanto
+você rola, uma comanda imprime cada ingrediente e no fim carimbam: pizzas a
+partir de R$ 38. Depois a fatia sai puxando queijo, e quando você pede a caixa
+fecha e vira a bag do motoboy."
+
+## Verificação (revisão 2)
+
+`shoot.mjs`, 8 amostras por ato, Chromium 140 sem janela:
+
+| Rodada | Rolagem morta | Contraste |
+|---|---|---|
+| Desktop 1440×900 | nenhuma | tudo ≥ 4,5:1 |
+| Celular 390×844 | nenhuma | tudo ≥ 4,5:1 |
+| Celular pequeno 360×640 | nenhuma | ≥ 4,5:1 com o texto em tela. O único alerta (2,38:1) é o quadro em que o texto da entrega já saiu por baixo da barra (conferido no `33.png`) |
+| Movimento reduzido 1440×900 | nenhuma | tudo ≥ 4,5:1 |
+
+O contraste da entrega foi corrigido com um céu mais escuro sob o texto. No
+celular pequeno estava em 3,16:1 sobre a luz do poste.
+
+Fluxo testado por script, no celular e no desktop:
+
+- o botão de pedido leva à loja;
+- busca ("frango", "catupiry" sem acento, termo vazio);
+- janela da calabresa: meia portuguesa (vale o mais caro), borda (+ R$ 8),
+  observação 10/140, quantidade 2 (R$ 105,80);
+- a linha impressa na comanda;
+- o foco volta para o item;
+- bebida sem sabor fica presa, com o grupo marcado;
+- os destaques abrem a janela, e o Esc fecha;
+- a barra mostra "Ver comanda · 3 itens";
+- a gaveta abre, o "+" funciona e o pedido responde com o aviso de
+  demonstração.
+
+Sem rolagem horizontal e sem erros no console.
+
+**Não verificado:** celular de verdade (iOS Safari, rolagem por toque).

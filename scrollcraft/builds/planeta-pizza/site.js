@@ -1,7 +1,8 @@
 /* ============================================================================
    Planeta Pizza: page behaviour. The engine (scrollcraft.js) is untouched;
    this file reads the progress it publishes and owns what is bespoke:
-   the falling toppings, the self-printing comanda, the open sign, the order.
+   the falling toppings, the self-printing comanda, the box-to-bag match
+   cut, the open sign, the item sheet and the order.
    ========================================================================== */
 (function () {
   'use strict';
@@ -22,6 +23,12 @@
   // layers only cross-fade there and a long pin would be scroll with no reward.
   if (reduce) vit.setAttribute('data-sc-span', '2.2');
   else if (phoneMQ.matches) vit.setAttribute('data-sc-span', '3.0');
+  // the two acts after it: the cheese pull and the ride
+  var spans = { puxa: reduce ? '1.3' : (phoneMQ.matches ? '1.6' : null), entrega: reduce ? '1.9' : (phoneMQ.matches ? '2.6' : null) };
+  Object.keys(spans).forEach(function (id) {
+    var n = document.getElementById(id);
+    if (n && spans[id]) n.setAttribute('data-sc-span', spans[id]);
+  });
 
   // ------------------------------------------------ falling toppings ----
   (function buildDrops() {
@@ -150,9 +157,58 @@
     });
   }
 
+  // ---------------------------------------------------------- entrega ----
+  // The match cut: the closed box shrinks into the rider's bag. CSS does the
+  // motion from --sc-p; this measures where the bag sits (fractions of the
+  // rider photo, from tools/scenes.py) and how far the box has to travel.
+  var ride = document.getElementById('entrega');
+  var rdBox = ride && ride.querySelector('[data-rd-box]');
+  var rdRider = ride && ride.querySelector('[data-rd-rider]');
+  var BOX = { x0: 0.0186, y0: 0.1198, x1: 0.9814, y1: 0.8203 };   // the box inside its photo
+  var BAG = { x0: 0.035, y0: 0.253, x1: 0.256, y1: 0.49 };         // the bag inside the rider photo
+  function measureRide() {
+    if (!rdBox || !rdRider) return;
+    var bw = rdBox.offsetWidth, bh = rdBox.offsetHeight;
+    var rw = rdRider.offsetWidth, rh = rdRider.offsetHeight;
+    if (!bw || !rw) return;
+    var boxCx = rdBox.offsetLeft + bw * (BOX.x0 + BOX.x1) / 2;
+    var boxCy = rdBox.offsetTop + bh * (BOX.y0 + BOX.y1) / 2;
+    var bagCx = rdRider.offsetLeft + rw * (BAG.x0 + BAG.x1) / 2;
+    var bagCy = rdRider.offsetTop + rh * (BAG.y0 + BAG.y1) / 2;
+    var s = (rw * (BAG.x1 - BAG.x0)) / (bw * (BOX.x1 - BOX.x0));
+    rdBox.style.setProperty('--mx', (bagCx - boxCx).toFixed(1) + 'px');
+    rdBox.style.setProperty('--my', (bagCy - boxCy).toFixed(1) + 'px');
+    rdBox.style.setProperty('--ms', s.toFixed(4));
+  }
+  var pull = document.getElementById('puxa');
+  var acts = { boxStamped: null };
+  function updateActs() {
+    if (ride) {
+      var p = parseFloat(ride.style.getPropertyValue('--sc-p')) || 0;
+      var stamped = p >= 0.33;
+      if (stamped !== acts.boxStamped) { rdBox.classList.toggle('is-stamped', stamped); acts.boxStamped = stamped; }
+      var stage = ride.querySelector('.rd');
+      var q = function (v) { return Math.round(Math.min(Math.max(v, 0), 1) * 20); };
+      stage.setAttribute('data-sc-verify-state', [q((p - 0.10) / 0.20), q((p - 0.42) / 0.14), q((p - 0.58) / 0.38), stamped ? 's' : ''].join('.'));
+    }
+    if (pull) {
+      var pp = parseFloat(pull.style.getPropertyValue('--sc-p')) || 0;
+      pull.querySelector('.pl').setAttribute('data-sc-verify-state', String(Math.round(Math.min(Math.max((pp - 0.06) / 0.72, 0), 1) * 20)));
+    }
+  }
+  var actTick = false;
+  addEventListener('scroll', function () {
+    if (actTick) return;
+    actTick = true;
+    requestAnimationFrame(function () { actTick = false; updateActs(); });
+  }, { passive: true });
+  addEventListener('resize', function () { measureRide(); updateActs(); }, { passive: true });
+  addEventListener('load', function () { measureRide(); updateActs(); });
+  measureRide();
+  updateActs();
+
   // ------------------------------------------------------- open sign ----
-  var status = document.querySelector('[data-status]');
-  var statusText = document.querySelector('[data-status-text]');
+  var statusEls = document.querySelectorAll('[data-status]');
   function minutesInSaoPaulo() {
     try {
       var parts = new Intl.DateTimeFormat('en-GB', {
@@ -168,119 +224,374 @@
   function paintStatus() {
     var t = minutesInSaoPaulo();
     var open = t >= HOURS.open && t < HOURS.close;
-    status.classList.toggle('is-open', open);
-    statusText.textContent = open ? 'Aberto agora · até ' + HOURS.label
+    var label = open ? 'Aberto agora · até ' + HOURS.label
       : (t < HOURS.open ? 'Fechado · abre às ' + HOURS.opensLabel : 'Fechado · abre amanhã às ' + HOURS.opensLabel);
+    statusEls.forEach(function (el) {
+      el.classList.toggle('is-open', open);
+      var txt = el.querySelector('[data-status-text]');
+      if (txt) txt.textContent = label;
+    });
   }
   paintStatus();
   setInterval(paintStatus, 60000);
 
-  // ----------------------------------------------------------- order ----
-  // The cart and checkout are the next step of the project. Here the order
-  // buttons only have to feel right: they fill the comanda, nothing is sent.
-  var cart = [];
-  var linesHost = document.querySelector('[data-order-lines]');
-  var emptyBox = document.querySelector('[data-order-empty]');
-  var totalEl = document.querySelector('[data-total]');
-  var countEls = document.querySelectorAll('[data-count]');
-  var sumEls = document.querySelectorAll('[data-sum]');
-  var orderLinks = document.querySelectorAll('[data-order]');
+  // ------------------------------------------------------------ toast ----
+  // Painted in the top layer so it shows over an open sheet or drawer;
+  // announced through a live region that never leaves the tree.
   var toastEl = document.querySelector('[data-toast]');
+  var liveEl = document.createElement('p');
+  liveEl.className = 'sr';
+  liveEl.setAttribute('role', 'status');
+  liveEl.setAttribute('aria-live', 'polite');
+  document.body.appendChild(liveEl);
+  toastEl.removeAttribute('role');
+  toastEl.removeAttribute('aria-live');
+  toastEl.setAttribute('aria-hidden', 'true');
+  var canPop = typeof toastEl.showPopover === 'function';
+  if (canPop) toastEl.setAttribute('popover', 'manual');
   var toastTimer = 0;
-
   function toast(msg) {
     toastEl.textContent = msg;
-    toastEl.classList.add('is-on');
+    liveEl.textContent = msg;
+    if (canPop) {
+      try { if (toastEl.matches(':popover-open')) toastEl.hidePopover(); toastEl.showPopover(); } catch (e) {}
+    }
+    requestAnimationFrame(function () { toastEl.classList.add('is-on'); });
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () { toastEl.classList.remove('is-on'); }, 3200);
+    toastTimer = setTimeout(function () {
+      toastEl.classList.remove('is-on');
+      setTimeout(function () {
+        if (canPop && !toastEl.classList.contains('is-on')) { try { toastEl.hidePopover(); } catch (e) {} }
+      }, 220);
+    }, 3200);
   }
+
+  // ------------------------------------------------------------- menu ----
+  // Every row carries its own data. The cart and checkout are a later step
+  // of the project: here the order only has to feel right, nothing is sent.
+  var rows = {};
+  Array.prototype.forEach.call(document.querySelectorAll('[data-item]'), function (li) {
+    rows[li.getAttribute('data-item')] = {
+      id: li.getAttribute('data-item'),
+      name: li.getAttribute('data-name'),
+      price: parseFloat(li.getAttribute('data-price')),
+      kind: li.getAttribute('data-kind'),
+      img: li.getAttribute('data-img'),
+      alt: (li.querySelector('.item__img') || {}).alt || '',
+      desc: li.querySelector('.item__desc').textContent,
+      choiceLabel: li.getAttribute('data-choice-label'),
+      choices: li.getAttribute('data-choices') ? li.getAttribute('data-choices').split('|') : null
+    };
+  });
+  var BORDAS = {
+    salgada: [['Catupiry', 8], ['Cheddar', 8]],
+    doce: [['Chocolate', 8]]
+  };
+
+  // ------------------------------------------------------------ sheet ----
+  var sheet = document.getElementById('sheet');
+  var sheetForm = sheet.querySelector('[data-sheet-form]');
+  var sheetGroups = sheet.querySelector('[data-sheet-groups]');
+  var sheetImg = sheet.querySelector('[data-sheet-img]');
+  var sheetMedia = sheet.querySelector('[data-sheet-media]');
+  var obs = sheet.querySelector('[data-obs]');
+  var obsCount = sheet.querySelector('[data-obs-count]');
+  var qtyOut = sheet.querySelector('[data-qty]');
+  var addBtn = sheet.querySelector('[data-sheet-add]');
+  var addTotal = sheet.querySelector('[data-sheet-total]');
+  var decBtn = sheet.querySelector('[data-step="-1"]');
+  var cur = null, qty = 1, opener = null;
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+  function group(name, title, hint, required, options) {
+    // options: [{value, label, extra, checked}]
+    var g = el('div', 'grp');
+    g.setAttribute('role', 'radiogroup');
+    g.setAttribute('data-grp', name);
+    if (required) g.setAttribute('data-required', '');
+    var head = el('div', 'grp__head');
+    var t = el('div');
+    var tt = el('p', 'grp__title', title);
+    tt.id = 'grp-' + name;
+    t.appendChild(tt);
+    if (hint) t.appendChild(el('p', 'grp__hint', hint));
+    head.appendChild(t);
+    head.appendChild(el('span', 'grp__badge' + (required ? ' grp__badge--req' : ''), required ? 'Obrigatório' : 'Opcional'));
+    g.setAttribute('aria-labelledby', tt.id);
+    g.appendChild(head);
+    options.forEach(function (o, i) {
+      var lab = el('label', 'opt');
+      var inp = document.createElement('input');
+      inp.type = 'radio';
+      inp.name = name;
+      inp.value = o.value;
+      inp.checked = !!o.checked;
+      inp.id = 'opt-' + name + '-' + i;
+      var txt = el('span', 'opt__txt');
+      txt.appendChild(el('span', 'opt__name', o.label));
+      if (o.extra) txt.appendChild(el('span', 'opt__extra', o.extra));
+      lab.appendChild(txt);
+      lab.appendChild(inp);
+      g.appendChild(lab);
+    });
+    return g;
+  }
+  function picked(name) {
+    var c = sheetForm.querySelector('input[name="' + name + '"]:checked');
+    return c ? c.value : '';
+  }
+  function unitPrice() {
+    if (!cur) return 0;
+    var p = cur.price;
+    var half = picked('meia');
+    if (half && rows[half]) p = Math.max(p, rows[half].price);
+    var b = picked('borda');
+    (BORDAS[cur.kind] || []).forEach(function (x) { if (x[0] === b) p += x[1]; });
+    return p;
+  }
+  function paintSheet() {
+    var u = unitPrice();
+    addTotal.textContent = money(u * qty);
+    qtyOut.textContent = qty;
+    decBtn.disabled = qty <= 1;
+    obsCount.textContent = obs.value.length + '/140';
+  }
+  function openSheet(id, from) {
+    var it = rows[id];
+    if (!it) return;
+    cur = it; qty = 1; opener = from || null;
+    sheet.querySelector('[data-sheet-name]').textContent = it.name;
+    sheet.querySelector('[data-sheet-desc]').textContent = it.desc;
+    sheet.querySelector('[data-sheet-meta]').textContent = it.kind === 'bebida' ? '' : 'Grande · 8 fatias';
+    sheet.querySelector('[data-sheet-price]').textContent = money(it.price);
+    if (it.img) { sheetImg.src = it.img; sheetImg.alt = it.alt; }
+    else { sheetImg.removeAttribute('src'); sheetImg.alt = ''; }
+    sheetMedia.classList.toggle('is-empty', !it.img);
+    sheet.classList.toggle('is-plain', !it.img);
+    sheetGroups.textContent = '';
+    if (it.kind === 'bebida' && it.choices) {
+      sheetGroups.appendChild(group('opcao', it.choiceLabel || 'Escolha', 'Escolha 1 opção', true,
+        it.choices.map(function (c) { return { value: c, label: c }; })));
+    } else {
+      var halves = [{ value: '', label: 'Não, pizza inteira', checked: true }];
+      Object.keys(rows).forEach(function (k) {
+        var r = rows[k];
+        if (r.kind === it.kind && r.id !== it.id) halves.push({ value: r.id, label: 'Meia ' + r.name, extra: money(r.price) });
+      });
+      sheetGroups.appendChild(group('meia', 'Quer meio a meio?', 'Vale o preço do sabor mais caro', false, halves));
+      var bordas = [{ value: '', label: 'Sem borda recheada', checked: true }];
+      (BORDAS[it.kind] || []).forEach(function (b) { bordas.push({ value: b[0], label: 'Borda de ' + b[0], extra: '+ ' + money(b[1]) }); });
+      sheetGroups.appendChild(group('borda', 'Borda recheada', null, false, bordas));
+    }
+    obs.value = '';
+    sheetForm.querySelector('.sheet__body').scrollTop = 0;
+    sheetForm.scrollTop = 0;
+    paintSheet();
+    if (typeof sheet.showModal === 'function') sheet.showModal(); else sheet.setAttribute('open', '');
+  }
+  function closeSheet() {
+    if (sheet.open) { if (typeof sheet.close === 'function') sheet.close(); else sheet.removeAttribute('open'); }
+  }
+  sheet.addEventListener('close', function () {
+    if (opener && document.contains(opener)) opener.focus({ preventScroll: true });
+    opener = null;
+  });
+  sheet.addEventListener('click', function (e) {
+    if (e.target === sheet) closeSheet();          // a tap on the backdrop
+  });
+  sheetForm.addEventListener('submit', function (e) {
+    // only the close button closes the sheet; Enter on an option does not
+    if (!e.submitter || e.submitter.value !== 'cancel') e.preventDefault();
+  });
+  sheetForm.addEventListener('change', function (e) {
+    var g = e.target.closest('[data-grp]');
+    if (g) g.classList.remove('is-missing');
+    paintSheet();
+  });
+  obs.addEventListener('input', paintSheet);
+  sheet.querySelectorAll('[data-step]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      qty = Math.min(20, Math.max(1, qty + parseInt(b.getAttribute('data-step'), 10)));
+      paintSheet();
+    });
+  });
+  addBtn.addEventListener('click', function () {
+    var missing = null;
+    sheetGroups.querySelectorAll('[data-required]').forEach(function (g) {
+      if (!missing && !g.querySelector('input:checked')) missing = g;
+    });
+    if (missing) {
+      missing.classList.add('is-missing');
+      missing.scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' });
+      var first = missing.querySelector('input');
+      if (first) first.focus({ preventScroll: true });
+      toast('Escolha uma opção em “' + missing.querySelector('.grp__title').textContent + '”.');
+      return;
+    }
+    var half = picked('meia'), borda = picked('borda'), opt = picked('opcao'), note = obs.value.trim();
+    var name = half && rows[half] ? 'Meia ' + cur.name + ' / meia ' + rows[half].name : cur.name;
+    var details = [];
+    if (opt) details.push(opt);
+    if (borda) details.push('Borda de ' + borda);
+    if (note) details.push('Obs.: ' + note);
+    addToCart({
+      key: [cur.id, half, borda, opt, note].join('|'),
+      id: cur.id, name: name, details: details, unit: unitPrice()
+    }, qty);
+    closeSheet();
+  });
+
+  // --------------------------------------------------------------- cart ----
+  var cart = [];
+  var linesHosts = document.querySelectorAll('[data-order-lines]');
+  var emptyBox = document.querySelector('[data-order-empty]');
+  var totalEls = document.querySelectorAll('[data-total]');
+  var countEls = document.querySelectorAll('[data-count]');
+  var sumEls = document.querySelectorAll('[data-sum]');
+  var orderLabels = document.querySelectorAll('[data-order-label]');
+  var orderLinks = document.querySelectorAll('[data-order]');
+  var drawer = document.getElementById('drawer');
+  var drawerOpener = null;
+
   function totals() {
-    var qty = 0, sum = 0;
-    cart.forEach(function (it) { qty += it.qty; sum += it.qty * it.price; });
-    return { qty: qty, sum: sum };
+    var q = 0, sum = 0;
+    cart.forEach(function (it) { q += it.qty; sum += it.qty * it.unit; });
+    return { qty: q, sum: sum };
   }
   function itemsLabel(q) { return q === 1 ? '1 item' : q + ' itens'; }
 
+  function lineEl(it) {
+    var li = document.createElement('li');
+    li.appendChild(el('span', null, it.qty + 'x'));
+    var nm = el('span', 'ticket__line-name', it.name);
+    if (it.details.length) nm.appendChild(el('small', null, it.details.join(' · ')));
+    li.appendChild(nm);
+    li.appendChild(el('span', 'ticket__line-price', money(it.qty * it.unit)));
+    var q = el('span', 'qty');
+    var dec = el('button');
+    dec.type = 'button';
+    dec.setAttribute('aria-label', 'Tirar uma ' + it.name);
+    dec.innerHTML = '<svg class="ico" aria-hidden="true"><use href="#i-minus"/></svg>';
+    dec.addEventListener('click', function () { change(it.key, -1); });
+    var inc = el('button');
+    inc.type = 'button';
+    inc.setAttribute('aria-label', 'Mais uma ' + it.name);
+    inc.innerHTML = '<svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg>';
+    inc.addEventListener('click', function () { change(it.key, +1); });
+    q.appendChild(dec); q.appendChild(inc);
+    li.appendChild(q);
+    return li;
+  }
+
   function render() {
     var t = totals();
-    countEls.forEach(function (el) {
-      el.hidden = t.qty === 0;
-      if (el.textContent !== String(t.qty)) {
-        el.textContent = t.qty;
-        el.classList.remove('is-bump'); void el.offsetWidth; el.classList.add('is-bump');
+    countEls.forEach(function (n) {
+      n.hidden = t.qty === 0;
+      if (n.textContent !== String(t.qty)) {
+        n.textContent = t.qty;
+        n.classList.remove('is-bump'); void n.offsetWidth; n.classList.add('is-bump');
       }
     });
-    sumEls.forEach(function (el) { el.hidden = t.qty === 0; el.textContent = itemsLabel(t.qty) + ', ' + money(t.sum); });
+    sumEls.forEach(function (n) { n.hidden = t.qty === 0; n.textContent = itemsLabel(t.qty) + ', ' + money(t.sum); });
+    orderLabels.forEach(function (n) { n.textContent = t.qty ? 'Ver comanda' : 'Fazer pedido'; });
     orderLinks.forEach(function (a) { a.setAttribute('href', t.qty ? '#comanda' : '#cardapio'); });
-    totalEl.textContent = money(t.sum);
+    totalEls.forEach(function (n) { n.textContent = money(t.sum); });
     emptyBox.hidden = t.qty > 0;
-
-    linesHost.textContent = '';
-    cart.forEach(function (it) {
-      var li = document.createElement('li');
-      li.innerHTML =
-        '<span>' + it.qty + 'x</span>' +
-        '<span class="ticket__line-name"></span>' +
-        '<span class="ticket__line-price">' + money(it.qty * it.price) + '</span>' +
-        '<span class="qty">' +
-          '<button type="button" data-dec aria-label="Tirar uma ' + it.name + '"><svg class="ico" aria-hidden="true"><use href="#i-minus"/></svg></button>' +
-          '<button type="button" data-inc aria-label="Mais uma ' + it.name + '"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg></button>' +
-        '</span>';
-      li.querySelector('.ticket__line-name').textContent = it.name;
-      li.querySelector('[data-dec]').addEventListener('click', function () { change(it.id, -1); });
-      li.querySelector('[data-inc]').addEventListener('click', function () { change(it.id, +1); });
-      linesHost.appendChild(li);
+    linesHosts.forEach(function (host) {
+      host.textContent = '';
+      cart.forEach(function (it) { host.appendChild(lineEl(it)); });
     });
   }
 
-  function change(id, delta) {
-    var it = cart.filter(function (x) { return x.id === id; })[0];
+  function addToCart(line, n) {
+    var it = cart.filter(function (x) { return x.key === line.key; })[0];
+    if (it) it.qty += n; else { line.qty = n; cart.push(line); }
+    render();
+    var t = totals();
+    toast((n > 1 ? n + 'x ' : '') + line.name + ' na comanda. ' + itemsLabel(t.qty) + ', ' + money(t.sum) + '.');
+  }
+
+  function change(key, delta) {
+    var it = cart.filter(function (x) { return x.key === key; })[0];
     if (!it) return;
     it.qty += delta;
-    if (it.qty <= 0) cart = cart.filter(function (x) { return x.id !== id; });
+    if (it.qty <= 0) cart = cart.filter(function (x) { return x.key !== key; });
     render();
     var t = totals();
     toast(t.qty ? 'Comanda: ' + itemsLabel(t.qty) + ', ' + money(t.sum) + '.' : 'Comanda vazia.');
+    if (!t.qty && drawer.open) closeDrawer();
   }
 
-  function add(btn) {
-    var id = btn.getAttribute('data-id');
-    var name = btn.getAttribute('data-name');
-    var price = parseFloat(btn.getAttribute('data-price'));
-    var it = cart.filter(function (x) { return x.id === id; })[0];
-    if (it) it.qty += 1; else cart.push({ id: id, name: name, price: price, qty: 1 });
-    render();
-    var t = totals();
-    toast(name + ' na comanda. ' + itemsLabel(t.qty) + ', ' + money(t.sum) + '.');
-    btn.classList.add('is-added');
-    var label = btn.querySelector('span:not(.sr)');
-    var use = btn.querySelector('use');
-    if (label && !label.__orig) label.__orig = label.textContent;
-    if (label) label.textContent = 'Adicionado';
-    if (use) use.setAttribute('href', '#i-check');
-    clearTimeout(btn.__t);
-    btn.__t = setTimeout(function () {
-      btn.classList.remove('is-added');
-      if (label) label.textContent = label.__orig;
-      if (use) use.setAttribute('href', '#i-plus');
-    }, 1400);
+  function openDrawer(from) {
+    drawerOpener = from || null;
+    if (typeof drawer.showModal === 'function') drawer.showModal(); else drawer.setAttribute('open', '');
   }
+  function closeDrawer() {
+    if (drawer.open) { if (typeof drawer.close === 'function') drawer.close(); else drawer.removeAttribute('open'); }
+  }
+  drawer.addEventListener('close', function () {
+    if (drawerOpener && document.contains(drawerOpener)) drawerOpener.focus({ preventScroll: true });
+    drawerOpener = null;
+  });
+  drawer.addEventListener('click', function (e) { if (e.target === drawer) closeDrawer(); });
 
   document.addEventListener('click', function (e) {
-    var btn = e.target.closest && e.target.closest('[data-add]');
-    if (btn) { add(btn); return; }
-    var co = e.target.closest && e.target.closest('[data-checkout]');
-    if (co) {
-      var t = totals();
-      if (!t.qty) {
+    var t = e.target.closest ? e.target : null;
+    if (!t) return;
+    var op = t.closest('[data-open]');
+    if (op) { e.preventDefault(); openSheet(op.getAttribute('data-open'), op); return; }
+    var ord = t.closest('[data-order]');
+    if (ord && totals().qty) { e.preventDefault(); openDrawer(ord); return; }
+    if (t.closest('[data-drawer-close]')) { closeDrawer(); return; }
+    if (t.closest('[data-more]')) {
+      drawerOpener = null;
+      closeDrawer();
+      document.getElementById('cardapio').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+      return;
+    }
+    if (t.closest('[data-checkout]')) {
+      var tt = totals();
+      if (!tt.qty) {
         toast('Escolha sua pizza no cardápio primeiro.');
         document.getElementById('cardapio').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
       } else {
-        toast('Demonstração: o pedido online entra na próxima etapa. Sua comanda: ' + itemsLabel(t.qty) + ', ' + money(t.sum) + '.');
+        toast('Demonstração: o pedido online entra na próxima etapa. Sua comanda: ' + itemsLabel(tt.qty) + ', ' + money(tt.sum) + '.');
       }
     }
   });
   render();
+
+  // ----------------------------------------------------------- search ----
+  var search = document.querySelector('[data-search]');
+  var loja = document.getElementById('cardapio');
+  var emptyMsg = document.querySelector('[data-search-empty]');
+  var termEl = document.querySelector('[data-search-term]');
+  var fold = function (s) { return s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase(); };
+  var haystack = {};
+  Object.keys(rows).forEach(function (k) { haystack[k] = fold(rows[k].name + ' ' + rows[k].desc); });
+  function filter() {
+    var q = fold(search.value.trim());
+    var any = false;
+    loja.classList.toggle('is-filtering', !!q);
+    document.querySelectorAll('[data-cat]').forEach(function (cat) {
+      var shown = 0;
+      cat.querySelectorAll('[data-item]').forEach(function (li) {
+        var hit = !q || haystack[li.getAttribute('data-item')].indexOf(q) > -1;
+        li.hidden = !hit;
+        if (hit) shown++;
+      });
+      cat.hidden = !shown;
+      if (shown) any = true;
+    });
+    emptyMsg.hidden = any;
+    termEl.textContent = search.value.trim();
+  }
+  search.addEventListener('input', filter);
 
   // ------------------------------------------------------- tab spy -----
   var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
@@ -300,6 +611,6 @@
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) { if (en.isIntersecting) setTab(en.target.id); });
     }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
-    document.querySelectorAll('.cat').forEach(function (c) { io.observe(c); });
+    document.querySelectorAll('[data-cat]').forEach(function (c) { io.observe(c); });
   }
 })();
