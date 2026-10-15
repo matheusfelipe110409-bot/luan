@@ -37,32 +37,32 @@ leve) e `python3 tools/cardapio.py` (liga cada foto ao sabor dela no cardápio).
 
 ## Grupo F · Fachada à noite (o fundo de onde sai o motoboy) · PRIORIDADE 1
 
-Um chat novo. Formato **paisagem (3:2)**. **Anexe as duas fotos da fachada** (a de dia, com a
-loja fechada, e a de noite, com a loja aberta) na mesma mensagem do prompt.
+Um chat novo. **Anexe as duas fotos da fachada** (a de dia, com a loja fechada, e a de noite,
+com a loja aberta) na mesma mensagem do prompt.
 
-A imagem fica atrás do motoboy: ele passa pela rua, na parte de baixo, e o título "Do forno até a
-sua porta." fica no alto, à esquerda. No celular aparece só a faixa do meio da imagem, por isso a
-pizzaria vem um pouco à direita do centro e a rua fica vazia.
+O prompt pede uma **edição da foto de dia**, não uma foto nova: o ChatGPT mantém o prédio, a placa,
+as luminárias e os azulejos como são, e muda só a luz, abre a loja e tira fios, carros, caixas e
+pessoas. O enquadramento continua o da foto original; eu recorto a imagem para o site.
 
 ### F1 · Fachada à noite · `e4-fachada.png`
 
 Anexe as duas fotos da fachada nesta mesma mensagem.
 
 ```text
-Create a clean, professional night photograph of the exact pizzeria in the attached photos, for the background of its delivery website. Use the photos as the only reference for the building: the daytime street photo shows the real facade and sign of Planeta Pizza with the shop closed; the blurry night photo shows the same shop open at night.
+Edit the attached daytime photo of the Planeta Pizza storefront so it looks like a real photo of the same place taken at night, with the pizzeria open. This is a real building: it must stay exactly the same.
 
-Keep exactly as in the reference: the dark brown-black sign panel across the top with the Planeta Pizza logo (a pizza drawn as a planet with an orange ring around it, the word "Planeta" in bold white italic, and "PIZZA" in big yellow marquee letters outlined with small light bulbs), the black gooseneck lamps above the sign, the mustard-yellow ceramic tile walls on both sides of the opening, and the wide shop opening with the metal roll-up door fully raised. Do not redesign the logo, do not change its colours, do not add or change any words.
+Keep exactly as in the daytime photo, without redrawing or improving anything: the camera angle and perspective, the shape and proportions of the buildings, both signs with their logos, letters, colours and small contact text, the lamps on the arms above the signs, the yellow tiles, the doors, the roll-up shutters, the sidewalk, the curb and the street. Do not add anything that is not in the photo: no new lights, signs, awnings, plants, decorations, windows or details.
 
-Clean it up: remove all overhead power lines and cables, utility poles, parked cars, people, cardboard boxes, the phone repair shop and its sign on the right, and the small contact line along the bottom of the sign (phone numbers, social media icons and app badge). The only text in the whole image is the Planeta Pizza logo on the sign. The neighbouring buildings on both sides become plain, dark, unlit walls that fade into shadow, so the eye goes straight to the pizzeria.
+Change only these four things:
+1. Night: a dark blue night sky. The only lights are the ones that already exist in the photo: the lamps on the arms above the signs are on and light the signs from above.
+2. Open the pizzeria: the metal roll-up shutter of the Planeta Pizza storefront is raised, and through the opening you see the lit interior as in the attached night photo: the service counter and warm ceiling lights. No people. Ignore the text stickers and emojis on the night photo; use it only to see the interior.
+3. Remove the clutter: the overhead power lines and cables, the parked cars, the cardboard boxes on the sidewalk and any people. Fill those areas with what is really behind them: the same walls, sidewalk and street that are already in the photo.
+4. Frame: landscape 3:2. To fill it, extend only the dark night sky above the buildings and the empty asphalt street below the sidewalk. Do not move, resize, crop or redraw the buildings.
 
-Night mood: deep blue night sky, clear and calm. The logo sign is lit, the PIZZA marquee bulbs glow warm yellow, the gooseneck lamps cast warm pools of light down over the sign and the yellow tiles, and a warm golden glow comes from inside the open shop: a clean service counter and warm ceiling lights, no people and no readable text inside. The asphalt in front is slightly wet and softly reflects the warm light of the shop.
-
-Camera and framing: landscape 3:2, eye level, straight-on frontal view from across the street, 35mm lens, everything level and parallel, no tilt. The pizzeria is centred at about 60% of the image width and its sign spans about 40% of the image width. The top of the sign sits about 20% from the top of the image, with calm dark night sky above it. The sidewalk in front of the shop ends at about two thirds of the image height, and the bottom third of the image is an empty asphalt street running horizontally across the whole frame, with no cars and no people. The upper left third of the image is calm and dark.
-
-Style: cinematic night photography, warm amber and golden light against deep blue shadows, real photographic detail, fine film grain, natural perspective. Photographic realism. NOT illustration, NOT 3D render, NOT CGI, no plastic look, no extra logos, no licence plates, no watermark.
+The neighbouring shops stay exactly as in the photo, closed, with their lights off. Photographic realism: it must look like a real night photo of this street, with natural light and real textures. NOT illustration, NOT 3D render, NOT CGI, no plastic look, no watermark.
 ```
 
-Se o ChatGPT mexer na placa, responda: `Keep the sign exactly as in the daytime photo: same logo, same letters, same colours. Change only the light.`
+Se o ChatGPT mexer na placa ou na fachada, responda: `The facade must be exactly the one in the daytime photo: same sign, same logo, same letters and colours, same lamps, same yellow tiles, same proportions. Do not invent or change anything on the facade. Change only the light, keep the shop open and remove the wires, cars, boxes and people.`
 
 ---
 
