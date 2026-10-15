@@ -44,6 +44,26 @@ vitrine (P) e a imagem de compartilhamento (S).
 5. **Comanda**: o pedido do visitante (também abre como gaveta pelo botão
    "Ver comanda").
 
+## Configuração e integrações
+
+- **WhatsApp:** no fim do `index.html`, em
+  `<script type="application/json" id="planeta-config">`, preencha
+  `"whatsapp"` com o número oficial só com dígitos, com DDI e DDD.
+  - Com o número, os botões "Fazer pedido no WhatsApp" abrem a conversa, e o
+    "Fazer pedido" da comanda manda a comanda pronta pelo WhatsApp.
+  - Vazio, os botões ficam no lugar e avisam que o número ainda não foi
+    informado. Nenhum contato é inventado.
+- **Pedido pelo site (Anotaí, etapa separada):** a integração registra
+  `PlanetaPizza.integracao = { enviarPedido(pedido) }`, que devolve uma
+  promessa de `{ recebido: true, numero?, previsao? }`.
+  - Com o pedido confirmado, o site toca a animação do motoboy sozinha e
+    mostra "Pedido recebido!" com o número e a previsão.
+  - Também dá para chamar `PlanetaPizza.pedidoRecebido({ numero, previsao })`
+    diretamente, mas só depois da confirmação real.
+- **Logo:** a marca ainda é provisória. O símbolo `#i-mark` no `index.html` é
+  usado na barra, no cartão da loja, no carimbo da caixa e no rodapé, e o
+  ícone da aba é `assets/logo.svg`. Troque os dois pelo arquivo oficial.
+
 ## O que é de exemplo e precisa ser confirmado com a pizzaria
 
 - **Preços** e sabores: no `index.html` (cada item tem o preço no texto e em

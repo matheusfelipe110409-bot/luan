@@ -413,3 +413,52 @@ onde o espectador já cai na tela do cardápio sem emendas"):
   - contraste ok, exceto o alerta já conhecido do quadro em que o texto da
     entrega está fora da tela;
   - o fluxo de pedido passa em 390×844, 360×640 e 1440×900.
+
+
+---
+
+# Revisão 5: ajustes pontuais pedidos pelo cliente
+
+Pedido: "AJUSTES PONTUAIS [...] NÃO REFAÇA O SITE". Foram 8 itens. O resto do
+site ficou intacto.
+
+**Feitos**
+
+- **Sem indicação de demonstração:**
+  - o selo "Prévia · proposta de site" saiu da publicação;
+  - o rodapé virou "Só delivery, em Araguari.";
+  - a comanda não fala mais em "demonstração".
+- **Incentivo ao scroll:** uma pílula sob a bola de massa diz "Role e veja
+  sua pizza nascer", com duas setas animadas.
+  - Some no primeiro movimento: `--vp > 0,03`.
+  - Em movimento reduzido fica uma seta parada.
+  - É aqui que a página deixa a proibição de indicador de scroll da
+    gramática, a pedido do cliente.
+- **WhatsApp:** "Fazer pedido no WhatsApp" em verde #11823F (texto branco a
+  4,9:1), na mesma base `.btn` do botão atual.
+  - Desktop: na barra, ao lado de "Fazer pedido". Entre 861 e 1000 px o selo
+    de horário sai da barra (continua no cartão da loja).
+  - Celular: no texto de abertura, logo acima da barra "Fazer pedido",
+    formando um par.
+  - O número vem de `#planeta-config`.
+- **Comprovante:** checks no lugar de "1x" e o fecho em duas vozes.
+  - A comanda imprime "A MELHOR PIZZA DA CIDADE,".
+  - O carimbo completa: "PELO / MELHOR PREÇO / DA CIDADE".
+  - O momento e a animação são os mesmos.
+- **Motoboy depois do pedido:** o mesmo ato Entrega, tocado sozinho em 7,2 s
+  num diálogo de tela cheia, termina no cartão "Pedido recebido!".
+  - Só abre com a confirmação real (`PlanetaPizza.integracao` ou
+    `PlanetaPizza.pedidoRecebido`).
+  - Dá para pular, e o Esc também pula.
+  - Em movimento reduzido vai direto ao cartão.
+- **Correção encontrada no teste:** linhas invisíveis da vitrine não recebem
+  mais toque. O preço, sobreposto ao texto inicial no celular, bloqueava o
+  botão do WhatsApp.
+
+**Dependem do cliente**
+
+- A logo oficial: nenhum arquivo no projeto.
+- O número do WhatsApp.
+- O link do Anotaí: veio "[INSERIR LINK AQUI]", e anota.ai está bloqueado
+  neste ambiente.
+- A integração do pedido.

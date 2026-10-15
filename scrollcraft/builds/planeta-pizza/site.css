@@ -88,6 +88,10 @@ body { background: var(--seam); color: var(--on-red); }
 .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--on-red); text-decoration: none; margin-right: auto; }
 .brand__mark { width: 36px; height: 36px; color: var(--on-red); --mark-dot: var(--red); }
 .brand__name { font-family: var(--sc-font-display); font-stretch: 80%; font-weight: 600; font-size: 1.32rem; letter-spacing: -0.01em; line-height: 1; }
+/* narrow desktops: the two order buttons need the room; the open sign is
+   still on the store card */
+@media (min-width: 861px) and (max-width: 1000px) { .bar .status { display: none; } }
+.brand__name { white-space: nowrap; }
 .brand__name b { font-weight: 800; }
 .status {
   display: inline-flex; align-items: center; gap: 8px; margin: 0;
@@ -111,10 +115,15 @@ body { background: var(--seam); color: var(--on-red); }
 .btn:active { transform: scale(0.97); }
 .btn--light { background: var(--on-red); color: var(--red); box-shadow: var(--sc-e2); }
 .btn--red { background: var(--red-ink); color: #fff; box-shadow: 0 2px 4px rgb(120 0 6 / 0.25), 0 10px 22px -8px rgb(150 0 8 / 0.45); }
+/* WhatsApp: the same button in a green dark enough for white text (4.9:1) */
+.btn--wa { background: #11823F; color: #fff; box-shadow: 0 0 0 1.5px rgb(255 255 255 / 0.22), 0 2px 4px rgb(0 50 20 / 0.25), 0 10px 22px -8px rgb(0 60 25 / 0.5); }
+.btn--wa:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.hero__wa { display: none; }
 .btn--lg { min-height: 58px; padding: 0 30px; font-size: 1.12rem; }
 .btn--block { width: 100%; }
 .btn:focus-visible { outline: 3px solid var(--sc-accent); outline-offset: 3px; }
 @media (hover: hover) and (pointer: fine) {
+  .btn--wa:hover { background: #0E7035; }
   .btn--light:hover { background: #fff; }
   .btn--red:hover { background: #A8121A; }
 }
@@ -159,7 +168,7 @@ body { background: var(--seam); color: var(--on-red); }
 .vt.is-leaving, .vt.is-leaving * { pointer-events: none !important; }
 .vt .pizza, .vt .ticket--vt { opacity: calc(1 - var(--tout)); }
 .vt__ground {
-  position: absolute; inset: 0; z-index: 0;
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
   background:
     radial-gradient(70vmax 56vmax at var(--cx) var(--cy), #C61C1F 0%, var(--red) 52%, #A1101A 100%);
 }
@@ -294,6 +303,34 @@ body { background: var(--seam); color: var(--on-red); }
   100% { opacity: 0; transform: translate(-14%, -32%) scale(1.9); }
 }
 
+/* -------------------------------------------------------------- nudge ---- */
+.nudge {
+  position: absolute; z-index: 9; margin: 0;
+  left: var(--cx); top: calc(var(--cy) + var(--pz) * 0.33);
+  translate: -50% 0;
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 9px 16px 9px 12px; border-radius: 999px;
+  background: rgb(70 0 6 / 0.34); color: var(--on-red);
+  box-shadow: inset 0 0 0 1px rgb(255 246 238 / 0.16);
+  font: 600 0.92rem/1 var(--sc-font-text); letter-spacing: 0.005em; white-space: nowrap;
+  opacity: calc(1 - var(--vp, 0) * 40);
+  pointer-events: none;
+}
+.nudge__icon { position: relative; width: 16px; height: 18px; flex: none; }
+.nudge__icon svg {
+  position: absolute; left: 0; top: 1px; width: 16px; height: 16px;
+  fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round;
+  animation: nudge 1.7s cubic-bezier(0.4, 0, 0.3, 1) infinite;
+}
+.nudge__icon svg:last-child { animation-delay: 0.28s; }
+@keyframes nudge {
+  0%   { opacity: 0; transform: translateY(-6px); }
+  35%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(7px); }
+}
+.vt.is-scrolled .nudge { visibility: hidden; }
+.vt.is-scrolled .nudge__icon svg { animation: none; }
+
 /* --------------------------------------------------------------- ticket --- */
 .ticket { color: var(--thermal); font-family: var(--sc-font-mono); }
 .ticket__paper {
@@ -332,7 +369,7 @@ body { background: var(--seam); color: var(--on-red); }
   transition: transform 520ms var(--sc-ease-out);
 }
 .ticket--vt .ticket__paper {
-  padding-bottom: 104px;            /* the stamp lands in this blank tail */
+  padding-bottom: 124px;            /* the stamp lands in this blank tail */
   clip-path: inset(0 0 calc(100% - var(--printed, 64px)) 0);
   transition: clip-path 380ms var(--sc-ease-out);
 }
@@ -355,6 +392,16 @@ body { background: var(--seam); color: var(--on-red); }
   transform: translateX(-50%) rotate(-13deg) scale(2.2);
 }
 .stamp span:last-child { font-size: 0.72em; letter-spacing: 0.06em; }
+.stamp span:first-child { font-size: 0.42em; letter-spacing: 0.22em; margin-bottom: 0.14em; }
+/* the comanda reads as the house promise: what goes in, then the claim, and
+   the stamp finishes the sentence */
+.ticket__lines--checks .ico { width: 1.2em; height: 1.2em; stroke-width: 2.8; color: #C3161D; margin-top: 0.02em; }
+.ticket__claim {
+  margin: 12px 0 0; padding-top: 11px;
+  border-top: 1.5px dashed color-mix(in oklab, var(--thermal) 45%, transparent);
+  font: 800 2em/0.92 var(--sc-font-display); font-stretch: 76%; letter-spacing: -0.005em; text-transform: uppercase;
+  color: var(--thermal); text-wrap: balance;
+}
 .is-stamped .stamp { animation: stamp 340ms cubic-bezier(0.25, 1.4, 0.5, 1) forwards; }
 @keyframes stamp {
   0%   { opacity: 0; transform: translateX(-50%) rotate(-24deg) scale(2.3); }
@@ -654,6 +701,38 @@ body { background: var(--seam); color: var(--on-red); }
 .add:focus-visible { outline: 3px solid var(--red-ink); outline-offset: 2px; }
 @media (hover: hover) and (pointer: fine) { .add:hover { background: color-mix(in oklab, var(--red-ink) 9%, transparent); } }
 
+/* ===================================================== PEDIDO RECEBIDO ==== */
+/* The Entrega act played on its own (site.js drives --sc-p on .rd--auto
+   over a few seconds), then the confirmation. */
+.entrega {
+  width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0;
+  background: #0D0A0E; overflow: hidden;
+}
+.entrega::backdrop { background: #0D0A0E; }
+.rd--auto { position: absolute; inset: 0; overflow: hidden; --bx: 50vw; --by: 50svh; }
+.entrega__skip {
+  position: absolute; z-index: 20; top: calc(14px + env(safe-area-inset-top)); right: 14px;
+  min-height: 40px; padding: 0 16px; border-radius: 999px; border: 0;
+  background: rgb(0 0 0 / 0.42); color: #FFF6EE; font: 600 0.9rem/1 var(--sc-font-text); cursor: pointer;
+}
+.entrega__skip:focus-visible { outline: 3px solid #FFF6EE; outline-offset: 2px; }
+.entrega.is-done .entrega__skip { display: none; }
+.entrega__card {
+  position: absolute; z-index: 20; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom));
+  width: min(440px, calc(100vw - 32px)); translate: -50% 0;
+  display: grid; gap: 10px; padding: 26px 24px 22px; border-radius: 22px;
+  background: var(--flour); color: var(--ink); text-align: center;
+  box-shadow: 0 30px 70px -20px rgb(0 0 0 / 0.7);
+  animation: card-up 420ms var(--sc-ease-out);
+}
+.entrega__card[hidden] { display: none; }
+@keyframes card-up { from { opacity: 0; translate: -50% 24px; } }
+.entrega__kicker { margin: 0; font: 600 0.78rem/1 var(--sc-font-text); letter-spacing: 0.08em; text-transform: uppercase; color: var(--red-ink); }
+.entrega__title { margin: 0; font: 800 clamp(1.9rem, 1.5rem + 1.6vw, 2.5rem)/1 var(--sc-font-display); font-stretch: 80%; letter-spacing: -0.02em; }
+.entrega__text { margin: 0; color: var(--ink-soft); line-height: 1.45; }
+.entrega__meta { margin: 2px 0 0; font: 600 0.95rem/1.4 var(--sc-font-text); color: var(--ink); }
+.entrega__card .btn { margin-top: 8px; }
+
 /* ======================================================== ITEM SHEET ==== */
 dialog { padding: 0; border: 0; max-width: none; max-height: none; color: var(--ink); background: transparent; }
 dialog::backdrop { background: rgb(24 6 6 / 0.58); }
@@ -816,7 +895,9 @@ dialog::backdrop { background: rgb(24 6 6 / 0.58); }
 @media (max-width: 860px) {
   :root { --bar-h: 56px; --orderbar-h: 76px; --gut: 20px; }
   .bar { gap: 10px; }
-  .bar__cta { display: none; }
+  .bar__cta, .bar__wa { display: none; }
+  .hero__wa { display: inline-flex; min-height: 54px; margin-top: 6px; font-size: 1.06rem; }
+  .vt .beat--hero { bottom: calc(var(--orderbar-h) + 2px); }
   .brand__mark { width: 32px; height: 32px; }
   .brand__name { font-size: 1.16rem; }
   .status { font-size: 0.8rem; padding: 6px 10px; gap: 7px; }
@@ -849,7 +930,7 @@ dialog::backdrop { background: rgb(24 6 6 / 0.58); }
   .ticket--vt .ticket__head { margin-bottom: 7px; padding-bottom: 7px; }
   .ticket--vt .ticket__lines li { padding: 1px 0; }
   .ticket--vt .ticket__total { margin-top: 7px; padding-top: 6px; }
-  .ticket--vt .ticket__paper { padding-bottom: 66px; }
+  .ticket--vt .ticket__paper { padding-bottom: 80px; }
   .ticket--vt .stamp { bottom: 12px; font-size: 1.9em; padding: 5px 10px 4px; border-width: 2.5px; outline-width: 1.5px; outline-offset: 3px; }
   /* at the peak the ticket comes forward over the pizza, and stops above the price */
   .ticket--vt.is-stamped { transform: translate(-29vw, 3svh) rotate(-3deg) scale(1.3); }
@@ -873,6 +954,7 @@ dialog::backdrop { background: rgb(24 6 6 / 0.58); }
     --rw: 86vw; --rx: 3vw; --rb: 17svh;
   }
   .rd__street { object-position: 64% 50%; }
+  .rd.rd--auto { --bx: 50vw; --by: 46svh; }
   .rd__night::after { background: linear-gradient(rgb(8 5 9 / 0.86), rgb(8 5 9 / 0.62) 30%, rgb(8 5 9 / 0) 60%); }
   .beat--ride { top: calc(var(--bar-h) + 3svh); bottom: auto; }
 
@@ -914,6 +996,8 @@ dialog::backdrop { background: rgb(24 6 6 / 0.58); }
   .display--beat { font-size: 1.75rem; }
   .lede { font-size: 0.96rem; }
   .beat, .beat--hero { bottom: calc(var(--orderbar-h) + 2svh); gap: 8px; }
+  .vt .beat--hero { bottom: calc(var(--orderbar-h) + 2px); }
+  .hero__wa { min-height: 50px; margin-top: 2px; }
   .payoff__lead { font-size: 1rem; }
   .price--hero { font-size: 3.4rem; }
   .payoff__note { font-size: 0.9rem; margin: 0; }
@@ -940,6 +1024,9 @@ dialog::backdrop { background: rgb(24 6 6 / 0.58); }
   .ticket--vt.is-stamped .ticket__paper { animation: none; }
   .ticket--vt .ticket__paper, .ticket--vt [data-line] { transition: none; }
   .count.is-bump { animation: none; }
+  .nudge__icon svg { animation: none; opacity: 1; }
+  .entrega__card { animation: none; }
+  .nudge__icon svg:last-child { display: none; }
 
   /* entrega: the lid fades shut, the box gives way to the street in place */
   .rd__shut { clip-path: none; opacity: var(--lid); }

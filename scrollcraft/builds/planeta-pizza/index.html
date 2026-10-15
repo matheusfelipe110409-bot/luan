@@ -47,6 +47,8 @@
   <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
   <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
   <symbol id="i-insta" viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></symbol>
+  <symbol id="i-wa" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M9 9.5c0 2.8 2.7 5.5 5.5 5.5l1.2-1.4-1.9-1.1-.9.7a4.4 4.4 0 0 1-2.1-2.1l.7-.9-1.1-1.9Z"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
   <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
   <symbol id="i-bike" viewBox="0 0 24 24"><circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></symbol>
@@ -65,6 +67,10 @@
     <span class="status__dot" aria-hidden="true"></span>
     <span data-status-text>Todos os dias, 18h às 23h30</span>
   </p>
+  <a class="btn btn--wa bar__wa" href="#cardapio" data-whatsapp>
+    <svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg>
+    <span>Fazer pedido no WhatsApp</span>
+  </a>
   <a class="btn btn--light bar__cta" href="#cardapio" data-order>
     <svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg>
     <span>Fazer pedido</span>
@@ -101,23 +107,30 @@
 
       <!-- The signature: the ticket prints a line as each layer lands, then
            takes the stamp. Below the fold the same ticket is the order. -->
-      <aside class="ticket ticket--vt" data-ticket aria-label="Comanda da pizza de calabresa">
+      <aside class="ticket ticket--vt" data-ticket aria-label="Comanda da casa">
         <div class="ticket__paper">
-          <p class="ticket__head"><span>Planeta Pizza</span><span>Comanda · Delivery</span></p>
-          <ol class="ticket__lines">
-            <li data-line="1"><span>1x</span><span>Massa aberta na hora</span></li>
-            <li data-line="2"><span>1x</span><span>Molho da casa</span></li>
-            <li data-line="3"><span>1x</span><span>Mussarela</span></li>
-            <li data-line="4"><span>1x</span><span>Calabresa, cebola, azeitona</span></li>
-          </ol>
-          <p class="ticket__total" data-line="5"><span>Pizza grande</span><span>8 fatias</span></p>
-          <p class="stamp" aria-hidden="true"><span>Melhor preço</span><span>da cidade</span></p>
+          <p class="ticket__head"><span>Planeta Pizza</span><span>Araguari · Só delivery</span></p>
+          <ul class="ticket__lines ticket__lines--checks">
+            <li data-line="1"><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span>Massa aberta na hora</span></li>
+            <li data-line="2"><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span>Molho da casa</span></li>
+            <li data-line="3"><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span>Mussarela sem dó</span></li>
+            <li data-line="4"><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span>Recheio até a borda</span></li>
+          </ul>
+          <p class="ticket__claim" data-line="5">A melhor pizza da cidade,<span class="sr"> pelo melhor preço da cidade.</span></p>
+          <p class="stamp" aria-hidden="true"><span>pelo</span><span>melhor preço</span><span>da cidade</span></p>
         </div>
       </aside>
+
+      <!-- An invitation to scroll, under the dough ball. It leaves the moment
+           the visitor starts scrolling; the order buttons stay where they are. -->
+      <p class="nudge" aria-hidden="true"><span class="nudge__icon"><svg><use href="#i-chevron"/></svg><svg><use href="#i-chevron"/></svg></span><span>Role e veja sua pizza nascer</span></p>
 
       <div class="beat beat--hero" data-sc-cue="0 0.11 0 0.4">
         <h1 class="display display--hero" data-sc-kinetic="lines">A melhor pizza da cidade pelo melhor preço.</h1>
         <p class="lede">Só delivery, em Araguari. Feita na hora e entregue quentinha.</p>
+        <a class="btn btn--wa btn--block hero__wa" href="#cardapio" data-whatsapp>
+          <svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Fazer pedido no WhatsApp</span>
+        </a>
       </div>
 
       <div class="beat" data-sc-cue="0.10 0.265 0.2 0.2">
@@ -410,7 +423,7 @@
     </div>
     <footer class="foot wrap">
       <span class="brand brand--foot"><svg class="brand__mark" aria-hidden="true"><use href="#i-mark"/></svg><span class="brand__name">Planeta <b>Pizza</b></span></span>
-      <p>Demonstração de cardápio online. Preços, horários e fotos são ilustrativos.</p>
+      <p>Só delivery, em Araguari.</p>
     </footer>
   </section>
 </main>
@@ -473,8 +486,40 @@
   </div>
 </dialog>
 
+<!-- Pedido recebido: the same ride as the Entrega act, played on its own
+     like a short film. Opened only by PlanetaPizza.pedidoRecebido(), which
+     the order integration calls once the pizzeria has the order. -->
+<dialog class="entrega" id="pedido-recebido" aria-label="Pedido recebido">
+  <div class="rd rd--auto" data-auto-ride>
+    <div class="rd__night" aria-hidden="true">
+      <img class="rd__street" src="assets/scene/street-m.webp" srcset="assets/scene/street-m.webp 1152w, assets/scene/street-d.webp 1536w" sizes="100vw" alt="" width="1536" height="1024" decoding="async">
+    </div>
+    <div class="rd__box" data-rd-box aria-hidden="true">
+      <img class="rd__open" src="assets/scene/box-open-m.webp" srcset="assets/scene/box-open-m.webp 720w, assets/scene/box-open-d.webp 1024w" sizes="(max-width: 860px) 86vw, 56svh" alt="" width="1024" height="1536" decoding="async">
+      <img class="rd__shut" src="assets/scene/box-shut-m.webp" srcset="assets/scene/box-shut-m.webp 720w, assets/scene/box-shut-d.webp 1024w" sizes="(max-width: 860px) 86vw, 56svh" alt="" width="1024" height="1536" decoding="async">
+      <span class="rd__edge"></span>
+      <p class="rd__stamp"><svg><use href="#i-mark"/></svg><span>Planeta Pizza</span></p>
+    </div>
+    <div class="rd__rider" data-rd-rider aria-hidden="true">
+      <img src="assets/scene/rider-m.webp" srcset="assets/scene/rider-m.webp 640w, assets/scene/rider-d.webp 1100w" sizes="(max-width: 860px) 84vw, 46vw" alt="" width="1100" height="879" decoding="async">
+    </div>
+  </div>
+  <button class="entrega__skip" type="button" data-entrega-skip>Pular</button>
+  <div class="entrega__card" data-entrega-card hidden>
+    <p class="entrega__kicker">Planeta Pizza</p>
+    <h2 class="entrega__title">Pedido recebido!</h2>
+    <p class="entrega__text">A pizzaria já tem o seu pedido e começou a preparar. Logo ela sai quentinha até a sua porta.</p>
+    <p class="entrega__meta" data-entrega-meta hidden></p>
+    <button class="btn btn--red btn--block" type="button" data-entrega-close>Fechar</button>
+  </div>
+</dialog>
+
 <p class="toast" role="status" aria-live="polite" data-toast></p>
 
+<!-- Configuração da pizzaria. whatsapp: número oficial só com dígitos,
+     com DDI e DDD (ex.: 55 34 9xxxx-xxxx vira 55349xxxxxxxx). Vazio = ainda
+     não informado: o botão fica no lugar e avisa, sem abrir contato nenhum. -->
+<script type="application/json" id="planeta-config">{"whatsapp": ""}</script>
 <script type="application/json" id="drops-layout">{"frame":1440,"atlas":[1024,1112],"sprites":[{"kind":"calabresa","x":0.78333,"y":0.65208,"w":0.06389,"h":0.07778,"box":[523,969,92,112]},{"kind":"calabresa","x":0.64653,"y":0.22604,"w":0.06528,"h":0.09653,"box":[145,969,94,139]},{"kind":"calabresa","x":0.36389,"y":0.22083,"w":0.125,"h":0.13056,"box":[792,223,180,188]},{"kind":"calabresa","x":0.78993,"y":0.57257,"w":0.09931,"h":0.09931,"box":[0,969,143,143]},{"kind":"calabresa","x":0.74583,"y":0.64549,"w":0.09306,"h":0.09375,"box":[241,969,134,135]},{"kind":"calabresa","x":0.48333,"y":0.21076,"w":0.13194,"h":0.13681,"box":[404,223,190,197]},{"kind":"calabresa","x":0.25069,"y":0.63924,"w":0.10833,"h":0.11458,"box":[0,802,156,165]},{"kind":"calabresa","x":0.24236,"y":0.4066,"w":0.11667,"h":0.11597,"box":[714,622,168,167]},{"kind":"calabresa","x":0.51528,"y":0.77812,"w":0.17778,"h":0.12847,"box":[403,432,256,185]},{"kind":"calabresa","x":0.61632,"y":0.75035,"w":0.11736,"h":0.15347,"box":[0,0,169,221]},{"kind":"calabresa","x":0.39549,"y":0.24618,"w":0.09236,"h":0.14653,"box":[171,0,133,211]},{"kind":"calabresa","x":0.23785,"y":0.53333,"w":0.14097,"h":0.13056,"box":[198,432,203,188]},{"kind":"calabresa","x":0.38785,"y":0.72639,"w":0.11736,"h":0.12361,"box":[0,622,169,178]},{"kind":"calabresa","x":0.32361,"y":0.68646,"w":0.1,"h":0.09375,"box":[377,969,144,135]},{"kind":"calabresa","x":0.32431,"y":0.32674,"w":0.14583,"h":0.14375,"box":[0,223,210,207]},{"kind":"calabresa","x":0.26181,"y":0.4125,"w":0.13611,"h":0.13056,"box":[0,432,196,188]},{"kind":"calabresa","x":0.74514,"y":0.49792,"w":0.12917,"h":0.12222,"box":[171,622,186,176]},{"kind":"calabresa","x":0.71285,"y":0.5934,"w":0.08264,"h":0.10486,"box":[441,802,119,151]},{"kind":"calabresa","x":0.64062,"y":0.64583,"w":0.04375,"h":0.04444,"box":[617,969,63,64]},{"kind":"calabresa","x":0.61562,"y":0.63646,"w":0.08958,"h":0.10625,"box":[310,802,129,153]},{"kind":"calabresa","x":0.37361,"y":0.61076,"w":0.07917,"h":0.12569,"box":[661,432,114,181]},{"kind":"calabresa","x":0.34444,"y":0.47326,"w":0.13472,"h":0.09931,"box":[739,802,194,143]},{"kind":"calabresa","x":0.42049,"y":0.38229,"w":0.13264,"h":0.14514,"box":[639,0,191,209]},{"kind":"calabresa","x":0.44861,"y":0.62292,"w":0.10556,"h":0.11944,"box":[560,622,152,172]},{"kind":"calabresa","x":0.62743,"y":0.42986,"w":0.14931,"h":0.125,"box":[777,432,215,180]},{"kind":"calabresa","x":0.62674,"y":0.5316,"w":0.13819,"h":0.12014,"box":[359,622,199,173]},{"kind":"calabresa","x":0.55521,"y":0.58472,"w":0.13403,"h":0.14583,"box":[306,0,193,210]},{"kind":"calabresa","x":0.51597,"y":0.42292,"w":0.13194,"h":0.14167,"box":[212,223,190,204]},{"kind":"calabresa","x":0.45417,"y":0.50938,"w":0.13472,"h":0.13542,"box":[596,223,194,195]},{"kind":"azeitona","x":0.71319,"y":0.74097,"w":0.09444,"h":0.14583,"box":[501,0,136,210]},{"kind":"azeitona","x":0.77743,"y":0.45347,"w":0.12153,"h":0.10278,"box":[562,802,175,148]},{"kind":"azeitona","x":0.46458,"y":0.6934,"w":0.10417,"h":0.10764,"box":[158,802,150,155]}]}</script>
 <script src="scrollcraft.js"></script>
 <script src="site.js"></script>

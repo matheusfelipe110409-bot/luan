@@ -46,7 +46,12 @@
       c.setAttribute('data-sc-cue', [from * K, to * K, rIn, rOut].map(function (v) { return +v.toFixed(4); }).join(' '));
     }
   });
-  var film = function (raw) { return Math.min(raw / K, 1); };
+  var filmP = function (raw) { return Math.min(raw / K, 1); };
+  // A hidden line must not take taps meant for a visible one (the payoff sits
+  // over the hero on phones). The engine only sets pointer-events after a
+  // cue's first change, so start every line inert; it turns a line back on
+  // as it appears.
+  Array.prototype.forEach.call(vit.querySelectorAll('[data-sc-cue]'), function (c) { c.style.pointerEvents = 'none'; });
   // the ride after the menu
   var spans = { entrega: reduce ? '1.9' : (phoneMQ.matches ? '2.6' : null) };
   Object.keys(spans).forEach(function (id) {
@@ -151,7 +156,7 @@
 
   function update() {
     var raw = parseFloat(vit.style.getPropertyValue('--sc-p')) || 0;
-    var p = film(raw);
+    var p = filmP(raw);
     var tx = Math.min(Math.max((raw - K) / (1 - K), 0), 1);
     var leaving = tx > 0.4;
     if (leaving !== st.leaving) { vt.classList.toggle('is-leaving', leaving); st.leaving = leaving; }
@@ -171,6 +176,8 @@
     if (phase !== st.phase) { vt.setAttribute('data-phase', phase); st.phase = phase; }
 
     var r = vit.getBoundingClientRect();
+    var away = p > 0.03;
+    if (away !== st.away) { vt.classList.toggle('is-scrolled', away); st.away = away; }
     var steam = !reduce && p >= 0.775 && r.bottom > 0;
     if (steam !== st.steam) { vt.classList.toggle('is-steaming', steam); st.steam = steam; }
 
@@ -219,20 +226,21 @@
   var rdRider = ride && ride.querySelector('[data-rd-rider]');
   var BOX = { x0: 0.0186, y0: 0.1198, x1: 0.9814, y1: 0.8203 };   // the box inside its photo
   var BAG = { x0: 0.035, y0: 0.253, x1: 0.256, y1: 0.49 };         // the bag inside the rider photo
-  function measureRide() {
-    if (!rdBox || !rdRider) return;
-    var bw = rdBox.offsetWidth, bh = rdBox.offsetHeight;
-    var rw = rdRider.offsetWidth, rh = rdRider.offsetHeight;
+  function measureMatch(box, rider) {
+    if (!box || !rider) return;
+    var bw = box.offsetWidth, bh = box.offsetHeight;
+    var rw = rider.offsetWidth, rh = rider.offsetHeight;
     if (!bw || !rw) return;
-    var boxCx = rdBox.offsetLeft + bw * (BOX.x0 + BOX.x1) / 2;
-    var boxCy = rdBox.offsetTop + bh * (BOX.y0 + BOX.y1) / 2;
-    var bagCx = rdRider.offsetLeft + rw * (BAG.x0 + BAG.x1) / 2;
-    var bagCy = rdRider.offsetTop + rh * (BAG.y0 + BAG.y1) / 2;
+    var boxCx = box.offsetLeft + bw * (BOX.x0 + BOX.x1) / 2;
+    var boxCy = box.offsetTop + bh * (BOX.y0 + BOX.y1) / 2;
+    var bagCx = rider.offsetLeft + rw * (BAG.x0 + BAG.x1) / 2;
+    var bagCy = rider.offsetTop + rh * (BAG.y0 + BAG.y1) / 2;
     var s = (rw * (BAG.x1 - BAG.x0)) / (bw * (BOX.x1 - BOX.x0));
-    rdBox.style.setProperty('--mx', (bagCx - boxCx).toFixed(1) + 'px');
-    rdBox.style.setProperty('--my', (bagCy - boxCy).toFixed(1) + 'px');
-    rdBox.style.setProperty('--ms', s.toFixed(4));
+    box.style.setProperty('--mx', (bagCx - boxCx).toFixed(1) + 'px');
+    box.style.setProperty('--my', (bagCy - boxCy).toFixed(1) + 'px');
+    box.style.setProperty('--ms', s.toFixed(4));
   }
+  function measureRide() { measureMatch(rdBox, rdRider); }
   var acts = { boxStamped: null };
   function updateActs() {
     if (ride) {
@@ -628,11 +636,150 @@
         toast('Escolha sua pizza no cardápio primeiro.');
         document.getElementById('cardapio').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
       } else {
-        toast('Demonstração: o pedido online entra na próxima etapa. Sua comanda: ' + itemsLabel(tt.qty) + ', ' + money(tt.sum) + '.');
+        finalizar(t.closest('[data-checkout]'));
       }
     }
   });
   render();
+
+  // --------------------------------------------------------- whatsapp ----
+  // The official number lives in #planeta-config. Until it is filled in the
+  // buttons stay where they are and say so; no contact is ever made up.
+  var CONFIG = {};
+  try { CONFIG = JSON.parse(document.getElementById('planeta-config').textContent) || {}; } catch (e) { CONFIG = {}; }
+  var waNumber = String(CONFIG.whatsapp || '').replace(/\D/g, '');
+  function waLink(text) { return 'https://wa.me/' + waNumber + '?text=' + encodeURIComponent(text); }
+  document.querySelectorAll('[data-whatsapp]').forEach(function (a) {
+    if (waNumber) {
+      a.href = waLink('Olá, Planeta Pizza! Quero fazer um pedido.');
+      a.target = '_blank';
+      a.rel = 'noopener';
+    } else {
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        toast('O WhatsApp da pizzaria ainda não foi informado. Use o botão Fazer pedido.');
+      });
+    }
+  });
+
+  // ---------------------------------------------------- finish the order ----
+  // The order system (Anotaí) is a separate step. When it exists it registers
+  //   PlanetaPizza.integracao = { enviarPedido: function (pedido) { ... } }
+  // returning a promise of { recebido: true, numero?, previsao? }. Only a
+  // confirmed order plays the delivery film; nothing here pretends to send.
+  function comandaTexto() {
+    var linhas = cart.map(function (it) {
+      return it.qty + 'x ' + it.name + (it.details.length ? ' (' + it.details.join(', ') + ')' : '') + ': ' + money(it.qty * it.unit);
+    });
+    return 'Olá, Planeta Pizza! Quero fazer este pedido:\n' + linhas.join('\n') + '\nTotal: ' + money(totals().sum);
+  }
+  var sending = false;
+  function finalizar(btn) {
+    var api = window.PlanetaPizza && window.PlanetaPizza.integracao;
+    if (api && typeof api.enviarPedido === 'function') {
+      if (sending) return;
+      sending = true;
+      if (btn) btn.setAttribute('aria-busy', 'true');
+      toast('Enviando o seu pedido...');
+      var pedido = {
+        itens: cart.map(function (it) { return { id: it.id, nome: it.name, detalhes: it.details.slice(), quantidade: it.qty, unitario: it.unit }; }),
+        total: totals().sum
+      };
+      Promise.resolve(api.enviarPedido(pedido)).then(function (res) {
+        if (res && res.recebido) {
+          cart = [];
+          render();
+          closeDrawer();
+          pedidoRecebido(res);
+        } else {
+          toast('Não conseguimos confirmar o pedido. Tente de novo.');
+        }
+      }, function () {
+        toast('Não conseguimos enviar o pedido. Tente de novo.');
+      }).then(function () {
+        sending = false;
+        if (btn) btn.removeAttribute('aria-busy');
+      });
+    } else if (waNumber) {
+      window.open(waLink(comandaTexto()), '_blank', 'noopener');
+      toast('Abrindo o WhatsApp com a sua comanda.');
+    } else {
+      toast('O envio do pedido pelo site ainda não está ativo.');
+    }
+  }
+
+  // ------------------------------------------------- delivery film ----
+  // The Entrega act, played by itself like a short film once an order is
+  // confirmed, then the confirmation card. Same images, same choreography:
+  // only the clock is time instead of scroll.
+  var film = document.getElementById('pedido-recebido');
+  var filmStage = film && film.querySelector('[data-auto-ride]');
+  var filmBox = film && film.querySelector('[data-rd-box]');
+  var filmRider = film && film.querySelector('[data-rd-rider]');
+  var filmCard = film && film.querySelector('[data-entrega-card]');
+  var filmMeta = film && film.querySelector('[data-entrega-meta]');
+  var FILM_MS = 7200;
+  var filmRaf = 0, filmT0 = 0, filmOpener = null;
+  function filmFrame(p) {
+    filmStage.style.setProperty('--sc-p', p.toFixed(4));
+    filmBox.classList.toggle('is-stamped', p >= 0.33);
+  }
+  function filmEnd() {
+    cancelAnimationFrame(filmRaf);
+    filmFrame(1);
+    film.classList.add('is-done');
+    filmCard.hidden = false;
+    var close = filmCard.querySelector('[data-entrega-close]');
+    if (close) close.focus({ preventScroll: true });
+  }
+  function pedidoRecebido(info) {
+    if (!film) return;
+    info = info || {};
+    var meta = [];
+    if (info.numero) meta.push('Pedido nº ' + info.numero);
+    if (info.previsao) meta.push('Previsão de entrega: ' + info.previsao);
+    filmMeta.textContent = meta.join(' · ');
+    filmMeta.hidden = !meta.length;
+    filmCard.hidden = true;
+    film.classList.remove('is-done');
+    filmOpener = document.activeElement;
+    filmFrame(0);
+    if (typeof film.showModal === 'function') film.showModal(); else film.setAttribute('open', '');
+    measureMatch(filmBox, filmRider);
+    if (reduce) { filmEnd(); return; }
+    // give the photos a moment to be ready, then roll
+    var imgs = Array.prototype.slice.call(film.querySelectorAll('img'));
+    Promise.race([
+      Promise.all(imgs.map(function (i) { return i.decode ? i.decode().catch(function () {}) : null; })),
+      new Promise(function (r) { setTimeout(r, 1500); })
+    ]).then(function () {
+      measureMatch(filmBox, filmRider);
+      filmT0 = performance.now();
+      (function tick(now) {
+        var p = Math.min((now - filmT0) / FILM_MS, 1);
+        filmFrame(p);
+        if (p < 1) filmRaf = requestAnimationFrame(tick); else filmEnd();
+      })(filmT0);
+    });
+  }
+  if (film) {
+    film.querySelector('[data-entrega-skip]').addEventListener('click', filmEnd);
+    film.querySelector('[data-entrega-close]').addEventListener('click', function () { film.close(); });
+    film.addEventListener('cancel', function (e) {
+      // Esc skips to the confirmation first, then closes
+      if (!film.classList.contains('is-done')) { e.preventDefault(); filmEnd(); }
+    });
+    film.addEventListener('close', function () {
+      cancelAnimationFrame(filmRaf);
+      if (filmOpener && document.contains(filmOpener)) filmOpener.focus({ preventScroll: true });
+    });
+    addEventListener('resize', function () { if (film.open) measureMatch(filmBox, filmRider); }, { passive: true });
+  }
+
+  // The hooks the order integration uses. pedidoRecebido is for a confirmed
+  // order only.
+  window.PlanetaPizza = window.PlanetaPizza || {};
+  window.PlanetaPizza.pedidoRecebido = pedidoRecebido;
 
   // ----------------------------------------------------------- search ----
   var search = document.querySelector('[data-search]');
