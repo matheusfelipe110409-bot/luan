@@ -32,15 +32,26 @@ SRC = os.path.join(ROOT, 'dados', 'anotai-menu.txt')
 PAGE = os.path.join(ROOT, 'index.html')
 OUT = os.path.join(ROOT, 'dados', 'cardapio.json')
 
-# the photos already on the site, by flavour (assets/menu, from ChatGPT)
-FOTOS = {
-    'mucarela': ('mussarela', 'Pizza de muçarela com tomate e azeitona, vista de cima'),
-    'marguerita': ('marguerita', 'Pizza marguerita com tomate e manjericão, vista de cima'),
-    'calabresa': ('calabresa', 'Pizza de calabresa com cebola e azeitona, vista de cima'),
-    'frango-catupiry': ('frango-catupiry', 'Pizza de frango com catupiry, vista de cima'),
-    '4-queijos': ('quatro-queijos', 'Pizza quatro queijos, vista de cima'),
-    'banana': ('banana-canela', 'Pizza de banana com canela, vista de cima'),
+# A flavour's photo is assets/menu/<id>.webp, made by tools/ingest.py from
+# m-<id>.png (PROMPTS-CHATGPT.md). Until it arrives, the provisional pictures
+# already on the site stand in under their old names; a flavour with neither
+# shows no photo.
+ANTIGAS = {'mucarela': 'mussarela', '4-queijos': 'quatro-queijos', 'banana': 'banana-canela'}
+ALT = {
+    'mucarela': 'Pizza de muçarela com tomate e azeitona, vista de cima',
+    'marguerita': 'Pizza marguerita com tomate e manjericão, vista de cima',
+    'calabresa': 'Pizza de calabresa com cebola e azeitona, vista de cima',
+    'frango-catupiry': 'Pizza de frango com catupiry, vista de cima',
+    '4-queijos': 'Pizza quatro queijos, vista de cima',
+    'banana': 'Pizza de banana com canela, vista de cima',
 }
+
+
+def foto(r):
+    for nome in (r['id'], ANTIGAS.get(r['id'])):
+        if nome and os.path.exists(os.path.join(ROOT, 'assets', 'menu', nome + '.webp')):
+            return nome, ALT.get(r['id'], 'Pizza %s, vista de cima' % r['nome'])
+    return None
 DESTAQUES = ['calabresa', 'mucarela', 'frango-catupiry', '4-queijos', 'banana']
 
 # what the site calls each Anotaí category
@@ -193,11 +204,11 @@ def e(s):
 
 
 def item_html(r, kind):
-    foto = FOTOS.get(r['id']) if kind in ('salgada', 'doce') else None
+    img = foto(r) if kind in ('salgada', 'doce') else None
     attrs = 'class="item%s" data-item="%s" data-name="%s" data-price="%.2f" data-kind="%s"' % (
-        '' if foto else ' item--plain', r['id'], e(r['nome']), r['preco'], kind)
-    if foto:
-        attrs += ' data-img="assets/menu/%s.webp"' % foto[0]
+        '' if img else ' item--plain', r['id'], e(r['nome']), r['preco'], kind)
+    if img:
+        attrs += ' data-img="assets/menu/%s.webp"' % img[0]
     out = ['          <li %s>' % attrs,
            '            <div class="item__txt">',
            '              <h4 class="item__name"><button class="item__open" type="button" data-open="%s" aria-haspopup="dialog">%s</button></h4>' % (r['id'], e(r['nome']))]
@@ -205,8 +216,8 @@ def item_html(r, kind):
         out.append('              <p class="item__desc">%s</p>' % e(r['desc']))
     out.append('              <p class="item__price">%s</p>' % money(r['preco']))
     out.append('            </div>')
-    if foto:
-        out.append('            <img class="item__img" src="assets/menu/%s.webp" alt="%s" width="520" height="520" loading="lazy" decoding="async">' % (foto[0], e(foto[1])))
+    if img:
+        out.append('            <img class="item__img" src="assets/menu/%s.webp" alt="%s" width="520" height="520" loading="lazy" decoding="async">' % (img[0], e(img[1])))
     out.append('          </li>')
     return out
 
@@ -233,9 +244,9 @@ def rail_html(rows):
     by = {r['id']: r for k in ('salgada', 'doce') for r in rows[k]}
     out = []
     for sid in DESTAQUES:
-        r, foto = by[sid], FOTOS[sid]
+        r, img = by[sid], foto(by[sid])
         out += ['          <li><button class="card" type="button" data-open="%s" aria-haspopup="dialog">' % sid,
-                '            <img class="card__img" src="assets/menu/%s.webp" alt="" width="520" height="520" loading="lazy" decoding="async">' % foto[0],
+                '            <img class="card__img" src="assets/menu/%s.webp" alt="" width="520" height="520" loading="lazy" decoding="async">' % img[0],
                 '            <span class="card__name">%s</span>' % e(r['nome']),
                 '            <span class="card__price">%s</span>' % money(r['preco']),
                 '          </button></li>']

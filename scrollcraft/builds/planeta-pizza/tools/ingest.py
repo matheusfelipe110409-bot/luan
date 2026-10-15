@@ -6,10 +6,11 @@ page uses. Nothing here draws food; it measures, aligns, cuts and encodes.
     python3 tools/ingest.py                 everything found in assets/src/
     python3 tools/ingest.py --src some/dir  read the PNGs from another folder
     python3 tools/ingest.py --check         report what is missing, write nothing
+    python3 tools/ingest.py --so-cardapio   only the menu photos (m-<sabor>)
 
 Inputs (assets/src/, names from the prompt pack; any missing file is skipped):
     v1-bola v2-massa v3-molho v4-queijo [v4b-derretendo] v5-assada v6-completa
-    m-<sabor> (11)   p1-tomates p2-manjericao p3-azeitonas p4-calabresa p5-farinha
+    m-<sabor> (one per pizza on the menu)   p1-tomates p2-manjericao p3-azeitonas p4-calabresa p5-farinha
     s1-compartilhar
 
 What it does, in ScrollCraft terms (references/hero-depth.md):
@@ -46,8 +47,17 @@ PIZZA_R = 0.43            # pizza radius as a fraction of the output frame
 F = np.float32
 
 VITRINE = ['v1-bola', 'v2-massa', 'v3-molho', 'v4-queijo', 'v4b-derretendo', 'v5-assada', 'v6-completa']
-MENU_SLUGS = ['mussarela', 'calabresa', 'marguerita', 'portuguesa', 'frango-catupiry', 'quatro-queijos',
-              'pepperoni', 'bacon', 'chocolate-morango', 'romeu-julieta', 'banana-canela']
+
+
+def menu_slugs():
+    """Every pizza on the menu, by its id on the page (dados/cardapio.json,
+    written by tools/cardapio.py from the Anotaí menu)."""
+    with open(os.path.join(ROOT, 'dados', 'cardapio.json'), encoding='utf-8') as fh:
+        secoes = json.load(fh)['secoes']
+    return [r['id'] for s in secoes if s['id'] in ('salgadas', 'doces') for r in s['itens']]
+
+
+MENU_SLUGS = menu_slugs()
 PROPS = {'p1-tomates': 'tomatoes', 'p2-manjericao': 'basil', 'p3-azeitonas': 'olives',
          'p4-calabresa': 'calabresa', 'p5-farinha': 'flour'}
 
@@ -486,7 +496,7 @@ def menu(src_dir, report):
         frame = warp(np.dstack([rgb_c, alpha]), cx, cy, (0.44 * 520) / r, 520)
         save_webp(os.path.join(MENU, f'{slug}.webp'), frame, q=82, aq=85)
         done.append(slug)
-    report['menu'] = f'{len(done)}/11' + ('' if len(done) == 11 else ' (missing: ' + ', '.join(s for s in MENU_SLUGS if s not in done) + ')')
+    report['menu'] = f'{len(done)} of {len(MENU_SLUGS)} pizzas' + (': ' + ', '.join(done) if done else '')
 
 
 # --------------------------------------------------------------- share ----
@@ -525,6 +535,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--src', default=SRC)
     ap.add_argument('--check', action='store_true')
+    ap.add_argument('--so-cardapio', action='store_true', help='only the menu photos; then run tools/cardapio.py')
     ap.add_argument('--out', default=None, help='write to OUT/vt and OUT/menu instead of assets/ (for tests)')
     args = ap.parse_args()
     global VT, MENU
@@ -542,6 +553,10 @@ def main():
             log(('  ok      ' if w in found else '  missing ') + w)
         return
     report = {}
+    if args.so_cardapio:
+        log('menu'); menu(src, report)
+        log('\nresult\n  menu      ' + report['menu'])
+        return
     log('vitrine'); vitrine(src, report)
     log('props'); props(src, report)
     log('menu'); menu(src, report)

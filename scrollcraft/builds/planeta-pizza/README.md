@@ -31,6 +31,17 @@ rua, a capa da loja e a calabresa do cardápio. Ainda são ilustrações
 provisórias: muçarela, marguerita, frango catupiry, 4 queijos e banana no
 cardápio. Os outros sabores aparecem sem foto até chegar uma foto de verdade.
 
+**Fotos do cardápio:** o `PROMPTS-CHATGPT.md` tem um prompt por pizza (M1 a
+M34), com os ingredientes da descrição de cada sabor na Anotaí. Cada foto vem
+como `m-<sabor>.png`. Para colocar no site:
+
+```bash
+python3 tools/ingest.py --so-cardapio   # recorta e gera assets/menu/<sabor>.webp
+python3 tools/cardapio.py               # liga cada foto ao sabor no cardápio
+```
+
+Pode ser aos poucos: sabor sem foto continua sem foto.
+
 ## Partes da página
 
 1. **Vitrine**: a pizza se monta no scroll, a comanda imprime e leva o

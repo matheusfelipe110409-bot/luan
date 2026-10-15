@@ -21,8 +21,9 @@ esta pasta com estes nomes:
 | e4-rua.png             | file_00000000d458820e8ed97285918424d8.png      | E4 |
 | l1-capa.png            | file_00000000490c820e9a9b43d97f92737b.png      | L1 |
 
-Ainda faltam: M1 a M11 (fotos do cardápio; hoje só a calabresa é foto, tirada
-da V6), Q3, B1 a B3 (bebidas), P1 a P5 (ingredientes da vitrine) e S1.
+Ainda faltam: as fotos do cardápio, M1 a M34 do `PROMPTS-CHATGPT.md` (hoje só a
+calabresa é foto, tirada da V6), e a S1, opcional. Os grupos Q, B e P saíram:
+as cenas e os itens deles não estão mais no site.
 
 ## Logo oficial
 
