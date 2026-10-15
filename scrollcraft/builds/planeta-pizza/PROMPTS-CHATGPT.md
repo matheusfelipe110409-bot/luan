@@ -1,7 +1,7 @@
 # Prompts para o ChatGPT · Planeta Pizza
 
-Agora são duas frentes: a **fachada da pizzaria à noite** (o fundo de onde sai o motoboy) e as
-**fotos do cardápio**: 34 pizzas, com os sabores e os ingredientes exatamente
+Agora são três frentes: a **fachada da pizzaria à noite** (o fundo de onde sai o motoboy), a
+**caixa de pizza real** (o efeito de abrir e fechar) e as **fotos do cardápio**: 34 pizzas, com os sabores e os ingredientes exatamente
 como estão na loja da Planeta Pizza na Anotaí. O método é o mesmo das outras: **o mesmo
 preâmbulo de estilo, palavra por palavra, em todos os prompts** (é isso que faz fotos geradas
 separadamente parecerem uma única sessão de fotos), o espaço vazio sempre nomeado e nenhum
@@ -66,7 +66,44 @@ Se o ChatGPT mexer na placa ou na fachada, responda: `The facade must be exactly
 
 ---
 
-## Grupo M · Fotos do cardápio · PRIORIDADE 2
+## Grupo C · A caixa real (o efeito de abrir e fechar) · PRIORIDADE 2
+
+Um chat novo, **C1 e depois C2 no mesmo chat**, nesta ordem: a caixa fechada precisa ficar no mesmo
+lugar e do mesmo tamanho da aberta. Formato **retrato (2:3)**. No C1, **anexe duas imagens**: a
+caixa aberta que está hoje no site (`caixa-aberta-atual.png`) e a foto da caixa de verdade.
+
+### C1 · Caixa aberta · `e1-caixa-aberta.png`
+
+Anexe a caixa aberta atual e a foto da caixa de verdade nesta mesma mensagem.
+
+```text
+Edit the first attached image (a pizza inside an open red box, seen from directly above). Keep the pizza exactly identical: same size, position, toppings, the lifted slice with the cheese pull, the light and the red backdrop. Keep the camera pointing straight down and the same portrait framing.
+
+Change only the box: replace the plain red box with the real pizza box from the second attached photo. It is an octagonal (eight-sided) box of natural brown kraft corrugated cardboard. Here it is open and we see only its base from above: eight low brown cardboard walls forming an octagon around the pizza, the inside plain unprinted kraft. No lid in the frame. The box is centred, spans about 94% of the image width, and the red backdrop stays visible above and below it.
+
+Do not add anything that is not in the photos. Photographic realism, real cardboard texture and natural light. NOT illustration, NOT 3D render, NOT CGI, no plastic look, no watermark.
+```
+
+### C2 · Caixa fechada · `e2-caixa-fechada.png`
+
+No mesmo chat, logo depois do C1. Anexe de novo a foto da caixa de verdade.
+
+```text
+Edit the previous image. Keep the camera, framing, light and red backdrop exactly the same, and the box at exactly the same size and position. Only change: the box is now closed, and we see the top of its lid from directly above, exactly like the lid of the real box in the attached photo:
+- the same octagonal shape, in natural brown kraft corrugated cardboard;
+- the far half of the lid (toward the top of the image) printed solid red, with the word "Pizza" in big black brush script and a curved black swoosh under it;
+- a straight black band across the lid where the red ends;
+- on the near half, the bare kraft with a row of small black line icons along the band, the word "Delivery" in big black script with a white outline, and the round black seal with a leaf on the right.
+
+Copy the print exactly as in the photo of the real box: do not redesign it and do not add any other text, logo or decoration. Photographic realism, real cardboard texture and natural light. NOT illustration, NOT 3D render, NOT CGI, no plastic look, no watermark.
+```
+
+Se a pizza mudar, responda: `Keep the pizza exactly identical to the first image.` Se a estampa da
+tampa vier diferente, responda: `Copy the lid print exactly as in the photo of the real box.`
+
+---
+
+## Grupo M · Fotos do cardápio · PRIORIDADE 3
 
 Formato **quadrado (1:1)**. Cada bloco gera uma pizza. O preâmbulo é o mesmo em todos; só muda
 a última parte (a cobertura de cada sabor).
@@ -418,7 +455,7 @@ Square 1:1. One whole large sweet pizza, perfectly centred, its outer crust span
 
 ---
 
-## Grupo S · Imagem de compartilhamento (WhatsApp, Instagram, Google) · PRIORIDADE 3
+## Grupo S · Imagem de compartilhamento (WhatsApp, Instagram, Google) · PRIORIDADE 4
 
 Formato **paisagem (3:2)**. É a imagem que aparece quando alguém manda o link do site.
 
@@ -436,6 +473,8 @@ Landscape 3:2. A whole freshly baked Brazilian calabresa pizza (smoked calabresa
 
 - [ ] Fachada: a placa igual à de verdade, à noite, sem fios, carros, pessoas nem outras lojas, e
       a rua vazia embaixo.
+- [ ] Caixa: a mesma pizza da caixa aberta atual; a fechada no mesmo lugar e tamanho, com a
+      estampa igual à da caixa de verdade.
 - [ ] Nenhuma pizza com a borda cortada, todas centralizadas e do mesmo tamanho.
 - [ ] Só os ingredientes do prompt: nada a mais em cima da pizza.
 - [ ] Fundo claro liso, sem prato, tábua, mãos ou texto.
