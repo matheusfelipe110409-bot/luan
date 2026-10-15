@@ -23,8 +23,8 @@
   // layers only cross-fade there and a long pin would be scroll with no reward.
   if (reduce) vit.setAttribute('data-sc-span', '2.2');
   else if (phoneMQ.matches) vit.setAttribute('data-sc-span', '3.0');
-  // the two acts after it: the cheese pull and the ride
-  var spans = { puxa: reduce ? '1.3' : (phoneMQ.matches ? '1.6' : null), entrega: reduce ? '1.9' : (phoneMQ.matches ? '2.6' : null) };
+  // the ride after the menu
+  var spans = { entrega: reduce ? '1.9' : (phoneMQ.matches ? '2.6' : null) };
   Object.keys(spans).forEach(function (id) {
     var n = document.getElementById(id);
     if (n && spans[id]) n.setAttribute('data-sc-span', spans[id]);
@@ -180,7 +180,6 @@
     rdBox.style.setProperty('--my', (bagCy - boxCy).toFixed(1) + 'px');
     rdBox.style.setProperty('--ms', s.toFixed(4));
   }
-  var pull = document.getElementById('puxa');
   var acts = { boxStamped: null };
   function updateActs() {
     if (ride) {
@@ -190,10 +189,6 @@
       var stage = ride.querySelector('.rd');
       var q = function (v) { return Math.round(Math.min(Math.max(v, 0), 1) * 20); };
       stage.setAttribute('data-sc-verify-state', [q((p - 0.10) / 0.20), q((p - 0.42) / 0.14), q((p - 0.58) / 0.38), stamped ? 's' : ''].join('.'));
-    }
-    if (pull) {
-      var pp = parseFloat(pull.style.getPropertyValue('--sc-p')) || 0;
-      pull.querySelector('.pl').setAttribute('data-sc-verify-state', String(Math.round(Math.min(Math.max((pp - 0.06) / 0.72, 0), 1) * 20)));
     }
   }
   var actTick = false;
@@ -206,6 +201,19 @@
   addEventListener('load', function () { measureRide(); updateActs(); });
   measureRide();
   updateActs();
+
+  // ------------------------------------------------------------ cover ----
+  var capa = document.querySelector('.loja__capa');
+  if (capa) {
+    if ('IntersectionObserver' in window) {
+      var capaIO = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) { capa.classList.add('is-in'); capaIO.disconnect(); }
+        });
+      }, { threshold: 0.2 });
+      capaIO.observe(capa);
+    } else capa.classList.add('is-in');
+  }
 
   // ------------------------------------------------------- open sign ----
   var statusEls = document.querySelectorAll('[data-status]');

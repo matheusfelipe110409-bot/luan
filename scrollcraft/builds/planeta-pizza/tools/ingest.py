@@ -285,7 +285,10 @@ def vitrine(src_dir, report):
     for k, nm in names.items():
         if k not in out['d']:
             continue
-        kb = [save_webp(os.path.join(VT, f'{nm}-{t}.webp'), out[t][k], q=84 if nm == 'final' else 80) for t in ('d', 'm')]
+        # phones get lighter files: the frames pass by fast and the decode
+        # budget there is small
+        qs = {'d': 84 if nm == 'final' else 80, 'm': 76 if nm == 'final' else 70}
+        kb = [save_webp(os.path.join(VT, f'{nm}-{t}.webp'), out[t][k], q=qs[t]) for t in ('d', 'm')]
         log(f'  wrote {nm}: {kb[0]} / {kb[1]} KB')
 
     # the three handfuls of cheese: what V4 adds over V3
@@ -310,7 +313,7 @@ def vitrine(src_dir, report):
             m = (cheese & (part == k)).astype(F)
             m = ndi.gaussian_filter(m, 0.7)
             layer = np.dstack([f4[..., :3], np.clip(m, 0, 1) * f4[..., 3]])
-            save_webp(os.path.join(VT, f'cheese{k + 1}-{t}.webp'), layer, q=74, aq=70)
+            save_webp(os.path.join(VT, f'cheese{k + 1}-{t}.webp'), layer, q=74 if t == 'd' else 68, aq=70 if t == 'd' else 64)
         log(f'  wrote cheese1-3 ({t}): cheese covers {cheese.mean() * 100:.1f}% of the frame')
 
     # toppings: what V6 adds over V5, cut out where V6 has them
@@ -403,7 +406,7 @@ def toppings(out, report):
     im = Image.fromarray((atlas * 255 + 0.5).astype(np.uint8), 'RGBA')
     im.save(os.path.join(VT, 'sprites-d.webp'), 'WEBP', quality=84, alpha_quality=88, method=6)
     im.resize((round(AW * MOB / DESK), round(AH * MOB / DESK)), Image.LANCZOS).save(
-        os.path.join(VT, 'sprites-m.webp'), 'WEBP', quality=84, alpha_quality=88, method=6)
+        os.path.join(VT, 'sprites-m.webp'), 'WEBP', quality=76, alpha_quality=80, method=6)
     rank = {'calabresa': 0, 'cebola': 1, 'azeitona': 2}
     seq = sorted(sprites, key=lambda s: (rank[s['kind']], -math.hypot(s['cx'] - n / 2, s['cy'] - n / 2)))
     layout = dict(frame=n, atlas=[AW, AH], sprites=[dict(

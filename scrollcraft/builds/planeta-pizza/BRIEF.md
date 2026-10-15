@@ -344,3 +344,36 @@ Fluxo testado por script, no celular e no desktop:
 Sem rolagem horizontal e sem erros no console.
 
 **Não verificado:** celular de verdade (iOS Safari, rolagem por toque).
+
+---
+
+# Revisão 3
+
+> "no início tem a pizza realista e uns elementos em volta que não estão
+> realistas [...] quero que você remova esses elementos [...] pode remover o
+> efeito escuro da pizza puxando queijo [...] deixa só a pizza sendo montada
+> no começo e embaixo o cardápio. [...] a foto da capa do cardápio [...] tá
+> cortada [...] deixa o efeito da pizza sendo montada mais suave e mais leve
+> para celulares"
+
+- **Vitrine:** saíram os ingredientes soltos em volta da pizza, que eram
+  renderizações provisórias. Fica só a pizza fotografada, a comanda e o
+  texto.
+- **Puxa:** o ato saiu. Depois da vitrine vem direto o cardápio.
+- **Capa:**
+  - não fica mais presa sob o cartão da loja;
+  - no celular aparece inteira (3:2, sem corte);
+  - o topo dela se funde com o vermelho da vitrine;
+  - entra uma vez, com um leve zoom e fade.
+- **Celular mais leve:**
+  - as camadas da vitrine vêm por `<picture>`, então o celular nunca baixa o
+    arquivo de desktop (antes, telas 3x baixavam o de 1440 px);
+  - os arquivos de celular foram recomprimidos (2,1 MB contra cerca de 4,4 MB
+    antes);
+  - no celular saem a granulação fixa, o brilho com blend, as sombras dos
+    pedaços que caem e a máscara do molho (vira um círculo);
+  - as camadas cobertas por uma opaca param de ser pintadas.
+- **Verificação:** desktop, celular, celular pequeno e movimento reduzido
+  ficaram sem rolagem morta. O único alerta de contraste é o quadro em que o
+  texto da entrega já saiu por baixo da barra. O fluxo de pedido segue
+  passando.

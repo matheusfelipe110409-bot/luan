@@ -15,7 +15,8 @@
 <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
 <link rel="preload" href="fonts/bricolage.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" as="image" href="assets/vt/ball-m.webp" imagesrcset="assets/vt/ball-m.webp 960w, assets/vt/ball-d.webp 1440w" imagesizes="(max-width: 860px) 94vw, 44vw">
+<link rel="preload" as="image" href="assets/vt/ball-m.webp" media="(max-width: 860px)">
+<link rel="preload" as="image" href="assets/vt/ball-d.webp" media="(min-width: 861px)">
 <link rel="stylesheet" href="scrollcraft.css">
 <link rel="stylesheet" href="site.css">
 <link rel="stylesheet" href="assets/vt/frames.css">
@@ -27,7 +28,7 @@
   .vt .L-final { display: block; opacity: 1; }
   .vitrine { height: auto !important; }
   .vitrine [data-sc-stage] { position: relative; }
-  .pull, .ride { display: none; }
+  .ride { display: none; }
 </style></noscript>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Restaurant","name":"Planeta Pizza","servesCuisine":"Pizza","address":{"@type":"PostalAddress","addressLocality":"Araguari","addressRegion":"MG","addressCountry":"BR"},"sameAs":["https://www.instagram.com/planetapizzaaraguari"]}
@@ -79,34 +80,21 @@
       <div class="vt__ground" aria-hidden="true"></div>
       <div class="vt__ground vt__ground--hot" aria-hidden="true"></div>
 
-      <div class="props props--far" aria-hidden="true">
-        <div class="prop prop--flour" data-sc-parallax="-0.4"><img src="assets/vt/prop-flour-m.webp" srcset="assets/vt/prop-flour-m.webp 360w, assets/vt/prop-flour-d.webp 560w" sizes="30vw" alt="" width="560" height="560"></div>
-        <div class="prop prop--tomatoes" data-sc-parallax="-0.9"><img src="assets/vt/prop-tomatoes-m.webp" srcset="assets/vt/prop-tomatoes-m.webp 360w, assets/vt/prop-tomatoes-d.webp 560w" sizes="(max-width: 860px) 34vw, 16vw" alt="" width="560" height="560"></div>
-        <div class="prop prop--olives" data-sc-parallax="-0.6"><img src="assets/vt/prop-olives-m.webp" srcset="assets/vt/prop-olives-m.webp 360w, assets/vt/prop-olives-d.webp 560w" sizes="(max-width: 860px) 26vw, 12vw" alt="" width="560" height="560"></div>
-        <div class="prop prop--calabresa" data-sc-parallax="-1.1"><img src="assets/vt/prop-calabresa-m.webp" srcset="assets/vt/prop-calabresa-m.webp 360w, assets/vt/prop-calabresa-d.webp 560w" sizes="(max-width: 860px) 40vw, 18vw" alt="" width="560" height="560"></div>
-        <div class="prop prop--basil" data-sc-parallax="-0.7"><img src="assets/vt/prop-basil-m.webp" srcset="assets/vt/prop-basil-m.webp 360w, assets/vt/prop-basil-d.webp 560w" sizes="(max-width: 860px) 30vw, 14vw" alt="" width="560" height="560"></div>
-      </div>
-
       <div class="pizza" data-sc-tilt="4">
         <div class="pizza__spin">
-          <img class="L L-ball" src="assets/vt/ball-m.webp" srcset="assets/vt/ball-m.webp 960w, assets/vt/ball-d.webp 1440w" sizes="(max-width: 860px) 94vw, 44vw" alt="" width="1440" height="1440" fetchpriority="high">
-          <img class="L L-dough" src="assets/vt/dough-m.webp" srcset="assets/vt/dough-m.webp 960w, assets/vt/dough-d.webp 1440w" sizes="(max-width: 860px) 92vw, 44vw" alt="" width="1440" height="1440">
-          <img class="L L-sauce" src="assets/vt/sauce-m.webp" srcset="assets/vt/sauce-m.webp 960w, assets/vt/sauce-d.webp 1440w" sizes="(max-width: 860px) 92vw, 44vw" alt="" width="1440" height="1440" fetchpriority="low" decoding="async">
-          <img class="L L-c L-c1" src="assets/vt/cheese1-m.webp" srcset="assets/vt/cheese1-m.webp 960w, assets/vt/cheese1-d.webp 1440w" sizes="(max-width: 860px) 92vw, 44vw" alt="" width="1440" height="1440" fetchpriority="low" decoding="async">
-          <img class="L L-c L-c2" src="assets/vt/cheese2-m.webp" srcset="assets/vt/cheese2-m.webp 960w, assets/vt/cheese2-d.webp 1440w" sizes="(max-width: 860px) 92vw, 44vw" alt="" width="1440" height="1440" fetchpriority="low" decoding="async">
-          <img class="L L-c L-c3" src="assets/vt/cheese3-m.webp" srcset="assets/vt/cheese3-m.webp 960w, assets/vt/cheese3-d.webp 1440w" sizes="(max-width: 860px) 92vw, 44vw" alt="" width="1440" height="1440" fetchpriority="low" decoding="async">
-          <img class="L L-melt" src="assets/vt/melt-m.webp" srcset="assets/vt/melt-m.webp 960w, assets/vt/melt-d.webp 1440w" sizes="(max-width: 860px) 92vw, 44vw" alt="" width="1440" height="1440" fetchpriority="low" decoding="async">
-          <img class="L L-baked" src="assets/vt/baked-m.webp" srcset="assets/vt/baked-m.webp 960w, assets/vt/baked-d.webp 1440w" sizes="(max-width: 860px) 92vw, 44vw" alt="" width="1440" height="1440" fetchpriority="low" decoding="async">
+          <picture><source media="(max-width: 860px)" srcset="assets/vt/ball-m.webp"><img class="L L-ball" src="assets/vt/ball-d.webp" alt="" width="1440" height="1440" fetchpriority="high"></picture>
+          <picture><source media="(max-width: 860px)" srcset="assets/vt/dough-m.webp"><img class="L L-dough" src="assets/vt/dough-d.webp" alt="" width="1440" height="1440"></picture>
+          <picture><source media="(max-width: 860px)" srcset="assets/vt/sauce-m.webp"><img class="L L-sauce" src="assets/vt/sauce-d.webp" alt="" width="1440" height="1440" fetchpriority="low" decoding="async"></picture>
+          <picture><source media="(max-width: 860px)" srcset="assets/vt/cheese1-m.webp"><img class="L L-c L-c1" src="assets/vt/cheese1-d.webp" alt="" width="1440" height="1440" fetchpriority="low" decoding="async"></picture>
+          <picture><source media="(max-width: 860px)" srcset="assets/vt/cheese2-m.webp"><img class="L L-c L-c2" src="assets/vt/cheese2-d.webp" alt="" width="1440" height="1440" fetchpriority="low" decoding="async"></picture>
+          <picture><source media="(max-width: 860px)" srcset="assets/vt/cheese3-m.webp"><img class="L L-c L-c3" src="assets/vt/cheese3-d.webp" alt="" width="1440" height="1440" fetchpriority="low" decoding="async"></picture>
+          <picture><source media="(max-width: 860px)" srcset="assets/vt/melt-m.webp"><img class="L L-melt" src="assets/vt/melt-d.webp" alt="" width="1440" height="1440" fetchpriority="low" decoding="async"></picture>
+          <picture><source media="(max-width: 860px)" srcset="assets/vt/baked-m.webp"><img class="L L-baked" src="assets/vt/baked-d.webp" alt="" width="1440" height="1440" fetchpriority="low" decoding="async"></picture>
           <div class="drops" aria-hidden="true" data-drops></div>
-          <img class="L L-final" src="assets/vt/final-m.webp" srcset="assets/vt/final-m.webp 960w, assets/vt/final-d.webp 1440w" sizes="(max-width: 860px) 92vw, 44vw" alt="Pizza de calabresa vista de cima: borda dourada, mussarela derretida, calabresa fatiada, cebola, azeitona e orégano" width="1440" height="1440" fetchpriority="low" decoding="async">
+          <picture><source media="(max-width: 860px)" srcset="assets/vt/final-m.webp"><img class="L L-final" src="assets/vt/final-d.webp" alt="Pizza de calabresa vista de cima: borda dourada, mussarela derretida, calabresa fatiada, cebola, azeitona e orégano" width="1440" height="1440" fetchpriority="low" decoding="async"></picture>
         </div>
         <div class="glow" aria-hidden="true"></div>
         <div class="steam" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-      </div>
-
-      <div class="props props--near" aria-hidden="true">
-        <div class="prop prop--near-basil" data-sc-parallax="2.6"><img src="assets/vt/prop-basil-blur-m.webp" srcset="assets/vt/prop-basil-blur-m.webp 360w, assets/vt/prop-basil-blur-d.webp 560w" sizes="(max-width: 860px) 52vw, 26vw" alt="" width="560" height="560"></div>
-        <div class="prop prop--near-tomato" data-sc-parallax="2.2"><img src="assets/vt/prop-tomatoes-blur-m.webp" srcset="assets/vt/prop-tomatoes-blur-m.webp 360w, assets/vt/prop-tomatoes-blur-d.webp 560w" sizes="(max-width: 860px) 48vw, 24vw" alt="" width="560" height="560"></div>
       </div>
 
       <!-- The signature: the ticket prints a line as each layer lands, then
@@ -154,23 +142,6 @@
         <a class="btn btn--light btn--lg" href="#cardapio" data-order data-payoff-cta data-sc-magnet="0.24">
           <svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg><span>Fazer pedido</span>
         </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ======================================================= PUXA ====
-       A short pinned beat: the slice lifts and the cheese stretches. One
-       photo wipes into its edit from the bottom up, so the strands grow
-       before the lifted slice appears. -->
-  <section id="puxa" class="pull" data-sc-act="pin" data-sc-span="1.7" aria-labelledby="pull-title">
-    <div data-sc-stage class="pl">
-      <div class="pl__frame">
-        <img class="pl__a" src="assets/scene/pull-1-m.webp" srcset="assets/scene/pull-1-m.webp 720w, assets/scene/pull-1-d.webp 1024w" sizes="(max-width: 860px) 100vw, 62svh" alt="Pizza de calabresa recém-saída do forno, com uma fatia já cortada" width="1024" height="1536" loading="lazy" decoding="async">
-        <img class="pl__b" src="assets/scene/pull-2-m.webp" srcset="assets/scene/pull-2-m.webp 720w, assets/scene/pull-2-d.webp 1024w" sizes="(max-width: 860px) 100vw, 62svh" alt="" width="1024" height="1536" loading="lazy" decoding="async">
-      </div>
-      <div class="beat beat--pull" data-sc-cue="0 1 0 0">
-        <h2 id="pull-title" class="display display--beat">Chega puxando fio.</h2>
-        <p class="lede">A fatia sai e o queijo vem junto.</p>
       </div>
     </div>
   </section>
