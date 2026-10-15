@@ -1,4 +1,4 @@
-# Planeta Pizza · cardápio online (demo)
+# Planeta Pizza · cardápio online
 
 Site estático, sem build: `index.html`, `site.css`, `site.js` e o motor do
 ScrollCraft (`scrollcraft.js` / `scrollcraft.css`, sem edição).
@@ -26,31 +26,32 @@ ingrediente da V6 para cair no lugar certo. O `scenes.py` alinha a fatia
 levantada com a pizza inteira, encaixa a caixa fechada no contorno da aberta e
 recorta o motoboy. `--check` no ingest mostra o que falta.
 
-Já são fotos do ChatGPT: a vitrine inteira (V1 a V6), o queijo puxando, a
-caixa, o motoboy, a rua, a capa da loja e a calabresa do cardápio. Ainda são
-provisórios: as outras fotos do cardápio (M), os ingredientes soltos da
-vitrine (P) e a imagem de compartilhamento (S).
+Já são fotos do ChatGPT: a vitrine inteira (V1 a V6), a caixa, o motoboy, a
+rua, a capa da loja e a calabresa do cardápio. Ainda são ilustrações
+provisórias: muçarela, marguerita, frango catupiry, 4 queijos e banana no
+cardápio. Os outros sabores aparecem sem foto até chegar uma foto de verdade.
 
 ## Partes da página
 
 1. **Vitrine**: a pizza se monta no scroll, a comanda imprime e leva o
-   carimbo; fecha em "Pizzas a partir de R$ 38".
-2. **Puxa**: a fatia sobe e o queijo estica.
-3. **Loja**: capa, busca, destaques, abas e itens no formato dos apps de
-   delivery. Cada item abre uma janela com meio a meio, borda, observação e
-   quantidade.
-4. **Entrega**: a caixa fecha, leva o carimbo, vira a bag do motoboy e ele
+   carimbo; fecha em "Pizzas a partir de R$ 32" e passa direto para a loja.
+2. **Loja**: capa, busca, destaques, abas e itens no formato dos apps de
+   delivery. Cada item abre uma janela com as opções dele (meio a meio, borda,
+   acréscimos, molho), observação e quantidade.
+3. **Entrega**: a caixa fecha, leva o logo, vira a bag do motoboy e ele
    atravessa a rua.
-5. **Comanda**: o pedido do visitante (também abre como gaveta pelo botão
-   "Ver comanda").
+4. **Comanda**: o pedido do visitante, com a taxa de entrega (também abre
+   como gaveta pelo botão "Ver comanda").
 
 ## Configuração e integrações
 
-- **WhatsApp:** no fim do `index.html`, em
-  `<script type="application/json" id="planeta-config">`, preencha
-  `"whatsapp"` com o número oficial só com dígitos, com DDI e DDD.
+- **WhatsApp e taxa de entrega:** no fim do `index.html`, em
+  `<script type="application/json" id="planeta-config">`.
+  - `"whatsapp"`: só dígitos, com DDI e DDD. Hoje é o da loja na Anotaí,
+    (34) 98408-9429 (`553484089429`).
+  - `"entrega"`: a taxa única da loja na Anotaí, R$ 10.
   - Com o número, os botões "Fazer pedido no WhatsApp" abrem a conversa, e o
-    "Fazer pedido" da comanda manda a comanda pronta pelo WhatsApp.
+    "Fazer pedido" da comanda manda a comanda pronta (itens, entrega e total).
   - Vazio, os botões ficam no lugar e avisam que o número ainda não foi
     informado. Nenhum contato é inventado.
 - **Pedido pelo site (Anotaí, etapa separada):** a integração registra
@@ -60,21 +61,43 @@ vitrine (P) e a imagem de compartilhamento (S).
     mostra "Pedido recebido!" com o número e a previsão.
   - Também dá para chamar `PlanetaPizza.pedidoRecebido({ numero, previsao })`
     diretamente, mas só depois da confirmação real.
-- **Logo:** a marca ainda é provisória. O símbolo `#i-mark` no `index.html` é
-  usado na barra, no cartão da loja, no carimbo da caixa e no rodapé, e o
-  ícone da aba é `assets/logo.svg`. Troque os dois pelo arquivo oficial.
+- **Logo:** `assets/logo.jpg` é o arquivo oficial da loja na Anotaí, sem
+  nenhuma alteração. Aparece na barra, no cartão da loja, na tampa da caixa,
+  no rodapé e como ícone da aba.
 
-## O que é de exemplo e precisa ser confirmado com a pizzaria
+## Cardápio (vem da Anotaí)
 
-- **Preços** e sabores: no `index.html` (cada item tem o preço no texto e em
-  `data-price`). As bordas recheadas (+ R$ 8,00) estão em `BORDAS` no
-  `site.js`. A regra do meio a meio (vale o sabor mais caro) também.
-- **Horário**: `HOURS` no começo do `site.js` (o selo "Aberto agora" usa o
-  horário de Brasília).
-- **Logo**: provisório (`assets/logo.svg` e o símbolo `#i-mark` no
-  `index.html`). Trocar pelo logo real.
-- **Cor**: o vermelho está em `--red` no topo do `site.css`. Ajustar pelo logo.
-- **Textos** com promessas da casa ("massa aberta na hora", "molho da casa"):
-  confirmar com o dono.
-- O botão final de pedido mostra um aviso de demonstração: o carrinho e o
-  checkout são a próxima etapa.
+O cardápio é o da loja oficial,
+[pedido.anota.ai/loja/anotaai-planeta-pizza](https://pedido.anota.ai/loja/anotaai-planeta-pizza),
+lido em 15/10/2026.
+
+- `dados/anotai-menu.txt`: o cardápio como a Anotaí entrega, uma linha por
+  registro: categorias, produtos, bordas, acréscimos e molhos, com os preços.
+- `python3 tools/cardapio.py`: refaz os itens, as abas, os destaques e as
+  opções no `index.html` (entre os comentários `cardapio`, `destaques` e
+  `opcoes`) e grava `dados/cardapio.json`, legível.
+  - Não cria produto, preço nem descrição. Só arruma a grafia das opções
+    ("Crean cheese", "Acrésscimo") e deixa de fora o que a loja pausou.
+  - Ele confere que o meio a meio da Anotaí usa os mesmos sabores, bordas e
+    acréscimos, e que a regra continua "vale o sabor mais caro". Se a loja
+    mudar isso, ele para com um erro em vez de gerar um cardápio errado.
+- Para atualizar preços: troque o `dados/anotai-menu.txt` pelo novo e rode o
+  script.
+
+Regras da Anotaí que o site segue:
+
+- **Pizza:** 8 fatias. Meio a meio com qualquer outro sabor, salgado ou doce,
+  pelo preço do mais caro.
+- **Bordas:** a pizza doce inteira tem a lista própria dela (cream cheese
+  R$ 8). As outras pizzas usam a lista geral (cream cheese R$ 12).
+- **Acréscimos:** em qualquer pizza, menos na doce inteira.
+- **Planeta Cone:** 1 molho à escolha (obrigatório), com acréscimos opcionais.
+- **Horário:** todos os dias, das 17h45 às 23h (`HOURS` no `site.js`).
+- **Entrega:** de 45 a 60 min, taxa de R$ 10.
+
+## A confirmar com a pizzaria
+
+- **Fotos** dos sabores sem foto e das ilustrações provisórias.
+- **Calabresa Barbecue:** na Anotaí ela tem a mesma descrição da Calabresa
+  Cheese (com cream cheese, sem barbecue). O site repete o que está lá.
+- **Textos** com promessas da casa ("massa aberta na hora", "molho da casa").

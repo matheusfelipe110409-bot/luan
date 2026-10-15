@@ -23,3 +23,10 @@ esta pasta com estes nomes:
 
 Ainda faltam: M1 a M11 (fotos do cardápio; hoje só a calabresa é foto, tirada
 da V6), Q3, B1 a B3 (bebidas), P1 a P5 (ingredientes da vitrine) e S1.
+
+## Logo oficial
+
+`assets/logo.jpg` é a logo da loja na Anotaí, baixada de
+`client-assets.anota.ai/establishment-logos/698a0cf70a7d52a75540492d1789662643938blob`
+em 15/10/2026 e usada sem nenhuma alteração (JPEG 200 × 200, sha1
+`a7ba14d0de3dbc38c072ba636f9edfc01011868b`).

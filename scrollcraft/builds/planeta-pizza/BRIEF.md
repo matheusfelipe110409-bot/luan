@@ -462,3 +462,39 @@ site ficou intacto.
 - O link do Anotaí: veio "[INSERIR LINK AQUI]", e anota.ai está bloqueado
   neste ambiente.
 - A integração do pedido.
+
+## Revisão 6: cardápio, logo e contato da Anotaí
+
+**Pedido**
+
+- O cliente mandou o link da loja na Anotaí e pediu para "pegar todas as
+  informações e preços e adicionais finais".
+- A leitura foi pela API pública da própria loja, e o texto foi conferido
+  letra por letra com o original (sha1).
+
+**Feitos**
+
+- **Cardápio completo:** 31 pizzas salgadas, 5 doces, 25 esfihas, 9 Planeta
+  Cone e 9 bebidas, com os nomes, descrições e preços da Anotaí.
+  - Saíram os sabores de exemplo que a pizzaria não tem: portuguesa,
+    pepperoni, bacon, chocolate com morango e Romeu e Julieta (que só existe
+    em esfiha).
+  - Os sabores que já tinham imagem continuam com ela.
+- **Opções:** meio a meio, bordas, acréscimos e molhos, com as regras de
+  preço da Anotaí (`README.md`, seção Cardápio).
+- **Logo oficial:** em todos os lugares do logo provisório. O arquivo é o da
+  Anotaí, sem alteração.
+- **WhatsApp:** o número oficial da loja, (34) 98408-9429.
+- **Horário, prazo e taxa:**
+  - 17h45 às 23h, todos os dias;
+  - entrega de 45 a 60 min;
+  - taxa de R$ 10, que entra no total da comanda.
+- **"A partir de":** R$ 32, o preço da pizza mais barata (muçarela e
+  marguerita). O cliente tinha pedido R$ 38 antes de haver dados reais.
+- **Tamanho:** "Grande" saiu. A Anotaí só diz "8 fatias".
+
+**Fora do site por estarem pausados na Anotaí**
+
+- Franbacon no Cone.
+- Coca-Cola Zero Mini.
+- Molho de bacon.

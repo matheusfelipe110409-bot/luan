@@ -86,7 +86,7 @@ body { background: var(--seam); color: var(--on-red); }
   box-shadow: 0 1px 0 color-mix(in oklab, #000 18%, transparent), 0 10px 24px -18px rgb(60 0 4 / 0.9);
 }
 .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--on-red); text-decoration: none; margin-right: auto; }
-.brand__mark { width: 36px; height: 36px; color: var(--on-red); --mark-dot: var(--red); }
+.brand__mark { display: block; width: 36px; height: 36px; border-radius: 22%; object-fit: cover; }
 .brand__name { font-family: var(--sc-font-display); font-stretch: 80%; font-weight: 600; font-size: 1.32rem; letter-spacing: -0.01em; line-height: 1; }
 /* narrow desktops: the two order buttons need the room; the open sign is
    still on the store card */
@@ -352,6 +352,13 @@ body { background: var(--seam); color: var(--on-red); }
 .ticket__head span:last-child { font-size: 0.86em; opacity: 0.75; }
 .ticket__lines { list-style: none; margin: 0; padding: 0; }
 .ticket__lines li { display: grid; grid-template-columns: 2.2em 1fr; gap: 0 4px; padding: 3px 0; text-transform: uppercase; letter-spacing: 0.02em; line-height: 1.32; }
+.ticket__fee {
+  display: flex; justify-content: space-between; gap: 12px; margin: 12px 0 -4px; padding-top: 10px;
+  border-top: 1.5px dashed color-mix(in oklab, var(--thermal) 45%, transparent);
+  text-transform: uppercase; letter-spacing: 0.04em; font-variant-numeric: tabular-nums;
+}
+.ticket__fee[hidden] { display: none; }
+.ticket__fee + .ticket__total { border-top: 0; }
 .ticket__total {
   display: flex; justify-content: space-between; gap: 12px; margin: 12px 0 0; padding-top: 10px;
   border-top: 1.5px dashed color-mix(in oklab, var(--thermal) 45%, transparent);
@@ -504,19 +511,16 @@ body { background: var(--seam); color: var(--on-red); }
   opacity: calc(clamp(0, var(--lid) * 12, 1) * clamp(0, (1 - var(--lid)) * 12, 1));
   pointer-events: none;
 }
+/* the house logo, printed on the lid (the official file, untouched) */
 .rd__stamp {
   position: absolute; left: 50%; top: 47%; margin: 0;
-  display: flex; flex-direction: column; align-items: center; gap: 0.18em;
-  padding: 0.5em 0.9em 0.45em;
-  border: 0.14em solid currentColor; border-radius: 0.45em;
-  color: #F3E3D2;
-  font: 800 calc(var(--bw) * 0.072)/0.9 var(--sc-font-display); font-stretch: 76%; text-transform: uppercase; letter-spacing: 0.02em; white-space: nowrap;
-  -webkit-mask: url(assets/stamp-ink.webp) center / cover;
-          mask: url(assets/stamp-ink.webp) center / cover;
+  width: calc(var(--bw) * 0.34); aspect-ratio: 1;
+  border-radius: 14%; overflow: hidden;
+  box-shadow: 0 0 0 calc(var(--bw) * 0.008) rgb(243 227 210 / 0.55);
   opacity: 0;
   transform: translate(-50%, -50%) rotate(-9deg) scale(2.2);
 }
-.rd__stamp svg { width: 2.3em; height: 2.3em; color: currentColor; --mark-dot: #7E0E13; }
+.rd__stamp img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .rd__box.is-stamped .rd__stamp { animation: box-stamp 360ms cubic-bezier(0.25, 1.4, 0.5, 1) forwards; }
 @keyframes box-stamp {
   0%   { opacity: 0; transform: translate(-50%, -50%) rotate(-20deg) scale(2.3); }
@@ -585,10 +589,10 @@ body { background: var(--seam); color: var(--on-red); }
   width: 88px; height: 88px; margin-top: -44px;
   display: grid; place-items: center;
   border-radius: 50%; border: 4px solid var(--app);
-  background: var(--red); color: var(--on-red); --mark-dot: var(--red);
+  background: var(--red); overflow: hidden;
   box-shadow: 0 8px 18px -8px rgb(60 0 4 / 0.55);
 }
-.loja__logo svg { width: 58px; height: 58px; }
+.loja__logo img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .loja__id { padding-top: 12px; }
 .loja__nome { margin: 0; font: 800 clamp(1.75rem, 1.3rem + 1.6vw, 2.7rem)/1 var(--sc-font-display); font-stretch: 82%; letter-spacing: -0.02em; }
 .loja__meta { margin: 6px 0 0; color: var(--ink-soft); font-size: 0.95rem; }
@@ -620,6 +624,7 @@ body { background: var(--seam); color: var(--on-red); }
 .busca__box input::placeholder { color: var(--ink-soft); opacity: 1; }
 
 .cat__title { margin: 0 0 4px; font: 800 clamp(1.4rem, 1.2rem + 0.9vw, 2rem)/1 var(--sc-font-display); font-stretch: 82%; letter-spacing: -0.02em; }
+.cat__note { margin: 6px 0 0; font-size: 0.92rem; line-height: 1.4; color: var(--ink-soft); }
 .destaques { margin-top: 28px; }
 .rail {
   list-style: none; display: flex; gap: 14px;
@@ -783,6 +788,10 @@ dialog::backdrop { background: rgb(24 6 6 / 0.58); }
   border: 2px solid #CBB9B2; background: #fff; cursor: pointer;
 }
 .opt input:checked { border-color: var(--red-ink); background: radial-gradient(circle, var(--red-ink) 0 5px, #fff 5.5px); }
+.opt input[type="checkbox"] { border-radius: 6px; }
+.opt input[type="checkbox"]:checked {
+  background: var(--red-ink) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / 15px no-repeat;
+}
 .opt input:focus-visible { outline: 3px solid var(--red-ink); outline-offset: 2px; }
 .obs { margin-top: 24px; }
 .obs__head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin: 0 0 8px; font-weight: 650; }
@@ -940,7 +949,6 @@ dialog::backdrop { background: rgb(24 6 6 / 0.58); }
   .item__desc { font-size: 0.88rem; }
   .loja__capa { height: auto; aspect-ratio: 3 / 2; }   /* the whole photo, uncut */
   .loja__logo { width: 76px; height: 76px; margin-top: -38px; }
-  .loja__logo svg { width: 50px; height: 50px; }
   .loja__head { gap: 4px 14px; }
   .loja__info { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-inline: calc(-1 * var(--gut)); padding-inline: var(--gut); }
   .loja__info::-webkit-scrollbar { display: none; }

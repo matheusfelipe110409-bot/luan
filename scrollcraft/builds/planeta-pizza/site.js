@@ -13,8 +13,8 @@
   var vt = vit.querySelector('.vt');
 
   // ------------------------------------------------------------ data ----
-  // Placeholder hours and prices for the demo. One place to change them.
-  var HOURS = { open: 18 * 60, close: 23 * 60 + 30, label: '23h30', opensLabel: '18h' };
+  // Opening hours as the store has them on Anotaí: every day, 17h45 to 23h.
+  var HOURS = { open: 17 * 60 + 45, close: 23 * 60, label: '23h', opensLabel: '17h45' };
   var BRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
   var money = function (v) { return BRL.format(v); };
 
@@ -343,8 +343,8 @@
   }
 
   // ------------------------------------------------------------- menu ----
-  // Every row carries its own data. The cart and checkout are a later step
-  // of the project: here the order only has to feel right, nothing is sent.
+  // Every row carries its own data (generated from the Anotaí menu by
+  // tools/cardapio.py, like the bordas, acréscimos and molhos below).
   var rows = {};
   Array.prototype.forEach.call(document.querySelectorAll('[data-item]'), function (li) {
     rows[li.getAttribute('data-item')] = {
@@ -354,15 +354,23 @@
       kind: li.getAttribute('data-kind'),
       img: li.getAttribute('data-img'),
       alt: (li.querySelector('.item__img') || {}).alt || '',
-      desc: li.querySelector('.item__desc').textContent,
+      desc: (li.querySelector('.item__desc') || {}).textContent || '',
       choiceLabel: li.getAttribute('data-choice-label'),
       choices: li.getAttribute('data-choices') ? li.getAttribute('data-choices').split('|') : null
     };
   });
-  var BORDAS = {
-    salgada: [['Catupiry', 8], ['Cheddar', 8]],
-    doce: [['Chocolate', 8]]
-  };
+  var OPC = { bordas: {}, acrescimos: {}, cone: {} };
+  try { OPC = JSON.parse(document.getElementById('planeta-opcoes').textContent) || OPC; } catch (e) {}
+  var isPizza = function (it) { return it.kind === 'salgada' || it.kind === 'doce'; };
+  // Anotaí: a whole pizza doce has its own bordas and no acréscimos; any
+  // other pizza (salgada, or meio a meio) takes the pizza lists.
+  function pizzaLists(it, half) {
+    var doceInteira = it.kind === 'doce' && !half;
+    return {
+      bordas: (doceInteira ? OPC.bordas.doce : OPC.bordas.pizza) || [],
+      acrescimos: doceInteira ? [] : (OPC.acrescimos.pizza || [])
+    };
+  }
 
   // ------------------------------------------------------------ sheet ----
   var sheet = document.getElementById('sheet');
@@ -384,10 +392,10 @@
     if (text != null) n.textContent = text;
     return n;
   }
-  function group(name, title, hint, required, options) {
-    // options: [{value, label, extra, checked}]
+  function group(name, title, hint, required, options, multi) {
+    // options: [{value, label, extra, checked}]; multi: checkboxes, not radios
     var g = el('div', 'grp');
-    g.setAttribute('role', 'radiogroup');
+    g.setAttribute('role', multi ? 'group' : 'radiogroup');
     g.setAttribute('data-grp', name);
     if (required) g.setAttribute('data-required', '');
     var head = el('div', 'grp__head');
@@ -403,7 +411,7 @@
     options.forEach(function (o, i) {
       var lab = el('label', 'opt');
       var inp = document.createElement('input');
-      inp.type = 'radio';
+      inp.type = multi ? 'checkbox' : 'radio';
       inp.name = name;
       inp.value = o.value;
       inp.checked = !!o.checked;
@@ -421,14 +429,49 @@
     var c = sheetForm.querySelector('input[name="' + name + '"]:checked');
     return c ? c.value : '';
   }
+  function pickedAll(name) {
+    return Array.prototype.map.call(sheetForm.querySelectorAll('input[name="' + name + '"]:checked'), function (c) { return c.value; });
+  }
+  function priceOf(list, name) {
+    var v = 0;
+    (list || []).forEach(function (x) { if (x[0] === name) v = x[1]; });
+    return v;
+  }
+  function extrasList() {
+    if (!cur) return [];
+    if (isPizza(cur)) return pizzaLists(cur, picked('meia')).acrescimos;
+    if (cur.kind === 'cone') return OPC.cone.acrescimos || [];
+    return [];
+  }
   function unitPrice() {
     if (!cur) return 0;
     var p = cur.price;
-    var half = picked('meia');
-    if (half && rows[half]) p = Math.max(p, rows[half].price);
-    var b = picked('borda');
-    (BORDAS[cur.kind] || []).forEach(function (x) { if (x[0] === b) p += x[1]; });
+    if (isPizza(cur)) {
+      var half = picked('meia');
+      if (half && rows[half]) p = Math.max(p, rows[half].price);   // Anotaí: the dearer flavour
+      p += priceOf(pizzaLists(cur, half).bordas, picked('borda'));
+    }
+    var extras = extrasList();
+    pickedAll('acrescimo').forEach(function (a) { p += priceOf(extras, a); });
     return p;
+  }
+  // bordas and acréscimos for the pizza as it stands (whole or meio a meio);
+  // rebuilt when a pizza doce turns meio a meio, keeping what still applies
+  function pizzaExtras() {
+    var keepB = picked('borda'), keepA = pickedAll('acrescimo');
+    var old = sheetGroups.querySelectorAll('[data-grp="borda"], [data-grp="acrescimo"]');
+    Array.prototype.forEach.call(old, function (g) { g.remove(); });
+    var L = pizzaLists(cur, picked('meia'));
+    var bordas = [{ value: '', label: 'Sem borda recheada', checked: true }];
+    L.bordas.forEach(function (b) {
+      bordas.push({ value: b[0], label: 'Borda de ' + b[0], extra: '+ ' + money(b[1]), checked: b[0] === keepB });
+    });
+    if (bordas.some(function (b, i) { return i && b.checked; })) bordas[0].checked = false;
+    sheetGroups.appendChild(group('borda', 'Borda recheada', null, false, bordas));
+    if (L.acrescimos.length) {
+      sheetGroups.appendChild(group('acrescimo', 'Acréscimos', 'Escolha quantos quiser', false,
+        L.acrescimos.map(function (a) { return { value: a[0], label: a[0], extra: '+ ' + money(a[1]), checked: keepA.indexOf(a[0]) > -1 }; }), true));
+    }
   }
   function paintSheet() {
     var u = unitPrice();
@@ -443,26 +486,30 @@
     cur = it; qty = 1; opener = from || null;
     sheet.querySelector('[data-sheet-name]').textContent = it.name;
     sheet.querySelector('[data-sheet-desc]').textContent = it.desc;
-    sheet.querySelector('[data-sheet-meta]').textContent = it.kind === 'bebida' ? '' : 'Grande · 8 fatias';
+    sheet.querySelector('[data-sheet-meta]').textContent = isPizza(it) ? '8 fatias' : '';
     sheet.querySelector('[data-sheet-price]').textContent = money(it.price);
     if (it.img) { sheetImg.src = it.img; sheetImg.alt = it.alt; }
     else { sheetImg.removeAttribute('src'); sheetImg.alt = ''; }
     sheetMedia.classList.toggle('is-empty', !it.img);
     sheet.classList.toggle('is-plain', !it.img);
     sheetGroups.textContent = '';
-    if (it.kind === 'bebida' && it.choices) {
+    if (it.choices) {
       sheetGroups.appendChild(group('opcao', it.choiceLabel || 'Escolha', 'Escolha 1 opção', true,
         it.choices.map(function (c) { return { value: c, label: c }; })));
-    } else {
+    } else if (isPizza(it)) {
+      // Anotaí's meio a meio: any two of the pizza flavours, salgada or doce
       var halves = [{ value: '', label: 'Não, pizza inteira', checked: true }];
       Object.keys(rows).forEach(function (k) {
         var r = rows[k];
-        if (r.kind === it.kind && r.id !== it.id) halves.push({ value: r.id, label: 'Meia ' + r.name, extra: money(r.price) });
+        if (isPizza(r) && r.id !== it.id) halves.push({ value: r.id, label: 'Meia ' + r.name, extra: money(r.price) });
       });
       sheetGroups.appendChild(group('meia', 'Quer meio a meio?', 'Vale o preço do sabor mais caro', false, halves));
-      var bordas = [{ value: '', label: 'Sem borda recheada', checked: true }];
-      (BORDAS[it.kind] || []).forEach(function (b) { bordas.push({ value: b[0], label: 'Borda de ' + b[0], extra: '+ ' + money(b[1]) }); });
-      sheetGroups.appendChild(group('borda', 'Borda recheada', null, false, bordas));
+      pizzaExtras();
+    } else if (it.kind === 'cone') {
+      sheetGroups.appendChild(group('molho', 'Escolha o molho', 'Escolha 1 opção', true,
+        (OPC.cone.molhos || []).map(function (m) { return { value: m, label: m }; })));
+      sheetGroups.appendChild(group('acrescimo', 'Acréscimos', 'Escolha quantos quiser', false,
+        (OPC.cone.acrescimos || []).map(function (a) { return { value: a[0], label: a[0], extra: '+ ' + money(a[1]) }; }), true));
     }
     obs.value = '';
     sheetForm.querySelector('.sheet__body').scrollTop = 0;
@@ -487,6 +534,7 @@
   sheetForm.addEventListener('change', function (e) {
     var g = e.target.closest('[data-grp]');
     if (g) g.classList.remove('is-missing');
+    if (cur && cur.kind === 'doce' && e.target.name === 'meia') pizzaExtras();
     paintSheet();
   });
   obs.addEventListener('input', paintSheet);
@@ -509,14 +557,16 @@
       toast('Escolha uma opção em “' + missing.querySelector('.grp__title').textContent + '”.');
       return;
     }
-    var half = picked('meia'), borda = picked('borda'), opt = picked('opcao'), note = obs.value.trim();
+    var half = picked('meia'), borda = picked('borda'), opt = picked('opcao') || picked('molho');
+    var extras = pickedAll('acrescimo'), note = obs.value.trim();
     var name = half && rows[half] ? 'Meia ' + cur.name + ' / meia ' + rows[half].name : cur.name;
     var details = [];
     if (opt) details.push(opt);
     if (borda) details.push('Borda de ' + borda);
+    if (extras.length) details.push('Acréscimos: ' + extras.join(', '));
     if (note) details.push('Obs.: ' + note);
     addToCart({
-      key: [cur.id, half, borda, opt, note].join('|'),
+      key: [cur.id, half, borda, opt, extras.join('+'), note].join('|'),
       id: cur.id, name: name, details: details, unit: unitPrice()
     }, qty);
     closeSheet();
@@ -534,10 +584,16 @@
   var drawer = document.getElementById('drawer');
   var drawerOpener = null;
 
+  // the store's one delivery fee (Anotaí), from #planeta-config; read here,
+  // before the whatsapp block below parses the same config for the number
+  var FEE = 0;
+  try { FEE = +JSON.parse(document.getElementById('planeta-config').textContent).entrega || 0; } catch (e) {}
+  var feeEls = document.querySelectorAll('[data-fee]');
   function totals() {
     var q = 0, sum = 0;
     cart.forEach(function (it) { q += it.qty; sum += it.qty * it.unit; });
-    return { qty: q, sum: sum };
+    var fee = q ? FEE : 0;
+    return { qty: q, sum: sum, fee: fee, total: sum + fee };
   }
   function itemsLabel(q) { return q === 1 ? '1 item' : q + ' itens'; }
 
@@ -576,7 +632,11 @@
     sumEls.forEach(function (n) { n.hidden = t.qty === 0; n.textContent = itemsLabel(t.qty) + ', ' + money(t.sum); });
     orderLabels.forEach(function (n) { n.textContent = t.qty ? 'Ver comanda' : 'Fazer pedido'; });
     orderLinks.forEach(function (a) { a.setAttribute('href', t.qty ? '#comanda' : '#cardapio'); });
-    totalEls.forEach(function (n) { n.textContent = money(t.sum); });
+    totalEls.forEach(function (n) { n.textContent = money(t.total); });
+    feeEls.forEach(function (n) {
+      n.hidden = !t.fee;
+      n.querySelector('[data-fee-value]').textContent = money(t.fee);
+    });
     emptyBox.hidden = t.qty > 0;
     linesHosts.forEach(function (host) {
       host.textContent = '';
@@ -671,7 +731,9 @@
     var linhas = cart.map(function (it) {
       return it.qty + 'x ' + it.name + (it.details.length ? ' (' + it.details.join(', ') + ')' : '') + ': ' + money(it.qty * it.unit);
     });
-    return 'Olá, Planeta Pizza! Quero fazer este pedido:\n' + linhas.join('\n') + '\nTotal: ' + money(totals().sum);
+    var t = totals();
+    return 'Olá, Planeta Pizza! Quero fazer este pedido:\n' + linhas.join('\n') +
+      (t.fee ? '\nEntrega: ' + money(t.fee) : '') + '\nTotal: ' + money(t.total);
   }
   var sending = false;
   function finalizar(btn) {
@@ -683,7 +745,9 @@
       toast('Enviando o seu pedido...');
       var pedido = {
         itens: cart.map(function (it) { return { id: it.id, nome: it.name, detalhes: it.details.slice(), quantidade: it.qty, unitario: it.unit }; }),
-        total: totals().sum
+        subtotal: totals().sum,
+        entrega: totals().fee,
+        total: totals().total
       };
       Promise.resolve(api.enviarPedido(pedido)).then(function (res) {
         if (res && res.recebido) {

@@ -1,0 +1,208 @@
+C|Pizza Salgada|pizza
+I|Pizza salgada|Pizza com 1 sabor e 8 fatias|0|32||698dcef6742bfa3d228a0b11,1,1,2;698dcef6742bfa3d228a0b3b,0,1,0;698dcef7742bfa3d228a0b66,0,99,0
+C|Pizzas Meio a Meio|pizza
+I|Pizza|Pizza com até 2 sabores e 8 fatias|0|32||698dceed8533c09654a8c074,1,2,2;698dcedd1b1a021d1dcbd895,0,10,0;698dced2203589efc9636b6b,0,1,0
+C|Pizza Doce|pizza
+I|Pizza Doce|Pizza com 1 sabor e 8 fatias|0|45||698dcf0d203589efc9637558,1,1,2;698dcf0d203589efc9637582,0,1,0
+C|Esfihas|simple_item
+I|Esfiha 4 Queijos|Muçarela, catupiry, parmesão e provolone|7|||
+I|Esfiha 5 Queijos|Muçarela, catupiry, parmesão, provolone e cheddar|7|||
+I|Esfiha Alho|Muçarela, parmesão, alho|7|||
+I|Esfiha Bacon|Bacon, catupiry e muçarela|7|||
+I|Esfiha Bacon Cheddar|Bacon, cheddar e muçarela|7|||
+I|Esfiha Calabresa|Calabresa e muçarela|7|||
+I|Esfiha Franbacon|Frango, bacon e muçarela|7|||
+I|Esfiha Frango Catupiry|Frango, catupiry e milho|7|||
+I|Esfiha Franqueijo|Frango, muçarela, milho|7|||
+I|Esfiha Lombo Canadense|Lombo canadense e muçarela|7|||
+I|Esfiha Marguerita|Muçarela, parmesão, tomate e manjericão|7|||
+I|Esfiha Milho|Milho e muçarela|7|||
+I|Esfiha Palmito|Palmito e muçarela|7|||
+I|Esfiha Pizza|Presunto, muçarela e orégano|7|||
+I|Esfiha Queijo|Muçarela|7|||
+I|Esfiha Banana|Banana, muçarela, leite condensado e canela.|8|||
+I|Esfiha Banana Choco|Banana, muçarela, chocolate e leite condensado.|8|||
+I|Esfiha Brigadeiro|Chocolate, muçarela, granulado e leite condensado.|8|||
+I|Esfiha Confete|Confete, chocolate e muçarela.|8|||
+I|Esfiha Cupim|Cupim desfiado, muçarela, catupiry|8|||
+I|Esfiha Prestígio|Chocolate, muçarela, coco ralado e leite condensado.|8|||
+I|Esfiha Romeu e Julieta|Muçarela e goiabada.|8|||
+I|Esfiha Bacon Cream Cheese|Bacon, muçarela, cream cheese|9|||
+I|Esfiha Cream Cheese|Frango, cream cheese|9|||
+I|Esfiha Planeta Pizza|Frango, cupim, calabresa, bacon, muçarela, milho e tomate|13|||
+C|Planeta Cone|simple_item
+I|Batata Palito no Cone||7|||6990a0a05e72d24f8049fbc9,1,1,0;6990a1b2fc85670d37b59e82,0,19,0
+I|Batata Palito com Calabresa no Cone||9|||6990a0a05e72d24f8049fbc9,1,1,0;6990a1b2fc85670d37b59e82,0,19,0
+I|Batata Palito com Muçarela no Cone||9|||6990a0a05e72d24f8049fbc9,1,1,0;6990a1b2fc85670d37b59e82,0,19,0
+I|Batata Palito com Cheddar e Bacon no Cone||12|||6990a0a05e72d24f8049fbc9,1,1,0;6990a1b2fc85670d37b59e82,0,19,0
+I|Churros no Cone no Cone||12|||6990a0a05e72d24f8049fbc9,1,1,0;6990a1b2fc85670d37b59e82,0,19,0
+I|Bolinha de Queijo no Cone||14|||6990a0a05e72d24f8049fbc9,1,1,0;6990a1b2fc85670d37b59e82,0,19,0
+I|Bolinho de Arroz com Muçarela no Cone||14|||6990a0a05e72d24f8049fbc9,1,1,0;6990a1b2fc85670d37b59e82,0,19,0
+I|Coxinha de Frango com Catupiry no Cone||14|||6990a0a05e72d24f8049fbc9,1,1,0;6990a1b2fc85670d37b59e82,0,19,0
+I|Franbacon no Cone||14||X|6990a0a05e72d24f8049fbc9,1,1,0;6990a1b2fc85670d37b59e82,0,19,0
+I|Quibe com Muçarela no Cone||14|||6990a0a05e72d24f8049fbc9,1,1,0;6990a1b2fc85670d37b59e82,0,19,0
+C|Refrigerantes|simple_item
+I|Água sem Gás||3|||
+I|Água com Gás||4|||
+I|Coca Cola Zero Mini||3.5||X|
+I|Coca Cola 1l||8|||
+I|Coca Cola Zero 1l||8|||
+I|Coca Cola 2l||12|||
+I|Coca Cola Zero 2l||12|||
+I|Kuat 2l||10|||
+I|Fanta 1l||8|||
+I|Fanta Laranja 2l||12|||
+A|698dcda5a737358d1ea7501e|Selecione|simple_item
+O|Esfiha Alho|Muçarela, parmesão, alho|0|
+O|Esfiha Cupim|Cupim desfiado, muçarela, catupiry|0|
+O|Esfiha Queijo|Muçarela|0|
+O|Esfiha 4 Queijos|Muçarela, catupiry, parmesão e provolone|0|
+O|Esfiha 5 Queijos|Muçarela, catupiry, parmesão, provolone e cheddar|0|
+O|Esfiha Franqueijo|Frango, muçarela, milho|0|
+O|Esfiha Frango Catupiry|Frango, catupiry e milho|0|
+O|Esfiha Franbacon|Frango, bacon e muçarela|0|
+O|Esfiha Pizza|Presunto, muçarela e orégano|0|
+O|Esfiha Calabresa|Calabresa e muçarela|0|
+O|Esfiha Palmito|Palmito e muçarela|0|
+O|Esfiha Lombo Canadense|Lombo canadense e muçarela|0|
+O|Esfiha Milho|Milho e muçarela|0|
+O|Esfiha Bacon Cheddar|Bacon, cheddar e muçarela|0|
+O|Esfiha Bacon|Bacon, catupiry e muçarela|0|
+O|Esfiha Marguerita|Muçarela, parmesão, tomate e manjericão|0|
+O|Esfiha Confete|Confete, chocolate e muçarela.|0|
+O|Esfiha Banana|Banana, muçarela, leite condensado e canela.|0|
+O|Esfiha Banana Choco|Banana, muçarela, chocolate e leite condensado.|0|
+O|Esfiha Prestígio|Chocolate, muçarela, coco ralado e leite condensado.|0|
+O|Esfiha Brigadeiro|Chocolate, muçarela, granulado e leite condensado.|0|
+O|Esfiha Romeu e Julieta|Muçarela e goiabada.|0|
+A|698dced2203589efc9636b6b|Borda Pizza|pizza
+O|Borda Catupiry||8|
+O|Borda Cream Cheese||12|
+O|Borda Chocolate||12|
+O|Borda Presunto e Muçarela||12|
+O|Borda Muçarela||12|
+O|Borda Cheddar||8|
+A|698dcedd1b1a021d1dcbd895|Adicional Pizza|pizza
+O|Acréscimo Milho||6|
+O|Acréscimo de catupiry||8|
+O|Acrécimo de Palmito||8|
+O|Acréscimo Cream Cheese||12|
+O|Acréscimo Pimentão||6|
+O|Acréscimo Bacon||8|
+O|Acréscimo Cheddar||8|
+O|Acrécimo Alho||6|
+A|698dceed8533c09654a8c074|Sabor Pizza|pizza
+O|Muçarela|Muçarela, tomate, azeitona, orégano e molho de tomate.|32|
+O|Marguerita|Muçarela, tomate, azeitona, manjericão e molho de tomate.|32|
+O|Calabresa|Calabresa, muçarela, cebola, azeitona, orégano e molho de tomate.|36|
+O|Lombo Canadense|Lombo canadense, muçarela, tomate, azeitona, orégano e molho de tomate.|36|
+O|Napolitana|Presunto, muçarela, tomate, azeitona, orégano e molho de tomate.|36|
+O|Alho|Muçarela, parmesão, alho, tomate, azeitona, orégano e molho de tomate.|36|
+O|4 Queijos|Muçarela, catupiry, provolone, parmesão, azeitona, orégano e molho de tomate.|40|
+O|Franbacon|Frango, bacon, muçarela, azeitona, orégano e molho de tomate.|40|
+O|Frango Catupiry|Frango, catupiry, muçarela, azeitona, orégano e molho de tomate.|40|
+O|Calabresa Catupiry|Calabresa, catupiry, muçarela, cebola, azeitona, orégano e molho de tomate|40|
+O|Lombo Catupiry|Lombo canadense, catupiry, muçarela, tomate, azeitona, orégano e molho de tomate|40|
+O|Napolitana Catupiry|Presunto, muçarela, catupiry, tomate, azeitona, orégano e molho de tomate.|40|
+O|Toscana|Calabresa, presunto, muçarela, cebola, azeitona, orégano e molho de tomate|40|
+O|Bacon Catupiry|Bacon, muçarela, catupiry, azeitona, orégano e molho de tomate.|40|
+O|Bacon Cheddar|Bacon, muçarela, cheddar, azeitona, orégano e molho de tomate.|40|
+O|Calabacon|Calabresa, bacon, muçarela, cebola, azeitona, orégano e molho de tomate.|40|
+O|Palmito|Palmito, muçarela, catupiry, tomate, azeitona, orégano e molho de tomate.|40|
+O|Vegetariana|Muçarela, palmito, milho, pimentão, cebola, tomate, azeitona, orégano e molho de tomate.|40|
+O|Atum|Atum, muçarela, tomate, cebola, azeitona, orégano e molho de tomate.|40|
+O|Planeta Pizza|Muçarela, calabresa, frango, bacon, cupim, milho, catupiry, cebola, azeitona, orégano e molho de tomate.|45|
+O|Mineira|Muçarela, calabresa, presunto, bacon, catupiry, azeitona, cebola, milho, orégano e molho de tomate.|45|
+O|5 Queijos|Muçarela, catupiry, provolone, parmesão, cheddar, azeitona, orégano e molho de tomate.|45|
+O|Cupim|Cupim desfiado, muçarela, catupiry, azeitona, orégano e molho de tomate.|45|
+O|Strogonoff|Frango, muçarela, catupiry, milho, batata palha, azeitona, orégano e molho de tomate.|45|
+O|Lombanana|Lombo canadense, banana, bacon, muçarela, azeitona, orégano e molho de tomate.|45|
+O|Calabresa Barbecue|Calabresa, muçarela, cream cheese, alho, cebola, azeitona, orégano e molho de tomate|48|
+O|Calabresa Cheese|Calabresa, muçarela, cream cheese, alho, cebola, azeitona, orégano e molho de tomate|48|
+O|Bacon Cream Cheese|Bacon, muçarela, cream cheese, azeitona, orégano e molho de tomate|48|
+O|Cupim Cream Cheese|Cupim desfiado, muçarela, cream cheese, alho frito, azeitona, orégano e molho de tomate|48|
+O|Brócolis|Muçarela, brocólis, bacon, cream cheese, alho, cebola, tomate, azeitona, orégano e molho de tomate|48|
+O|Frango Cream Cheese|Frango, muçarela, cream cheese, azeitona, orégano e molho de tomate.|48|
+O|Prestígio|Chocolate, muçarela, coco ralado e leite condensado.|45|
+O|Banana Chocolate|Banana, muçarela, chocolate e leite condensado.|45|
+O|Brigadeiro|Chocolate, muçarela, granulado e leite condensado|45|
+O|Confete|Chocolate, muçarela e confete.|45|
+O|Banana|Banana, muçarela, leite condensado e canela.|45|
+A|698dcef6742bfa3d228a0b11|Sabor Pizza salgada|pizza
+O|Muçarela|Muçarela, tomate, azeitona, orégano e molho de tomate.|32|
+O|Marguerita|Muçarela, tomate, azeitona, manjericão e molho de tomate.|32|
+O|Calabresa|Calabresa, muçarela, cebola, azeitona, orégano e molho de tomate.|36|
+O|Lombo Canadense|Lombo canadense, muçarela, tomate, azeitona, orégano e molho de tomate.|36|
+O|Napolitana|Presunto, muçarela, tomate, azeitona, orégano e molho de tomate.|36|
+O|Alho|Muçarela, parmesão, alho, tomate, azeitona, orégano e molho de tomate.|36|
+O|4 Queijos|Muçarela, catupiry, provolone, parmesão, azeitona, orégano e molho de tomate.|40|
+O|Franbacon|Frango, bacon, muçarela, azeitona, orégano e molho de tomate.|40|
+O|Frango Catupiry|Frango, catupiry, muçarela, azeitona, orégano e molho de tomate.|40|
+O|Calabresa Catupiry|Calabresa, catupiry, muçarela, cebola, azeitona, orégano e molho de tomate|40|
+O|Lombo Catupiry|Lombo canadense, catupiry, muçarela, tomate, azeitona, orégano e molho de tomate|40|
+O|Napolitana Catupiry|Presunto, muçarela, catupiry, tomate, azeitona, orégano e molho de tomate.|40|
+O|Toscana|Calabresa, presunto, muçarela, cebola, azeitona, orégano e molho de tomate|40|
+O|Bacon Catupiry|Bacon, muçarela, catupiry, azeitona, orégano e molho de tomate.|40|
+O|Bacon Cheddar|Bacon, muçarela, cheddar, azeitona, orégano e molho de tomate.|40|
+O|Calabacon|Calabresa, bacon, muçarela, cebola, azeitona, orégano e molho de tomate.|40|
+O|Palmito|Palmito, muçarela, catupiry, tomate, azeitona, orégano e molho de tomate.|40|
+O|Vegetariana|Muçarela, palmito, milho, pimentão, cebola, tomate, azeitona, orégano e molho de tomate.|40|
+O|Atum|Atum, muçarela, tomate, cebola, azeitona, orégano e molho de tomate.|40|
+O|Planeta Pizza|Muçarela, calabresa, frango, bacon, cupim, milho, catupiry, cebola, azeitona, orégano e molho de tomate.|45|
+O|Mineira|Muçarela, calabresa, presunto, bacon, cebola ,catupiry, azeitona, milho, orégano e molho de tomate.|45|
+O|5 Queijos|Muçarela, catupiry, provolone, parmesão, cheddar, azeitona, orégano e molho de tomate.|45|
+O|Cupim|Cupim desfiado, muçarela, catupiry, azeitona, orégano e molho de tomate.|45|
+O|Strogonoff|Frango, muçarela, catupiry, milho, batata palha, azeitona, orégano e molho de tomate.|45|
+O|Lombanana|Lombo canadense, banana, bacon, muçarela, azeitona, orégano e molho de tomate.|45|
+O|Frango Cream Cheese|Frango, muçarela, cream cheese, azeitona, orégano e molho de tomate.|48|
+O|Cupim Cream Cheese|Cupim desfiado, muçarela, cream cheese, alho frito, azeitona, orégano e molho de tomate|48|
+O|Bacon Cream Cheese|Bacon, muçarela, cream cheese, azeitona, orégano e molho de tomate|48|
+O|Brócolis|Muçarela, brocólis, bacon, cream cheese, alho, cebola, tomate, azeitona, orégano e molho de tomate|48|
+O|Calabresa Cheese|Calabresa, muçarela, cream cheese, alho, cebola, azeitona, orégano e molho de tomate|48|
+O|Calabresa Barbecue|Calabresa, muçarela, cream cheese, alho, cebola, azeitona, orégano e molho de tomate|48|
+A|698dcef6742bfa3d228a0b3b|Borda Pizza salgada|pizza
+O|Borda Catupiry||8|
+O|Borda Cream Cheese||12|
+O|Borda Chocolate||12|
+O|Borda Cheddar||8|
+O|Borda Muçarela||12|
+O|Borda Presunto e Muçarela||12|
+A|698dcef7742bfa3d228a0b66|Adicional Pizza salgada|pizza
+O|Acréscimo Milho||6|
+O|Acréscimo Alho||6|
+O|Acréscimo Pimentão||6|
+O|Acréscimo Bacon||8|
+O|Acréscimo Catupiry||8|
+O|Acrésscimo Palmito||8|
+O|Acréscimo Cheddar||8|
+O|Acréscimo Cream Cheese||12|
+A|698dcf0d203589efc9637558|Sabor Pizza Doce|pizza
+O|Banana|Banana, muçarela, leite condensado e canela.|45|
+O|Banana Chocolate|Banana, muçarela, chocolate e leite condensado.|45|
+O|Prestígio|Chocolate, muçarela, coco ralado e leite condensado.|45|
+O|Brigadeiro|Chocolate, muçarela, granulado e leite condensado|45|
+O|Confete|Chocolate, muçarela e confete.|45|
+A|698dcf0d203589efc9637582|Borda Pizza Doce|pizza
+O|Borda de Catupiry||8|
+O|Borda de Cheddar||8|
+O|Borda de Crean cheese||8|
+O|Borda Muçarela||12|
+O|Borda Chocolate||12|
+O|Borda Presunto e Muçarela||12|
+A|6990a0a05e72d24f8049fbc9|Escolha o molho|simple_item
+O|Molho de alho||0|
+O|Molho de bacon||0|X
+O|Molho de Barbecue||0|
+O|Molho de Catchup||0|
+O|Molho de Maionese c/ Pimenta||0|
+O|Molho Rose||0|
+A|6990a1b2fc85670d37b59e82|Acréscimo|simple_item
+O|Molho de Catchup||1|
+O|Molho de bacon||1|X
+O|Molho de Barbecue||1|
+O|Molho de Maionese c/ Pimenta||1|
+O|Molho de alho||1|
+O|Molho Rose||1|
+O|Calabresa||2|
+O|Muçarela||2|
+O|Bacon||2|
