@@ -44,7 +44,7 @@
 }
 
 html { scroll-padding-top: calc(var(--bar-h) + 12px); }
-body { background: var(--red); color: var(--on-red); }
+body { background: var(--seam); color: var(--on-red); }
 .sc-grain { z-index: 70; opacity: 0.035; }
 
 .skip {
@@ -129,14 +129,35 @@ body { background: var(--red); color: var(--on-red); }
 @keyframes bump { 30% { transform: scale(1.3); } 100% { transform: scale(1); } }
 
 /* ============================================================ VITRINE ==== */
-.vitrine { background: var(--seam); }
+/* The vitrine owns one more viewport of scroll than its film needs. The
+   film runs on --vp (its own progress, done at --k); over the last viewport
+   (--tx) the stage dissolves in place while the store, which overlaps that
+   viewport, slides up underneath. The pin lets go on the menu itself. */
+.vitrine {
+  position: relative; z-index: 3;
+  background: transparent;
+  pointer-events: none;          /* its box overlaps the store; only the stage takes taps */
+  --k: 0.697;
+  --vp: min(1, calc(var(--sc-p, 0) / var(--k)));
+  --tx: clamp(0, calc((var(--sc-p, 0) - var(--k)) / (1 - var(--k))), 1);
+  /* two beats: the film leaves (pizza, ticket, words) and the red is left
+     alone; then the red itself opens on the menu, which waits underneath */
+  --to: clamp(0, calc(var(--tx) / 0.42), 1);
+  --ti: clamp(0, calc((var(--tx) - 0.45) / 0.5), 1);
+  --tout: calc(var(--to) * var(--to) * (3 - 2 * var(--to)));
+  --tin: calc(var(--ti) * var(--ti) * (3 - 2 * var(--ti)));
+}
 .vt {
   --pz: min(74svh, 44vw);
   --cx: 62vw;
   --cy: calc(50svh + var(--bar-h) / 2);
   background: var(--red);
   isolation: isolate;
+  opacity: calc(1 - var(--tin));
 }
+.vt { pointer-events: auto; }
+.vt.is-leaving, .vt.is-leaving * { pointer-events: none !important; }
+.vt .pizza, .vt .ticket--vt { opacity: calc(1 - var(--tout)); }
 .vt__ground {
   position: absolute; inset: 0; z-index: 0;
   background:
@@ -151,12 +172,12 @@ body { background: var(--red); color: var(--on-red); }
 }
 .vt__ground--hot {
   background: radial-gradient(56vmax 46vmax at var(--cx) var(--cy), #EE5A20 0%, var(--red-hot) 42%, transparent 78%);
-  opacity: calc(clamp(0, (var(--sc-p, 0) - 0.505) / 0.06, 1) * 0.85 - clamp(0, (var(--sc-p, 0) - 0.60) / 0.07, 1) * 0.85);
+  opacity: calc(clamp(0, (var(--vp, 0) - 0.505) / 0.06, 1) * 0.85 - clamp(0, (var(--vp, 0) - 0.60) / 0.07, 1) * 0.85);
 }
 
 /* local progress helper: an element sets --a (start) and --d (length) */
 .k {
-  --t: clamp(0, (var(--sc-p, 0) - var(--a)) / var(--d), 1);
+  --t: clamp(0, (var(--vp, 0) - var(--a)) / var(--d), 1);
   --e: calc(var(--t) * var(--t) * (3 - 2 * var(--t)));
 }
 
@@ -168,15 +189,15 @@ body { background: var(--red); color: var(--on-red); }
 }
 .pizza__spin {
   --a: 0; --d: 0.78;
-  --t: clamp(0, (var(--sc-p, 0) - var(--a)) / var(--d), 1);
+  --t: clamp(0, (var(--vp, 0) - var(--a)) / var(--d), 1);
   position: absolute; inset: 0;
-  transform: rotate(calc((var(--t) - 1) * 12deg)) scale(calc(0.955 + 0.045 * var(--t)));
+  transform: rotate(calc((var(--t) - 1) * 12deg)) scale(calc((0.955 + 0.045 * var(--t)) * (1 - 0.12 * var(--tx, 0))));
   will-change: transform;
 }
 .L {
   position: absolute; inset: 0; width: 100%; height: 100%; max-width: none;
   pointer-events: none; user-select: none;
-  --t: clamp(0, (var(--sc-p, 0) - var(--a)) / var(--d), 1);
+  --t: clamp(0, (var(--vp, 0) - var(--a)) / var(--d), 1);
   --e: calc(var(--t) * var(--t) * (3 - 2 * var(--t)));
 }
 
@@ -214,16 +235,16 @@ body { background: var(--red); color: var(--on-red); }
   position: absolute; inset: -8%; z-index: 3; border-radius: 50%; pointer-events: none;
   background: radial-gradient(closest-side, rgb(255 200 110 / 0.62), rgb(255 130 40 / 0.26) 55%, rgb(255 90 20 / 0) 78%);
   mix-blend-mode: screen;
-  opacity: calc(clamp(0, (var(--sc-p, 0) - 0.515) / 0.05, 1) - clamp(0, (var(--sc-p, 0) - 0.60) / 0.06, 1));
+  opacity: calc(clamp(0, (var(--vp, 0) - 0.515) / 0.05, 1) - clamp(0, (var(--vp, 0) - 0.60) / 0.06, 1));
 }
 
 /* falling toppings: the outer box scales about the pizza centre (a camera
    above the pizza sees a near object larger and further from centre), the
    inner box spins about its own centre, the shadow stays on the surface. */
-.drops { position: absolute; inset: 0; opacity: calc(1 - clamp(0, (var(--sc-p, 0) - 0.788) / 0.01, 1)); }
+.drops { position: absolute; inset: 0; opacity: calc(1 - clamp(0, (var(--vp, 0) - 0.788) / 0.01, 1)); }
 .drop, .drop__shadow { position: absolute; pointer-events: none; }
 .drop {
-  --t: clamp(0, (var(--sc-p, 0) - var(--a)) / var(--d), 1);
+  --t: clamp(0, (var(--vp, 0) - var(--a)) / var(--d), 1);
   --h: calc(1 - var(--t) * var(--t));
   opacity: clamp(0, var(--t) * 5, 1);
   transform: scale(calc(1 + var(--h) * 0.55));
@@ -236,7 +257,7 @@ body { background: var(--red); color: var(--on-red); }
   transform: rotate(calc(var(--h) * var(--spin, 30deg)));
 }
 .drop__shadow {
-  --t: clamp(0, (var(--sc-p, 0) - var(--a)) / var(--d), 1);
+  --t: clamp(0, (var(--vp, 0) - var(--a)) / var(--d), 1);
   --h: calc(1 - var(--t) * var(--t));
   border-radius: 50%;
   background: radial-gradient(closest-side, rgb(70 8 0 / 0.55), rgb(70 8 0 / 0) 100%);
@@ -255,7 +276,7 @@ body { background: var(--red); color: var(--on-red); }
 }
 
 /* steam once the pizza is out */
-.steam { position: absolute; inset: 8%; z-index: 5; pointer-events: none; opacity: clamp(0, (var(--sc-p, 0) - 0.775) / 0.04, 1); }
+.steam { position: absolute; inset: 8%; z-index: 5; pointer-events: none; opacity: clamp(0, (var(--vp, 0) - 0.775) / 0.04, 1); }
 .steam i {
   position: absolute; width: 38%; height: 38%; left: 31%; top: 31%; border-radius: 50%;
   background: radial-gradient(closest-side, rgb(255 255 255 / 0.36), rgb(255 255 255 / 0.12) 55%, rgb(255 255 255 / 0) 100%);
@@ -481,6 +502,7 @@ body { background: var(--red); color: var(--on-red); }
   --line: #F0E7E1;
   --chip: #F6EEE9;
   position: relative; z-index: 2;
+  margin-top: -100svh;          /* slides up under the vitrine's last viewport */
   background: var(--app); color: var(--ink);
 }
 .wrap { width: 100%; max-width: 1180px; margin-inline: auto; padding-inline: var(--gut); }
@@ -799,6 +821,7 @@ dialog::backdrop { background: rgb(24 6 6 / 0.58); }
   .brand__name { font-size: 1.16rem; }
   .status { font-size: 0.8rem; padding: 6px 10px; gap: 7px; }
 
+  .vitrine { --k: 0.667; }
   .vt {
     --pz: min(94vw, 47svh);
     --cx: 50vw;

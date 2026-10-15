@@ -390,3 +390,26 @@ a separação das duas"):
   scroll.
 - Medido na linha da emenda, em quatro posições de rolagem: diferença máxima
   de 2/255 no celular e 4/255 no desktop (granulação).
+
+**Revisão 4, a passagem para o cardápio** ("faça uma transição de scroll,
+onde o espectador já cai na tela do cardápio sem emendas"):
+
+- A vitrine ganhou mais uma tela de scroll: span 4,3 no desktop, 4,0 no
+  celular e 3,2 em movimento reduzido.
+- O filme continua igual, mas roda em `[0, K]`, com `K = (span − 2)/(span − 1)`.
+  O `site.js` reescala as janelas dos textos antes de montar o motor.
+- A última tela é a passagem, em dois tempos:
+  1. A pizza, a comanda e os textos saem no vermelho.
+  2. O vermelho se abre sobre o cardápio.
+- O cardápio sobrepõe essa última tela (`margin-top: -100svh`). Durante a
+  passagem, ele fica parado onde o visitante vai parar, então o vermelho
+  revela a própria tela do cardápio. Quando o scroll solta, ela já está no
+  lugar.
+- O texto do preço sai com o filme pelo próprio motor. Durante a passagem a
+  vitrine não recebe toque, então o cardápio responde assim que aparece.
+- **Verificação:**
+  - nenhuma rolagem morta em desktop, celular, celular pequeno e movimento
+    reduzido;
+  - contraste ok, exceto o alerta já conhecido do quadro em que o texto da
+    entrega está fora da tela;
+  - o fluxo de pedido passa em 390×844, 360×640 e 1440×900.

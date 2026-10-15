@@ -21,8 +21,32 @@
   // ------------------------------------------- art-direct the vitrine ----
   // Phones get a shorter film; reduced motion gets the shortest, because the
   // layers only cross-fade there and a long pin would be scroll with no reward.
-  if (reduce) vit.setAttribute('data-sc-span', '2.2');
-  else if (phoneMQ.matches) vit.setAttribute('data-sc-span', '3.0');
+  // Each span is the film plus one viewport: the hand-over to the menu.
+  if (reduce) vit.setAttribute('data-sc-span', '3.2');
+  else if (phoneMQ.matches) vit.setAttribute('data-sc-span', '4.0');
+
+  // ------------------------------------------ hand-over to the menu ----
+  // The film is authored on a 0..1 timeline. It now runs on [0, K] of the
+  // act and the last viewport of scroll ([K, 1]) belongs to the hand-over:
+  // the stage dissolves in place while the store, which overlaps that last
+  // viewport (site.css), slides up underneath. Cues keep their shape.
+  var SPAN = parseFloat(vit.getAttribute('data-sc-span')) || 4.3;
+  var K = (SPAN - 2) / (SPAN - 1);
+  vit.style.setProperty('--k', K.toFixed(4));
+  Array.prototype.forEach.call(vit.querySelectorAll('[data-sc-cue]'), function (c) {
+    var n = c.getAttribute('data-sc-cue').trim().split(/\s+/).map(parseFloat);
+    var from = n[0] || 0, to = n.length > 1 ? n[1] : 1;
+    var rIn = n.length > 2 ? n[2] : 0.3, rOut = n.length > 3 ? n[3] : 0.3;
+    if (to >= 1) {
+      // a cue that held to the end now leaves with the film, in the first
+      // beat of the hand-over, keeping the fade-in length it had
+      var f = from * K, t = K + 0.42 * (1 - K), w = t - f;
+      c.setAttribute('data-sc-cue', [f, t, Math.min(rIn * (to - from) * K / w, 1), (t - K) / w].map(function (v) { return +v.toFixed(4); }).join(' '));
+    } else {
+      c.setAttribute('data-sc-cue', [from * K, to * K, rIn, rOut].map(function (v) { return +v.toFixed(4); }).join(' '));
+    }
+  });
+  var film = function (raw) { return Math.min(raw / K, 1); };
   // the ride after the menu
   var spans = { entrega: reduce ? '1.9' : (phoneMQ.matches ? '2.6' : null) };
   Object.keys(spans).forEach(function (id) {
@@ -97,12 +121,41 @@
     feed[feed.length - 1] = paper.scrollHeight + 2;   // with the total, the whole ticket
   }
 
+  // While the vitrine dissolves, the store (which scrolls up under its last
+  // viewport) is held where the visitor will land, so what the red opens on
+  // is the menu screen itself, not a moving edge.
+  var loja = document.getElementById('cardapio');
+  var lojaShift = 0;
+  var handing = false;
+  function handOver(tx) {
+    if (!loja) return;
+    var on = tx > 0 && tx < 1;
+    if (on) {
+      var top = loja.getBoundingClientRect().top + lojaShift;   // where flow puts it
+      lojaShift = Math.max(top, 0);
+      loja.style.transform = 'translate3d(0,' + (-lojaShift).toFixed(1) + 'px,0)';
+      var e = tx * tx * (3 - 2 * tx);
+      var capaEl = loja.querySelector('.loja__capa');
+      if (capaEl && !reduce) capaEl.style.setProperty('--cz', (1.08 - 0.08 * e).toFixed(4));
+    } else if (handing) {
+      lojaShift = 0;
+      loja.style.transform = '';
+    }
+    handing = on;
+    document.documentElement.classList.toggle('is-handing', on);
+  }
+
   var layerSel = ['.L-ball', '.L-dough', '.L-sauce', '.L-c1', '.L-c2', '.L-c3', '.L-melt', '.L-baked', '.L-final'];
   var layers = layerSel.map(function (s) { return vt.querySelector(s); });
   var st = { n: -1, stamped: null, steam: null, phase: '' };
 
   function update() {
-    var p = parseFloat(vit.style.getPropertyValue('--sc-p')) || 0;
+    var raw = parseFloat(vit.style.getPropertyValue('--sc-p')) || 0;
+    var p = film(raw);
+    var tx = Math.min(Math.max((raw - K) / (1 - K), 0), 1);
+    var leaving = tx > 0.4;
+    if (leaving !== st.leaving) { vt.classList.toggle('is-leaving', leaving); st.leaving = leaving; }
+    handOver(tx);
     var n = 0;
     while (n < PRINT.length && p >= PRINT[n]) n++;
     if (n !== st.n) {
@@ -127,7 +180,7 @@
       return el ? Math.round(parseFloat(getComputedStyle(el).opacity) * 20) : 0;
     }).join('') + '|' + n + (stamped ? 's' : '');
     vt.setAttribute('data-sc-verify-state', sig);
-    vt.setAttribute('data-sc-verify-hold', p >= 0.9 && p < 1 ? 'true' : 'false');
+    vt.setAttribute('data-sc-verify-hold', raw >= 0.9 * K && raw < K ? 'true' : 'false');
   }
 
   var ticking = false;
@@ -153,7 +206,7 @@
       if (cue && parseFloat(getComputedStyle(cue).opacity) > 0.85) return;
       var top = vit.getBoundingClientRect().top + scrollY;
       var travel = Math.max(vit.offsetHeight - innerHeight, 1);
-      scrollTo({ top: top + travel * 0.93, behavior: 'instant' });
+      scrollTo({ top: top + travel * 0.93 * K, behavior: 'instant' });
     });
   }
 
@@ -207,7 +260,7 @@
   // vitrine's red. Tied to the scroll, so it never pops in.
   var capa = document.querySelector('.loja__capa');
   function paintCover() {
-    if (!capa || reduce) return;
+    if (!capa || reduce || document.documentElement.classList.contains('is-handing')) return;
     var r = capa.getBoundingClientRect();
     if (r.bottom < 0 || r.top > innerHeight) return;
     var t = Math.min(Math.max((innerHeight - r.top) / (innerHeight * 0.9), 0), 1);
