@@ -589,10 +589,11 @@
   var FEE = 0;
   try { FEE = +JSON.parse(document.getElementById('planeta-config').textContent).entrega || 0; } catch (e) {}
   var feeEls = document.querySelectorAll('[data-fee]');
+  var orderMode = 'entrega';          // or 'retirada', chosen at checkout: no fee
   function totals() {
     var q = 0, sum = 0;
     cart.forEach(function (it) { q += it.qty; sum += it.qty * it.unit; });
-    var fee = q ? FEE : 0;
+    var fee = q && orderMode === 'entrega' ? FEE : 0;
     return { qty: q, sum: sum, fee: fee, total: sum + fee };
   }
   function itemsLabel(q) { return q === 1 ? '1 item' : q + ' itens'; }
@@ -696,7 +697,7 @@
         toast('Escolha sua pizza no cardápio primeiro.');
         document.getElementById('cardapio').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
       } else {
-        finalizar(t.closest('[data-checkout]'));
+        openCheckout(t.closest('[data-checkout]'));
       }
     }
   });
@@ -723,37 +724,370 @@
   });
 
   // ---------------------------------------------------- finish the order ----
-  // The order system (Anotaí) is a separate step. When it exists it registers
-  //   PlanetaPizza.integracao = { enviarPedido: function (pedido) { ... } }
-  // returning a promise of { recebido: true, numero?, previsao? }. Only a
-  // confirmed order plays the delivery film; nothing here pretends to send.
-  function comandaTexto() {
-    var linhas = cart.map(function (it) {
-      return it.qty + 'x ' + it.name + (it.details.length ? ' (' + it.details.join(', ') + ')' : '') + ': ' + money(it.qty * it.unit);
-    });
-    var t = totals();
-    return 'Olá, Planeta Pizza! Quero fazer este pedido:\n' + linhas.join('\n') +
-      (t.fee ? '\nEntrega: ' + money(t.fee) : '') + '\nTotal: ' + money(t.total);
+  // The whole order is put together here, in the order the delivery apps use:
+  // who orders, delivery or pickup (and where), how to pay, review.
+  //  * Pay on delivery or at pickup: the complete order goes to the
+  //    pizzaria's WhatsApp, where the store already takes orders.
+  //  * Pay now (Pix or card): Anotaí's checkout, once Anotaí opens an
+  //    integration for it. It registers
+  //      PlanetaPizza.integracao.abrirCheckout(pedido)
+  //    Until then this order goes to WhatsApp as well, marked as such.
+  //  * PlanetaPizza.integracao.enviarPedido(pedido), returning a promise of
+  //    { recebido: true, numero?, previsao? }, sends the order directly; only
+  //    a confirmed order plays the delivery film.
+  var RET = CONFIG.retirada || {};
+  var co = document.getElementById('checkout');
+  var coForm = co.querySelector('[data-co-form]');
+  var coTitle = co.querySelector('[data-co-title]');
+  var coBack = co.querySelector('[data-co-back]');
+  var coNext = co.querySelector('[data-co-next-label]');
+  var coTotal = co.querySelector('[data-co-total]');
+  var coScroll = co.querySelector('[data-co-scroll]');
+  var STEPS = ['dados', 'entrega', 'pagamento', 'revisao'];
+  var PAGAR = {
+    dinheiro: { quando: 'entrega', nome: 'Dinheiro' },
+    'cartao-entrega': { quando: 'entrega', nome: 'Cartão de crédito na maquininha' },
+    pix: { quando: 'agora', nome: 'Pix' },
+    'cartao-online': { quando: 'agora', nome: 'Cartão de crédito' }
+  };
+  var SAVE = ['nome', 'fone', 'cep', 'rua', 'numero', 'bairro', 'complemento', 'referencia'];
+  var SAVE_KEY = 'planeta-cliente';
+  var step = 0, coOpener = null, cepCity = '', sending = false;
+
+  co.querySelector('[data-co-info-entrega]').textContent = (CONFIG.tempoEntrega ? CONFIG.tempoEntrega + ' · ' : '') + money(FEE);
+  co.querySelector('[data-co-info-retirada]').textContent = (RET.tempo ? RET.tempo + ' · ' : '') + 'sem taxa';
+  co.querySelector('[data-co-pickup]').textContent = RET.endereco
+    ? 'Retire na pizzaria: ' + RET.endereco + '.' + (RET.tempo ? ' Fica pronto em ' + RET.tempo + '.' : '') : '';
+
+  function val(name) { var e = coForm.elements[name]; return e && e.value != null ? String(e.value).trim() : ''; }
+  function radio(name) { var c = coForm.querySelector('input[name="' + name + '"]:checked'); return c ? c.value : ''; }
+  function digits(v) { return String(v || '').replace(/\D/g, ''); }
+  function plain(v) { return String(v || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim(); }
+  function parseMoney(v) {
+    var n = parseFloat(String(v || '').replace(/[^\d,.]/g, '').replace(/\.(?=\d{3}(\D|$))/g, '').replace(',', '.'));
+    return isNaN(n) ? 0 : n;
   }
-  var sending = false;
-  function finalizar(btn) {
+  function maskFone(v) {
+    var d = digits(v).slice(0, 11);
+    if (d.length < 3) return d.length ? '(' + d : '';
+    if (d.length < 7) return '(' + d.slice(0, 2) + ') ' + d.slice(2);
+    if (d.length < 11) return '(' + d.slice(0, 2) + ') ' + d.slice(2, 6) + '-' + d.slice(6);
+    return '(' + d.slice(0, 2) + ') ' + d.slice(2, 7) + '-' + d.slice(7);
+  }
+
+  // ---- errors: on the field itself, read out with it
+  function fieldErr(name, msg) {
+    var input = coForm.elements[name];
+    var f = input.closest('.field');
+    f.classList.add('is-err');
+    input.setAttribute('aria-invalid', 'true');
+    var p = f.querySelector('.field__err');
+    if (!p) {
+      p = el('p', 'field__err');
+      p.id = 'err-' + name;
+      f.appendChild(p);
+      input.setAttribute('aria-describedby', p.id);
+    }
+    p.textContent = msg;
+    return input;
+  }
+  function groupErr(name, msg) {
+    var g = coForm.querySelector('[data-grp="' + name + '"]');
+    g.classList.add('is-missing');
+    toast(msg);
+    return g.querySelector('input');
+  }
+  function clearErrs() {
+    Array.prototype.forEach.call(coForm.querySelectorAll('.field.is-err'), function (f) {
+      f.classList.remove('is-err');
+      var i = f.querySelector('input');
+      i.removeAttribute('aria-invalid');
+      var p = f.querySelector('.field__err');
+      if (p) p.textContent = '';
+    });
+    Array.prototype.forEach.call(coForm.querySelectorAll('.grp.is-missing'), function (g) { g.classList.remove('is-missing'); });
+  }
+  function validate(name) {
+    var bad = null;
+    function fail(x) { if (!bad) bad = x; }
+    if (name === 'dados') {
+      if (val('nome').length < 2) fail(fieldErr('nome', 'Escreva o seu nome.'));
+      var d = digits(val('fone'));
+      if (d.length < 10 || d.length > 11) fail(fieldErr('fone', 'Confira o celular, com DDD.'));
+    } else if (name === 'entrega') {
+      var tipo = radio('tipo');
+      if (!tipo) return groupErr('tipo', 'Escolha entrega ou retirada.');
+      if (tipo === 'entrega') {
+        var cep = digits(val('cep'));
+        if (cep && cep.length !== 8) fail(fieldErr('cep', 'O CEP tem 8 números.'));
+        else if (cepCity && plain(cepCity) !== 'araguari') fail(fieldErr('cep', 'Esse CEP é de ' + cepCity + '. A pizzaria entrega em Araguari.'));
+        if (!val('rua')) fail(fieldErr('rua', 'Escreva a rua.'));
+        if (!val('numero')) fail(fieldErr('numero', 'Escreva o número (ou "s/n").'));
+        if (!val('bairro')) fail(fieldErr('bairro', 'Escreva o bairro.'));
+      }
+    } else if (name === 'pagamento') {
+      var pag = radio('pag');
+      if (!pag) return groupErr('pag', 'Escolha como você vai pagar.');
+      if (pag === 'dinheiro' && radio('precisaTroco') === 'sim') {
+        var troco = parseMoney(val('troco'));
+        var total = totals().total;
+        if (!troco) fail(fieldErr('troco', 'Diga para quanto é o troco.'));
+        else if (troco <= total) fail(fieldErr('troco', 'O troco precisa ser maior que o total, ' + money(total) + '.'));
+      }
+    }
+    return bad;
+  }
+
+  // ---- the order, as one object (also what an integration receives)
+  function montarPedido() {
+    var t = totals(), tipo = radio('tipo') || orderMode, pag = radio('pag'), forma = PAGAR[pag] || {};
+    var troco = pag === 'dinheiro' && radio('precisaTroco') === 'sim' ? parseMoney(val('troco')) : 0;
+    return {
+      cliente: { nome: val('nome'), telefone: val('fone') },
+      tipo: tipo,
+      endereco: tipo === 'entrega' ? {
+        cep: val('cep'), rua: val('rua'), numero: val('numero'), bairro: val('bairro'),
+        complemento: val('complemento'), referencia: val('referencia'), cidade: 'Araguari', estado: 'MG'
+      } : null,
+      retirada: tipo === 'retirada' ? { endereco: RET.endereco || '', tempo: RET.tempo || '' } : null,
+      itens: cart.map(function (it) { return { id: it.id, nome: it.name, detalhes: it.details.slice(), quantidade: it.qty, unitario: it.unit }; }),
+      subtotal: t.sum,
+      entrega: t.fee,
+      total: t.total,
+      pagamento: { forma: pag, nome: forma.nome || '', quando: forma.quando || '', trocoPara: troco || null }
+    };
+  }
+  function pagamentoTexto(p) {
+    var g = p.pagamento;
+    if (g.quando === 'agora') return g.nome + ' (pagamento online)';
+    var onde = p.tipo === 'entrega' ? 'na entrega' : 'na retirada';
+    if (g.forma === 'dinheiro') return 'Dinheiro, ' + onde + (g.trocoPara ? ', troco para ' + money(g.trocoPara) : ', sem troco');
+    return g.nome + ', ' + onde;
+  }
+  function enderecoTexto(e) {
+    return e.rua + ', ' + e.numero + ', ' + e.bairro + ', Araguari - MG';
+  }
+  // the WhatsApp message, in the order of a printed comanda
+  function mensagem(p) {
+    var L = ['Olá, Planeta Pizza! Quero fazer este pedido pelo site:', ''];
+    L.push('*Cliente:* ' + p.cliente.nome);
+    L.push('*Celular:* ' + p.cliente.telefone);
+    L.push('');
+    if (p.tipo === 'entrega') {
+      L.push('*Entrega:* ' + enderecoTexto(p.endereco));
+      if (p.endereco.complemento) L.push('Complemento: ' + p.endereco.complemento);
+      if (p.endereco.referencia) L.push('Referência: ' + p.endereco.referencia);
+      if (p.endereco.cep) L.push('CEP: ' + p.endereco.cep);
+    } else {
+      L.push('*Retirada na pizzaria*');
+    }
+    L.push('');
+    L.push('*Itens:*');
+    p.itens.forEach(function (it) {
+      L.push(it.quantidade + 'x ' + it.nome + ': ' + money(it.quantidade * it.unitario));
+      it.detalhes.forEach(function (d) { L.push('   - ' + d); });
+    });
+    L.push('');
+    L.push('Subtotal: ' + money(p.subtotal));
+    if (p.tipo === 'entrega') L.push('Taxa de entrega: ' + money(p.entrega));
+    L.push('*Total: ' + money(p.total) + '*');
+    L.push('');
+    L.push('*Pagamento:* ' + pagamentoTexto(p));
+    return L.join('\n');
+  }
+
+  // ---- review
+  function revisar() {
+    var p = montarPedido(), box = co.querySelector('[data-co-review]');
+    box.textContent = '';
+    function sec(title, goto, fill) {
+      var s = el('div', 'co__sec');
+      var h = el('div', 'co__sec-head');
+      h.appendChild(el('h3', null, title));
+      var b = el('button', 'co__edit', 'Alterar');
+      b.type = 'button';
+      b.setAttribute('data-co-goto', goto);
+      b.setAttribute('aria-label', 'Alterar ' + title.toLowerCase());
+      h.appendChild(b);
+      s.appendChild(h);
+      fill(s);
+      box.appendChild(s);
+    }
+    sec('Seus dados', 'dados', function (s) {
+      s.appendChild(el('p', null, p.cliente.nome));
+      s.appendChild(el('small', null, p.cliente.telefone));
+    });
+    sec(p.tipo === 'entrega' ? 'Entrega' : 'Retirada', 'entrega', function (s) {
+      if (p.tipo === 'entrega') {
+        s.appendChild(el('p', null, enderecoTexto(p.endereco)));
+        if (p.endereco.complemento) s.appendChild(el('small', null, 'Complemento: ' + p.endereco.complemento));
+        if (p.endereco.referencia) s.appendChild(el('small', null, 'Referência: ' + p.endereco.referencia));
+        if (CONFIG.tempoEntrega) s.appendChild(el('small', null, 'Chega em ' + CONFIG.tempoEntrega + '.'));
+      } else {
+        s.appendChild(el('p', null, RET.endereco || 'Na pizzaria'));
+        if (RET.tempo) s.appendChild(el('small', null, 'Fica pronto em ' + RET.tempo + '.'));
+      }
+    });
+    sec('Itens', 'itens', function (s) {
+      p.itens.forEach(function (it) {
+        var line = el('p', 'co__line');
+        line.appendChild(el('span', null, it.quantidade + 'x ' + it.nome));
+        line.appendChild(el('span', null, money(it.quantidade * it.unitario)));
+        s.appendChild(line);
+        if (it.detalhes.length) s.appendChild(el('small', null, it.detalhes.join(' · ')));
+      });
+      var sub = el('p', 'co__line');
+      sub.appendChild(el('span', null, 'Subtotal'));
+      sub.appendChild(el('span', null, money(p.subtotal)));
+      s.appendChild(sub);
+      if (p.tipo === 'entrega') {
+        var fee = el('p', 'co__line');
+        fee.appendChild(el('span', null, 'Taxa de entrega'));
+        fee.appendChild(el('span', null, money(p.entrega)));
+        s.appendChild(fee);
+      }
+    });
+    sec('Pagamento', 'pagamento', function (s) {
+      s.appendChild(el('p', null, pagamentoTexto(p)));
+    });
+    if (p.pagamento.quando === 'agora' && !online()) {
+      box.appendChild(el('p', 'co__warn', 'O seu pedido vai completo para o WhatsApp da pizzaria, e o pagamento com ' +
+        p.pagamento.nome.toLowerCase() + ' é combinado por lá.'));
+    }
+  }
+  function online() {
+    var api = window.PlanetaPizza && window.PlanetaPizza.integracao;
+    return !!(api && typeof api.abrirCheckout === 'function');
+  }
+
+  // ---- steps
+  function showStep(i, keepFocus) {
+    step = Math.max(0, Math.min(STEPS.length - 1, i));
+    var name = STEPS[step];
+    Array.prototype.forEach.call(co.querySelectorAll('[data-co-step]'), function (s) {
+      s.hidden = s.getAttribute('data-co-step') !== name;
+      if (!s.hidden) coTitle.textContent = s.getAttribute('data-title');
+    });
+    Array.prototype.forEach.call(co.querySelectorAll('[data-co-dot]'), function (d, k) {
+      d.classList.toggle('is-done', k < step);
+      d.classList.toggle('is-now', k === step);
+      if (k === step) d.setAttribute('aria-current', 'step'); else d.removeAttribute('aria-current');
+    });
+    coBack.hidden = step === 0;
+    if (name === 'pagamento') {
+      co.querySelector('[data-co-pag-entrega]').textContent = radio('tipo') === 'retirada' ? 'Pagar na retirada' : 'Pagar na entrega';
+    }
+    if (name === 'revisao') revisar();
+    var last = step === STEPS.length - 1;
+    var agora = (PAGAR[radio('pag')] || {}).quando === 'agora';
+    coNext.textContent = !last ? 'Continuar' : (agora && online() ? 'Ir para o pagamento' : 'Enviar pedido pelo WhatsApp');
+    paintCoTotal();
+    coScroll.scrollTop = 0;
+    if (!keepFocus) coTitle.focus({ preventScroll: true });
+  }
+  function paintCoTotal() { coTotal.textContent = money(totals().total); }
+  function syncFields() {
+    var tipo = radio('tipo');
+    co.querySelector('[data-co-addr]').hidden = tipo !== 'entrega';
+    co.querySelector('[data-co-pickup]').hidden = tipo !== 'retirada';
+    var dinheiro = radio('pag') === 'dinheiro';
+    co.querySelector('[data-co-troco]').hidden = !dinheiro;
+    co.querySelector('[data-co-troco-valor]').hidden = !(dinheiro && radio('precisaTroco') === 'sim');
+  }
+  function salvar() {
+    try {
+      var o = {};
+      SAVE.forEach(function (k) { o[k] = val(k); });
+      o.tipo = radio('tipo');
+      localStorage.setItem(SAVE_KEY, JSON.stringify(o));
+    } catch (e) {}
+  }
+  function restaurar() {
+    try {
+      var o = JSON.parse(localStorage.getItem(SAVE_KEY) || '{}') || {};
+      SAVE.forEach(function (k) { if (o[k] && !val(k)) coForm.elements[k].value = o[k]; });
+      if (o.tipo && !radio('tipo')) {
+        var r = coForm.querySelector('input[name="tipo"][value="' + o.tipo + '"]');
+        if (r) { r.checked = true; orderMode = o.tipo; render(); }
+      }
+    } catch (e) {}
+  }
+
+  function openCheckout(from) {
+    coOpener = from || null;
+    if (drawer.open) { drawerOpener = null; closeDrawer(); }
+    clearErrs();
+    restaurar();
+    syncFields();
+    showStep(0, true);
+    if (typeof co.showModal === 'function') co.showModal(); else co.setAttribute('open', '');
+    coTitle.focus({ preventScroll: true });
+  }
+  function closeCheckout() {
+    if (co.open) { if (typeof co.close === 'function') co.close(); else co.removeAttribute('open'); }
+  }
+  co.addEventListener('close', function () {
+    if (coOpener && document.contains(coOpener)) coOpener.focus({ preventScroll: true });
+    coOpener = null;
+  });
+  co.addEventListener('click', function (e) {
+    if (e.target === co) { closeCheckout(); return; }
+    if (e.target.closest('[data-co-close]')) { closeCheckout(); return; }
+    if (e.target.closest('[data-co-back]')) { clearErrs(); showStep(step - 1); return; }
+    var go = e.target.closest('[data-co-goto]');
+    if (go) {
+      var where = go.getAttribute('data-co-goto');
+      if (where === 'itens') { coOpener = null; closeCheckout(); openDrawer(null); }
+      else showStep(STEPS.indexOf(where));
+    }
+  });
+  coForm.addEventListener('change', function (e) {
+    var n = e.target.name;
+    if (n === 'tipo') { orderMode = e.target.value; render(); }
+    var g = e.target.closest('[data-grp]');
+    if (g) g.classList.remove('is-missing');
+    syncFields();
+    paintCoTotal();
+  });
+  coForm.elements.fone.addEventListener('input', function () { this.value = maskFone(this.value); });
+  coForm.elements.cep.addEventListener('input', function () {
+    var d = digits(this.value).slice(0, 8);
+    this.value = d.length > 5 ? d.slice(0, 5) + '-' + d.slice(5) : d;
+    cepCity = '';
+    if (d.length !== 8 || !window.fetch) return;
+    fetch('https://viacep.com.br/ws/' + d + '/json/').then(function (r) { return r.json(); }).then(function (j) {
+      if (!j || j.erro || digits(coForm.elements.cep.value) !== d) return;
+      cepCity = j.localidade || '';
+      if (j.logradouro && !val('rua')) coForm.elements.rua.value = j.logradouro;
+      if (j.bairro && !val('bairro')) coForm.elements.bairro.value = j.bairro;
+    }).catch(function () {});
+  });
+  coForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    clearErrs();
+    var bad = validate(STEPS[step]);
+    if (bad) {
+      if (bad.focus) bad.focus();
+      if (bad.scrollIntoView) bad.scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' });
+      return;
+    }
+    salvar();
+    if (step < STEPS.length - 1) { showStep(step + 1); return; }
+    enviar(montarPedido());
+  });
+
+  function enviar(p) {
     var api = window.PlanetaPizza && window.PlanetaPizza.integracao;
     if (api && typeof api.enviarPedido === 'function') {
       if (sending) return;
       sending = true;
-      if (btn) btn.setAttribute('aria-busy', 'true');
+      coForm.setAttribute('aria-busy', 'true');
       toast('Enviando o seu pedido...');
-      var pedido = {
-        itens: cart.map(function (it) { return { id: it.id, nome: it.name, detalhes: it.details.slice(), quantidade: it.qty, unitario: it.unit }; }),
-        subtotal: totals().sum,
-        entrega: totals().fee,
-        total: totals().total
-      };
-      Promise.resolve(api.enviarPedido(pedido)).then(function (res) {
+      Promise.resolve(api.enviarPedido(p)).then(function (res) {
         if (res && res.recebido) {
           cart = [];
           render();
-          closeDrawer();
+          closeCheckout();
           pedidoRecebido(res);
         } else {
           toast('Não conseguimos confirmar o pedido. Tente de novo.');
@@ -762,14 +1096,21 @@
         toast('Não conseguimos enviar o pedido. Tente de novo.');
       }).then(function () {
         sending = false;
-        if (btn) btn.removeAttribute('aria-busy');
+        coForm.removeAttribute('aria-busy');
       });
-    } else if (waNumber) {
-      window.open(waLink(comandaTexto()), '_blank', 'noopener');
-      toast('Abrindo o WhatsApp com a sua comanda.');
-    } else {
-      toast('O envio do pedido pelo site ainda não está ativo.');
+      return;
     }
+    if (p.pagamento.quando === 'agora' && online()) {
+      api.abrirCheckout(p);
+      return;
+    }
+    if (!waNumber) {
+      toast('O envio do pedido pelo site ainda não está ativo.');
+      return;
+    }
+    window.open(waLink(mensagem(p)), '_blank', 'noopener');
+    closeCheckout();
+    toast('Abrimos o WhatsApp com o seu pedido completo. É só tocar em enviar.');
   }
 
   // ------------------------------------------------- delivery film ----

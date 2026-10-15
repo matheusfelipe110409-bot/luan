@@ -972,6 +972,79 @@
   </div>
 </dialog>
 
+<!-- Finalizar: o pedido inteiro montado aqui, na ordem dos apps de delivery:
+     seus dados, entrega ou retirada (e o endereço), pagamento, revisão.
+     Pagar na entrega manda o pedido completo ao WhatsApp da pizzaria;
+     pagar agora abre o checkout da Anotaí quando houver integração
+     (PlanetaPizza.integracao.abrirCheckout, em site.js). -->
+<dialog class="drawer checkout" id="checkout" aria-labelledby="co-title">
+  <form class="drawer__panel" data-co-form novalidate>
+    <header class="drawer__head">
+      <button class="co__back" type="button" data-co-back aria-label="Voltar"><svg class="ico" aria-hidden="true"><use href="#i-chevron"/></svg></button>
+      <h2 id="co-title" class="drawer__title co__title" tabindex="-1" data-co-title>Seus dados</h2>
+      <button class="drawer__close" type="button" data-co-close aria-label="Fechar"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button>
+    </header>
+    <ol class="co__steps" aria-label="Etapas do pedido">
+      <li data-co-dot="dados">Dados</li>
+      <li data-co-dot="entrega">Entrega</li>
+      <li data-co-dot="pagamento">Pagamento</li>
+      <li data-co-dot="revisao">Revisão</li>
+    </ol>
+    <div class="drawer__scroll" data-co-scroll>
+      <section class="co__step" data-co-step="dados" data-title="Seus dados">
+        <p class="co__lede">Para a pizzaria saber de quem é o pedido.</p>
+        <div class="field"><label for="co-nome">Nome</label><input id="co-nome" name="nome" autocomplete="name" autocapitalize="words"></div>
+        <div class="field"><label for="co-fone">Celular com DDD</label><input id="co-fone" name="fone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="(34) 99999-9999"></div>
+      </section>
+      <section class="co__step" data-co-step="entrega" data-title="Entrega ou retirada" hidden>
+        <div class="grp" role="radiogroup" aria-labelledby="co-tipo-t" data-grp="tipo">
+          <div class="grp__head"><p class="grp__title" id="co-tipo-t">Como você quer receber?</p><span class="grp__badge grp__badge--req">Obrigatório</span></div>
+          <label class="opt"><span class="opt__txt"><span class="opt__name">Entrega</span><span class="opt__extra" data-co-info-entrega></span></span><input type="radio" name="tipo" value="entrega" id="co-tipo-entrega"></label>
+          <label class="opt"><span class="opt__txt"><span class="opt__name">Retirar na pizzaria</span><span class="opt__extra" data-co-info-retirada></span></span><input type="radio" name="tipo" value="retirada" id="co-tipo-retirada"></label>
+        </div>
+        <div class="co__addr" data-co-addr hidden>
+          <p class="co__sub">Endereço de entrega</p>
+          <div class="field"><label for="co-cep">CEP <span>(opcional)</span></label><input id="co-cep" name="cep" inputmode="numeric" autocomplete="postal-code" placeholder="38440-000"></div>
+          <div class="field"><label for="co-rua">Rua</label><input id="co-rua" name="rua" autocomplete="address-line1"></div>
+          <div class="field-row">
+            <div class="field"><label for="co-num">Número</label><input id="co-num" name="numero" inputmode="numeric"></div>
+            <div class="field"><label for="co-bairro">Bairro</label><input id="co-bairro" name="bairro"></div>
+          </div>
+          <div class="field"><label for="co-comp">Complemento <span>(opcional)</span></label><input id="co-comp" name="complemento" placeholder="Apto, bloco, casa dos fundos"></div>
+          <div class="field"><label for="co-ref">Ponto de referência <span>(opcional)</span></label><input id="co-ref" name="referencia"></div>
+          <p class="co__note">Entregamos em Araguari, MG.</p>
+        </div>
+        <p class="co__pickup" data-co-pickup hidden></p>
+      </section>
+      <section class="co__step" data-co-step="pagamento" data-title="Pagamento" hidden>
+        <div class="grp" role="radiogroup" aria-labelledby="co-pag-t" data-grp="pag">
+          <div class="grp__head"><p class="grp__title" id="co-pag-t" data-co-pag-entrega>Pagar na entrega</p><span class="grp__badge grp__badge--req">Obrigatório</span></div>
+          <label class="opt"><span class="opt__txt"><span class="opt__name">Dinheiro</span></span><input type="radio" name="pag" value="dinheiro" id="co-pag-dinheiro"></label>
+          <label class="opt"><span class="opt__txt"><span class="opt__name">Cartão de crédito na maquininha</span></span><input type="radio" name="pag" value="cartao-entrega" id="co-pag-cartao-entrega"></label>
+          <div class="co__troco" data-co-troco hidden>
+            <p class="co__sub">Vai precisar de troco?</p>
+            <div class="co__seg" role="radiogroup" aria-label="Vai precisar de troco?">
+              <label><input type="radio" name="precisaTroco" value="nao" id="co-troco-nao" checked><span>Não</span></label>
+              <label><input type="radio" name="precisaTroco" value="sim" id="co-troco-sim"><span>Sim</span></label>
+            </div>
+            <div class="field" data-co-troco-valor hidden><label for="co-troco">Troco para quanto?</label><input id="co-troco" name="troco" inputmode="decimal" placeholder="R$ 100,00"></div>
+          </div>
+          <div class="grp__head grp__head--sub"><div><p class="grp__title">Pagar agora</p><p class="grp__hint">Pix ou cartão, antes da entrega</p></div></div>
+          <label class="opt"><span class="opt__txt"><span class="opt__name">Pix</span></span><input type="radio" name="pag" value="pix" id="co-pag-pix"></label>
+          <label class="opt"><span class="opt__txt"><span class="opt__name">Cartão de crédito</span></span><input type="radio" name="pag" value="cartao-online" id="co-pag-cartao-online"></label>
+        </div>
+      </section>
+      <section class="co__step" data-co-step="revisao" data-title="Revise o pedido" hidden>
+        <div class="co__review" data-co-review></div>
+      </section>
+    </div>
+    <div class="drawer__foot">
+      <p class="co__total"><span>Total</span><b data-co-total>R$ 0,00</b></p>
+      <button class="btn btn--red btn--block" type="submit" data-co-next><span data-co-next-label>Continuar</span></button>
+    </div>
+  </form>
+</dialog>
+
 <!-- Pedido recebido: the same ride as the Entrega act, played on its own
      like a short film. Opened only by PlanetaPizza.pedidoRecebido(), which
      the order integration calls once the pizzeria has the order. -->
@@ -1004,8 +1077,9 @@
 
 <!-- Configuração da pizzaria, conforme a loja oficial na Anotaí.
      whatsapp: só dígitos, com DDI e DDD. Vazio = o botão fica no lugar e
-     avisa, sem abrir contato nenhum. entrega: taxa única da loja, em reais. -->
-<script type="application/json" id="planeta-config">{"whatsapp": "553484089429", "entrega": 10}</script>
+     avisa, sem abrir contato nenhum. entrega: taxa única da loja, em reais;
+     tempoEntrega e retirada (endereço e tempo) também vêm da loja na Anotaí. -->
+<script type="application/json" id="planeta-config">{"whatsapp": "553484089429", "entrega": 10, "tempoEntrega": "45 a 60 min", "retirada": {"endereco": "Rua Padre Anchieta, 154, Jardim Regina, Araguari - MG", "tempo": "20 a 25 min"}}</script>
 <!-- Bordas, acréscimos e molhos da Anotaí (gerado por tools/cardapio.py). -->
 <!-- opcoes:inicio -->
 <script type="application/json" id="planeta-opcoes">{"bordas":{"pizza":[["Catupiry",8],["Cream cheese",12],["Chocolate",12],["Cheddar",8],["Muçarela",12],["Presunto e muçarela",12]],"doce":[["Catupiry",8],["Cheddar",8],["Cream cheese",8],["Muçarela",12],["Chocolate",12],["Presunto e muçarela",12]]},"acrescimos":{"pizza":[["Milho",6],["Alho",6],["Pimentão",6],["Bacon",8],["Catupiry",8],["Palmito",8],["Cheddar",8],["Cream cheese",12]]},"cone":{"molhos":["Molho de alho","Molho de barbecue","Molho de catchup","Molho de maionese com pimenta","Molho rosé"],"acrescimos":[["Molho de catchup",1],["Molho de barbecue",1],["Molho de maionese com pimenta",1],["Molho de alho",1],["Molho rosé",1],["Calabresa",2],["Muçarela",2],["Bacon",2]]}}</script>

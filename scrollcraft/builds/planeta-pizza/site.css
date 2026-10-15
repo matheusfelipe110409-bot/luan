@@ -831,6 +831,60 @@ dialog::backdrop { background: rgb(24 6 6 / 0.58); }
 .btn--quiet { background: transparent; color: var(--red-ink); box-shadow: none; }
 @media (hover: hover) and (pointer: fine) { .btn--quiet:hover { background: color-mix(in oklab, var(--red-ink) 8%, transparent); } }
 
+/* ---------------------------------------------------------- checkout ---- */
+/* The same panel as the comanda, one step at a time. */
+.co__back { width: 44px; height: 44px; flex: none; display: grid; place-items: center; border: 0; border-radius: 50%; background: #F1E6DF; color: var(--ink); cursor: pointer; }
+.co__back svg { transform: rotate(90deg); }
+.co__back[hidden] { display: grid; visibility: hidden; }
+.co__back:focus-visible { outline: 3px solid var(--red-ink); outline-offset: 2px; }
+.co__title { flex: 1; min-width: 0; font-size: 1.45rem; }
+.co__title:focus { outline: none; }
+.co__steps { list-style: none; counter-reset: co; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin: 0; padding: 4px 20px 10px; }
+.co__steps li { counter-increment: co; padding-top: 7px; border-top: 3px solid #E9DED8; font-size: 0.78rem; font-weight: 600; color: var(--ink-soft); }
+.co__steps li::before { content: counter(co) ". "; }
+.co__steps li.is-done { border-top-color: color-mix(in oklab, var(--red-ink) 45%, #E9DED8); color: var(--ink); }
+.co__steps li.is-now { border-top-color: var(--red-ink); color: var(--red-ink); }
+.co__lede, .co__note { margin: 4px 0 0; color: var(--ink-soft); font-size: 0.92rem; line-height: 1.45; }
+.co__note { margin-top: 12px; }
+.co__sub { margin: 20px 0 0; font-weight: 650; }
+.checkout .grp { margin: 14px -20px 0; }
+.checkout .grp__head, .checkout .opt { padding-inline: 20px; }
+.grp__head--sub { margin-top: 10px; }
+.co__troco { padding: 0 20px 16px; border-bottom: 1px solid #F1E9E4; }
+.co__troco .co__sub { margin-top: 12px; }
+.co__seg { display: inline-flex; gap: 8px; margin-top: 8px; }
+.co__seg label { position: relative; cursor: pointer; }
+.co__seg input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.co__seg span { display: inline-flex; align-items: center; min-height: 40px; padding: 0 18px; border-radius: 999px; border: 1.5px solid #CBB9B2; font-weight: 600; }
+.co__seg input:checked + span { border-color: var(--red-ink); background: var(--red-ink); color: #fff; }
+.co__seg input:focus-visible + span { outline: 3px solid var(--red-ink); outline-offset: 2px; }
+.co__pickup { margin: 16px 0 0; padding: 14px 16px; border-radius: 14px; background: var(--chip); line-height: 1.45; }
+.field { display: grid; gap: 6px; margin-top: 14px; min-width: 0; }
+.field label { font-weight: 600; font-size: 0.95rem; }
+.field label span { font-weight: 400; color: var(--ink-soft); }
+.field input {
+  width: 100%; min-width: 0; height: 50px; padding: 0 14px;
+  border: 1px solid #E2D5CF; border-radius: 12px; background: #fff;
+  font: 400 1rem var(--sc-font-text); color: var(--ink);
+}
+.field input:focus-visible { outline: 2px solid var(--red-ink); outline-offset: 1px; }
+.field.is-err input { border-color: var(--red-ink); box-shadow: 0 0 0 1px var(--red-ink); }
+.field__err { margin: 0; font-size: 0.86rem; color: var(--red-ink); }
+.field-row { display: grid; grid-template-columns: minmax(0, 7.5rem) minmax(0, 1fr); gap: 12px; }
+.field-row .field { margin-top: 14px; }
+.co__review { display: grid; gap: 4px; }
+.co__sec { padding: 14px 0; border-bottom: 1px solid #EADFD8; }
+.co__sec-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.co__sec-head h3 { margin: 0; font-size: 1rem; font-weight: 700; }
+.co__sec p { margin: 6px 0 0; line-height: 1.45; }
+.co__sec small { display: block; color: var(--ink-soft); font-size: 0.86rem; }
+.co__edit { padding: 6px 2px; border: 0; background: none; color: var(--red-ink); font: 650 0.9rem var(--sc-font-text); cursor: pointer; text-decoration: underline; text-underline-offset: 0.2em; }
+.co__line { display: flex; justify-content: space-between; gap: 12px; font-variant-numeric: tabular-nums; }
+.co__line span:first-child { min-width: 0; }
+.co__warn { margin: 12px 0 0; padding: 12px 14px; border-radius: 12px; background: #FCEFD9; color: #6B4A12; font-size: 0.9rem; line-height: 1.45; }
+.co__total { display: flex; justify-content: space-between; align-items: baseline; margin: 0 0 4px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.co__total b { font-size: 1.15rem; }
+
 /* ============================================================== FECHO ==== */
 .fecho {
   position: relative; z-index: 2;
@@ -984,6 +1038,8 @@ dialog::backdrop { background: rgb(24 6 6 / 0.58); }
   .drawer { width: 100vw; height: auto; max-height: 88dvh; margin: auto 0 0 0; border-radius: 22px 22px 0 0; }
   .drawer[open] { animation-name: sheet-up; }
   .drawer__panel { height: auto; max-height: 88dvh; }
+  .checkout { height: 94dvh; max-height: 94dvh; }
+  .checkout .drawer__panel { height: 100%; max-height: none; }
 
   .orderbar {
     display: block; position: fixed; inset: auto 0 0 0; z-index: 60;
