@@ -1,6 +1,7 @@
 # Prompts para o ChatGPT · Planeta Pizza
 
-Agora faltam as **fotos do cardápio**: 34 pizzas, com os sabores e os ingredientes exatamente
+Agora são duas frentes: a **fachada da pizzaria à noite** (o fundo de onde sai o motoboy) e as
+**fotos do cardápio**: 34 pizzas, com os sabores e os ingredientes exatamente
 como estão na loja da Planeta Pizza na Anotaí. O método é o mesmo das outras: **o mesmo
 preâmbulo de estilo, palavra por palavra, em todos os prompts** (é isso que faz fotos geradas
 separadamente parecerem uma única sessão de fotos), o espaço vazio sempre nomeado e nenhum
@@ -34,7 +35,38 @@ leve) e `python3 tools/cardapio.py` (liga cada foto ao sabor dela no cardápio).
 
 ---
 
-## Grupo M · Fotos do cardápio · PRIORIDADE 1
+## Grupo F · Fachada à noite (o fundo de onde sai o motoboy) · PRIORIDADE 1
+
+Um chat novo. Formato **paisagem (3:2)**. **Anexe as duas fotos da fachada** (a de dia, com a
+loja fechada, e a de noite, com a loja aberta) na mesma mensagem do prompt.
+
+A imagem fica atrás do motoboy: ele passa pela rua, na parte de baixo, e o título "Do forno até a
+sua porta." fica no alto, à esquerda. No celular aparece só a faixa do meio da imagem, por isso a
+pizzaria vem um pouco à direita do centro e a rua fica vazia.
+
+### F1 · Fachada à noite · `e4-fachada.png`
+
+Anexe as duas fotos da fachada nesta mesma mensagem.
+
+```text
+Create a clean, professional night photograph of the exact pizzeria in the attached photos, for the background of its delivery website. Use the photos as the only reference for the building: the daytime street photo shows the real facade and sign of Planeta Pizza with the shop closed; the blurry night photo shows the same shop open at night.
+
+Keep exactly as in the reference: the dark brown-black sign panel across the top with the Planeta Pizza logo (a pizza drawn as a planet with an orange ring around it, the word "Planeta" in bold white italic, and "PIZZA" in big yellow marquee letters outlined with small light bulbs), the black gooseneck lamps above the sign, the mustard-yellow ceramic tile walls on both sides of the opening, and the wide shop opening with the metal roll-up door fully raised. Do not redesign the logo, do not change its colours, do not add or change any words.
+
+Clean it up: remove all overhead power lines and cables, utility poles, parked cars, people, cardboard boxes, the phone repair shop and its sign on the right, and the small contact line along the bottom of the sign (phone numbers, social media icons and app badge). The only text in the whole image is the Planeta Pizza logo on the sign. The neighbouring buildings on both sides become plain, dark, unlit walls that fade into shadow, so the eye goes straight to the pizzeria.
+
+Night mood: deep blue night sky, clear and calm. The logo sign is lit, the PIZZA marquee bulbs glow warm yellow, the gooseneck lamps cast warm pools of light down over the sign and the yellow tiles, and a warm golden glow comes from inside the open shop: a clean service counter and warm ceiling lights, no people and no readable text inside. The asphalt in front is slightly wet and softly reflects the warm light of the shop.
+
+Camera and framing: landscape 3:2, eye level, straight-on frontal view from across the street, 35mm lens, everything level and parallel, no tilt. The pizzeria is centred at about 60% of the image width and its sign spans about 40% of the image width. The top of the sign sits about 20% from the top of the image, with calm dark night sky above it. The sidewalk in front of the shop ends at about two thirds of the image height, and the bottom third of the image is an empty asphalt street running horizontally across the whole frame, with no cars and no people. The upper left third of the image is calm and dark.
+
+Style: cinematic night photography, warm amber and golden light against deep blue shadows, real photographic detail, fine film grain, natural perspective. Photographic realism. NOT illustration, NOT 3D render, NOT CGI, no plastic look, no extra logos, no licence plates, no watermark.
+```
+
+Se o ChatGPT mexer na placa, responda: `Keep the sign exactly as in the daytime photo: same logo, same letters, same colours. Change only the light.`
+
+---
+
+## Grupo M · Fotos do cardápio · PRIORIDADE 2
 
 Formato **quadrado (1:1)**. Cada bloco gera uma pizza. O preâmbulo é o mesmo em todos; só muda
 a última parte (a cobertura de cada sabor).
@@ -386,7 +418,7 @@ Square 1:1. One whole large sweet pizza, perfectly centred, its outer crust span
 
 ---
 
-## Grupo S · Imagem de compartilhamento (WhatsApp, Instagram, Google) · PRIORIDADE 2
+## Grupo S · Imagem de compartilhamento (WhatsApp, Instagram, Google) · PRIORIDADE 3
 
 Formato **paisagem (3:2)**. É a imagem que aparece quando alguém manda o link do site.
 
@@ -402,6 +434,8 @@ Landscape 3:2. A whole freshly baked Brazilian calabresa pizza (smoked calabresa
 
 ## Conferência rápida antes de enviar
 
+- [ ] Fachada: a placa igual à de verdade, à noite, sem fios, carros, pessoas nem outras lojas, e
+      a rua vazia embaixo.
 - [ ] Nenhuma pizza com a borda cortada, todas centralizadas e do mesmo tamanho.
 - [ ] Só os ingredientes do prompt: nada a mais em cima da pizza.
 - [ ] Fundo claro liso, sem prato, tábua, mãos ou texto.
