@@ -37,6 +37,7 @@
   --sc-font-text: "Geist", system-ui, sans-serif;
   --sc-font-mono: "Geist Mono", ui-monospace, monospace;
 
+  --seam: #A40B12;         /* the cover photo's own red: vitrine and cover meet on it */
   --bar-h: 60px;
   --orderbar-h: 0px;
   --gut: clamp(20px, 4.6vw, 72px);
@@ -128,7 +129,7 @@ body { background: var(--red); color: var(--on-red); }
 @keyframes bump { 30% { transform: scale(1.3); } 100% { transform: scale(1); } }
 
 /* ============================================================ VITRINE ==== */
-.vitrine { background: var(--red); }
+.vitrine { background: var(--seam); }
 .vt {
   --pz: min(74svh, 44vw);
   --cx: 62vw;
@@ -142,9 +143,11 @@ body { background: var(--red); color: var(--on-red); }
     radial-gradient(70vmax 56vmax at var(--cx) var(--cy), #C61C1F 0%, var(--red) 52%, #A1101A 100%);
 }
 .vt__ground:not(.vt__ground--hot)::after {
-  /* the bottom edge settles on the cover's red, so the hand-over has no seam */
-  content: ""; position: absolute; inset: auto 0 0 0; height: 16svh;
-  background: linear-gradient(rgb(161 16 26 / 0), #A1101A);
+  /* the bottom edge settles on the cover photo's red, so the hand-over has
+     no seam: the last row of the vitrine and the first row of the cover are
+     the same colour */
+  content: ""; position: absolute; inset: auto 0 0 0; height: 26svh;
+  background: linear-gradient(rgb(164 11 18 / 0), rgb(164 11 18 / 0.3) 35%, rgb(164 11 18 / 0.72) 70%, var(--seam));
 }
 .vt__ground--hot {
   background: radial-gradient(56vmax 46vmax at var(--cx) var(--cy), #EE5A20 0%, var(--red-hot) 42%, transparent 78%);
@@ -484,22 +487,23 @@ body { background: var(--red); color: var(--on-red); }
 .display--section { font-size: clamp(2.6rem, 1.5rem + 4vw, 5rem); color: inherit; }
 .loja__capa {
   position: relative; z-index: 0;
-  height: clamp(300px, 40vw, 560px); overflow: hidden;
-  background: #A1101A;
+  height: clamp(320px, 42vw, 600px); overflow: hidden;
+  background: var(--seam);
 }
 .loja__capa::before {
-  /* the vitrine's red runs straight into the photo's red: no hard edge */
-  content: ""; position: absolute; inset: 0 0 auto 0; height: 34%; z-index: 1;
-  background: linear-gradient(#A1101A, rgb(161 16 26 / 0));
+  /* the photo comes up out of the vitrine's red: same colour on the first
+     row, then a long eased fade, so there is no line to see */
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 55%; z-index: 1;
+  background: linear-gradient(var(--seam), rgb(164 11 18 / 0.86) 18%, rgb(164 11 18 / 0.55) 42%, rgb(164 11 18 / 0.22) 70%, rgb(164 11 18 / 0));
   pointer-events: none;
 }
 .loja__capa img {
   display: block; width: 100%; height: 100%; max-width: none;
   object-fit: cover; object-position: 50% 40%;
-  transition: transform 1600ms cubic-bezier(0.2, 0.7, 0.2, 1), opacity 800ms var(--sc-ease-out);
+  /* a slow settle tied to the scroll (site.js sets --cz), never a pop */
+  transform: scale(var(--cz, 1));
+  transform-origin: 50% 30%;
 }
-/* the cover settles in as it comes up, once */
-html.sc-ready .loja__capa:not(.is-in) img { opacity: 0; transform: scale(1.08); }
 .loja__sheet {
   position: relative; z-index: 1;
   margin-top: -28px; padding-bottom: clamp(48px, 7vw, 96px);
@@ -921,8 +925,7 @@ dialog::backdrop { background: rgb(24 6 6 / 0.58); }
   .rd__street { transform: none; }
   .rd__rider { transform: translateX(18vw); opacity: clamp(0, (var(--sc-p, 0) - 0.48) / 0.12, 1); }
   .rd__stamp { transform: translate(-50%, -50%) rotate(-9deg); }
-  .loja__capa img { transition: none; }
-  html.sc-ready .loja__capa:not(.is-in) img { transform: none; }
+  .loja__capa img { transform: none; }
   .rd__box.is-stamped .rd__stamp { animation: none; opacity: 0.86; }
   .sheet[open], .drawer[open] { animation: none; }
 }

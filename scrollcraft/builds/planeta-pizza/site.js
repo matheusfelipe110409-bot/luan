@@ -203,17 +203,24 @@
   updateActs();
 
   // ------------------------------------------------------------ cover ----
+  // The cover photo settles from a slight zoom as it rises out of the
+  // vitrine's red. Tied to the scroll, so it never pops in.
   var capa = document.querySelector('.loja__capa');
-  if (capa) {
-    if ('IntersectionObserver' in window) {
-      var capaIO = new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) {
-          if (en.isIntersecting) { capa.classList.add('is-in'); capaIO.disconnect(); }
-        });
-      }, { threshold: 0.2 });
-      capaIO.observe(capa);
-    } else capa.classList.add('is-in');
+  function paintCover() {
+    if (!capa || reduce) return;
+    var r = capa.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > innerHeight) return;
+    var t = Math.min(Math.max((innerHeight - r.top) / (innerHeight * 0.9), 0), 1);
+    capa.style.setProperty('--cz', (1.1 - 0.1 * t * (2 - t)).toFixed(4));
   }
+  var coverTick = false;
+  addEventListener('scroll', function () {
+    if (coverTick) return;
+    coverTick = true;
+    requestAnimationFrame(function () { coverTick = false; paintCover(); });
+  }, { passive: true });
+  addEventListener('resize', paintCover, { passive: true });
+  paintCover();
 
   // ------------------------------------------------------- open sign ----
   var statusEls = document.querySelectorAll('[data-status]');

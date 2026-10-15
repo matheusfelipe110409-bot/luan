@@ -377,3 +377,16 @@ Sem rolagem horizontal e sem erros no console.
   ficaram sem rolagem morta. O único alerta de contraste é o quadro em que o
   texto da entrega já saiu por baixo da barra. O fluxo de pedido segue
   passando.
+
+**Revisão 3b, a emenda vitrine → capa** ("faça de forma que não dá pra ver
+a separação das duas"):
+- A vitrine e a capa se encontram num único vermelho, `--seam` (o vermelho
+  de fundo da própria foto da capa).
+- A vitrine escurece até ele nos últimos 26% da tela, e o fundo da seção
+  também é `--seam`. Assim a faixa que sobra quando a barra do navegador
+  recolhe no celular tem a mesma cor.
+- A capa começa nele e abre a foto num degradê longo.
+- A capa não entra mais com fade; ela assenta de um zoom leve preso ao
+  scroll.
+- Medido na linha da emenda, em quatro posições de rolagem: diferença máxima
+  de 2/255 no celular e 4/255 no desktop (granulação).
