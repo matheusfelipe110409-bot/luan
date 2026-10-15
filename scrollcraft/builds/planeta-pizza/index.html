@@ -182,6 +182,10 @@
           <li class="info"><svg class="ico" aria-hidden="true"><use href="#i-bike"/></svg>45 a 60 min · Entrega R$ 10,00</li>
           <li class="info info--price">Pizzas a partir de <b>R$ 32</b></li>
         </ul>
+        <div class="repeat" data-repeat hidden>
+          <div class="repeat__txt"><p class="repeat__t">Pedir de novo</p><p class="repeat__s" data-repeat-sum></p></div>
+          <button class="add" type="button" data-repeat-add><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Adicionar</span></button>
+        </div>
       </header>
 
       <div class="wrap busca">
@@ -948,63 +952,43 @@
   </form>
 </dialog>
 
-<!-- The comanda drawer: the same thermal ticket, reachable from anywhere. -->
-<dialog class="drawer" id="drawer" aria-labelledby="drawer-title">
-  <div class="drawer__panel">
-    <header class="drawer__head">
-      <h2 id="drawer-title" class="drawer__title">Sua comanda</h2>
-      <button class="drawer__close" type="button" data-drawer-close aria-label="Fechar"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button>
-    </header>
-    <div class="drawer__scroll">
-      <div class="ticket ticket--drawer">
-        <div class="ticket__paper">
-          <p class="ticket__head"><span>Planeta Pizza</span><span>Seu pedido</span></p>
-          <ol class="ticket__lines" data-order-lines></ol>
-          <p class="ticket__fee" data-fee hidden><span>Entrega</span><span data-fee-value>R$ 10,00</span></p>
-          <p class="ticket__total"><span>Total</span><span data-total>R$ 0,00</span></p>
-        </div>
-      </div>
-    </div>
-    <div class="drawer__foot">
-      <button class="btn btn--red btn--block" type="button" data-checkout><svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg><span>Fazer pedido</span></button>
-      <button class="btn btn--quiet btn--block" type="button" data-more>Adicionar mais itens</button>
-    </div>
-  </div>
-</dialog>
-
-<!-- Finalizar: o pedido inteiro montado aqui, na ordem dos apps de delivery:
-     seus dados, entrega ou retirada (e o endereço), pagamento, revisão.
-     Pagar na entrega manda o pedido completo ao WhatsApp da pizzaria;
-     pagar agora abre o checkout da Anotaí quando houver integração
-     (PlanetaPizza.integracao.abrirCheckout, em site.js). -->
-<dialog class="drawer checkout" id="checkout" aria-labelledby="co-title">
+<!-- Sua comanda: a sacola e a finalização numa rolagem só, como nos apps de
+     delivery (ver CHECKOUT.md): itens, peça também, entrega ou retirada,
+     pagamento, seus dados, resumo. Na Fase 1 o pedido segue pelo WhatsApp. -->
+<dialog class="drawer comanda" id="drawer" aria-labelledby="drawer-title">
   <form class="drawer__panel" data-co-form novalidate>
     <header class="drawer__head">
-      <button class="co__back" type="button" data-co-back aria-label="Voltar"><svg class="ico" aria-hidden="true"><use href="#i-chevron"/></svg></button>
-      <h2 id="co-title" class="drawer__title co__title" tabindex="-1" data-co-title>Seus dados</h2>
-      <button class="drawer__close" type="button" data-co-close aria-label="Fechar"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button>
+      <h2 id="drawer-title" class="drawer__title" tabindex="-1">Sua comanda</h2>
+      <button class="drawer__close" type="button" data-drawer-close aria-label="Fechar"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button>
     </header>
-    <ol class="co__steps" aria-label="Etapas do pedido">
-      <li data-co-dot="dados">Dados</li>
-      <li data-co-dot="entrega">Entrega</li>
-      <li data-co-dot="pagamento">Pagamento</li>
-      <li data-co-dot="revisao">Revisão</li>
-    </ol>
     <div class="drawer__scroll" data-co-scroll>
-      <section class="co__step" data-co-step="dados" data-title="Seus dados">
-        <p class="co__lede">Para a pizzaria saber de quem é o pedido.</p>
-        <div class="field"><label for="co-nome">Nome</label><input id="co-nome" name="nome" autocomplete="name" autocapitalize="words"></div>
-        <div class="field"><label for="co-fone">Celular com DDD</label><input id="co-fone" name="fone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="(34) 99999-9999"></div>
+      <p class="co__closed" data-co-closed role="status" hidden></p>
+
+      <section class="co__sec" data-co-sec="itens" aria-labelledby="co-h-itens">
+        <h3 class="co__h sr" id="co-h-itens">Itens</h3>
+        <div class="ticket ticket--drawer">
+          <div class="ticket__paper">
+            <p class="ticket__head"><span>Planeta Pizza</span><span>Seu pedido</span></p>
+            <ol class="ticket__lines" data-order-lines></ol>
+            <p class="ticket__total"><span>Subtotal</span><span data-subtotal>R$ 0,00</span></p>
+          </div>
+        </div>
+        <button class="co__more" type="button" data-more><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Adicionar mais itens</span></button>
       </section>
-      <section class="co__step" data-co-step="entrega" data-title="Entrega ou retirada" hidden>
-        <div class="grp" role="radiogroup" aria-labelledby="co-tipo-t" data-grp="tipo">
-          <div class="grp__head"><p class="grp__title" id="co-tipo-t">Como você quer receber?</p><span class="grp__badge grp__badge--req">Obrigatório</span></div>
-          <label class="opt"><span class="opt__txt"><span class="opt__name">Entrega</span><span class="opt__extra" data-co-info-entrega></span></span><input type="radio" name="tipo" value="entrega" id="co-tipo-entrega"></label>
-          <label class="opt"><span class="opt__txt"><span class="opt__name">Retirar na pizzaria</span><span class="opt__extra" data-co-info-retirada></span></span><input type="radio" name="tipo" value="retirada" id="co-tipo-retirada"></label>
+
+      <section class="co__sec" data-co-sec="upsell" aria-labelledby="co-h-upsell" data-upsell-wrap hidden>
+        <h3 class="co__h" id="co-h-upsell">Peça também</h3>
+        <ul class="co__rail" role="list" data-upsell></ul>
+      </section>
+
+      <section class="co__sec" data-co-sec="entrega" aria-labelledby="co-h-entrega">
+        <h3 class="co__h" id="co-h-entrega">Entrega ou retirada</h3>
+        <div class="co__choice" role="radiogroup" aria-labelledby="co-h-entrega" data-grp="tipo">
+          <label class="co__card"><input type="radio" name="tipo" value="entrega" id="co-tipo-entrega"><span class="co__card-t"><svg class="ico" aria-hidden="true"><use href="#i-bike"/></svg>Entrega</span><span class="co__card-s" data-co-info-entrega></span></label>
+          <label class="co__card"><input type="radio" name="tipo" value="retirada" id="co-tipo-retirada"><span class="co__card-t"><svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg>Retirada</span><span class="co__card-s" data-co-info-retirada></span></label>
         </div>
         <div class="co__addr" data-co-addr hidden>
-          <p class="co__sub">Endereço de entrega</p>
-          <div class="field"><label for="co-cep">CEP <span>(opcional)</span></label><input id="co-cep" name="cep" inputmode="numeric" autocomplete="postal-code" placeholder="38440-000"></div>
+          <div class="field"><label for="co-cep">CEP <span>(opcional, preenche a rua)</span></label><input id="co-cep" name="cep" inputmode="numeric" autocomplete="postal-code" placeholder="38440-000"></div>
           <div class="field"><label for="co-rua">Rua</label><input id="co-rua" name="rua" autocomplete="address-line1"></div>
           <div class="field-row">
             <div class="field"><label for="co-num">Número</label><input id="co-num" name="numero" inputmode="numeric"></div>
@@ -1012,37 +996,68 @@
           </div>
           <div class="field"><label for="co-comp">Complemento <span>(opcional)</span></label><input id="co-comp" name="complemento" placeholder="Apto, bloco, casa dos fundos"></div>
           <div class="field"><label for="co-ref">Ponto de referência <span>(opcional)</span></label><input id="co-ref" name="referencia"></div>
-          <p class="co__note">Entregamos em Araguari, MG.</p>
+          <p class="co__note"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg>Entregamos em Araguari, MG.</p>
         </div>
-        <p class="co__pickup" data-co-pickup hidden></p>
+        <div class="co__pickup" data-co-pickup hidden>
+          <p data-co-pickup-text></p>
+          <a href="#" target="_blank" rel="noopener" data-co-map>Ver no mapa</a>
+        </div>
       </section>
-      <section class="co__step" data-co-step="pagamento" data-title="Pagamento" hidden>
-        <div class="grp" role="radiogroup" aria-labelledby="co-pag-t" data-grp="pag">
-          <div class="grp__head"><p class="grp__title" id="co-pag-t" data-co-pag-entrega>Pagar na entrega</p><span class="grp__badge grp__badge--req">Obrigatório</span></div>
+
+      <section class="co__sec" data-co-sec="pagamento" aria-labelledby="co-h-pag">
+        <h3 class="co__h" id="co-h-pag" data-co-pag-title>Pagamento na entrega</h3>
+        <div class="co__opts" role="radiogroup" aria-labelledby="co-h-pag" data-grp="pag">
           <label class="opt"><span class="opt__txt"><span class="opt__name">Dinheiro</span></span><input type="radio" name="pag" value="dinheiro" id="co-pag-dinheiro"></label>
-          <label class="opt"><span class="opt__txt"><span class="opt__name">Cartão de crédito na maquininha</span></span><input type="radio" name="pag" value="cartao-entrega" id="co-pag-cartao-entrega"></label>
           <div class="co__troco" data-co-troco hidden>
-            <p class="co__sub">Vai precisar de troco?</p>
-            <div class="co__seg" role="radiogroup" aria-label="Vai precisar de troco?">
+            <p class="co__sub" id="co-troco-t">Vai precisar de troco?</p>
+            <div class="co__seg" role="radiogroup" aria-labelledby="co-troco-t">
               <label><input type="radio" name="precisaTroco" value="nao" id="co-troco-nao" checked><span>Não</span></label>
               <label><input type="radio" name="precisaTroco" value="sim" id="co-troco-sim"><span>Sim</span></label>
             </div>
             <div class="field" data-co-troco-valor hidden><label for="co-troco">Troco para quanto?</label><input id="co-troco" name="troco" inputmode="decimal" placeholder="R$ 100,00"></div>
           </div>
-          <div class="grp__head grp__head--sub"><div><p class="grp__title">Pagar agora</p><p class="grp__hint">Pix ou cartão, antes da entrega</p></div></div>
-          <label class="opt"><span class="opt__txt"><span class="opt__name">Pix</span></span><input type="radio" name="pag" value="pix" id="co-pag-pix"></label>
-          <label class="opt"><span class="opt__txt"><span class="opt__name">Cartão de crédito</span></span><input type="radio" name="pag" value="cartao-online" id="co-pag-cartao-online"></label>
+          <label class="opt"><span class="opt__txt"><span class="opt__name">Cartão de crédito na maquininha</span></span><input type="radio" name="pag" value="cartao-entrega" id="co-pag-cartao-entrega"></label>
+          <div class="co__online" data-co-online hidden>
+            <p class="co__sub">Pagar agora, pelo site</p>
+            <label class="opt"><span class="opt__txt"><span class="opt__name">Pix</span></span><input type="radio" name="pag" value="pix" id="co-pag-pix"></label>
+            <label class="opt"><span class="opt__txt"><span class="opt__name">Cartão de crédito</span></span><input type="radio" name="pag" value="cartao-online" id="co-pag-cartao-online"></label>
+          </div>
         </div>
       </section>
-      <section class="co__step" data-co-step="revisao" data-title="Revise o pedido" hidden>
-        <div class="co__review" data-co-review></div>
+
+      <section class="co__sec" data-co-sec="dados" aria-labelledby="co-h-dados">
+        <h3 class="co__h" id="co-h-dados">Seus dados</h3>
+        <p class="co__lede">Para a pizzaria falar com você sobre o pedido.</p>
+        <div class="field"><label for="co-nome">Nome</label><input id="co-nome" name="nome" autocomplete="name" autocapitalize="words"></div>
+        <div class="field"><label for="co-fone">Celular com DDD</label><input id="co-fone" name="fone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="(34) 99999-9999"></div>
+      </section>
+
+      <section class="co__sec co__resumo" data-co-sec="resumo" aria-labelledby="co-h-resumo">
+        <h3 class="co__h" id="co-h-resumo">Resumo</h3>
+        <p class="co__line"><span>Subtotal</span><span data-co-sub>R$ 0,00</span></p>
+        <p class="co__line" data-co-fee-line><span>Taxa de entrega</span><span data-co-fee>R$ 0,00</span></p>
+        <p class="co__line co__line--total"><span>Total</span><span data-co-sum>R$ 0,00</span></p>
+        <p class="co__line co__line--troco" data-co-troco-line hidden><span>Troco para</span><span data-co-troco-val></span></p>
       </section>
     </div>
     <div class="drawer__foot">
-      <p class="co__total"><span>Total</span><b data-co-total>R$ 0,00</b></p>
-      <button class="btn btn--red btn--block" type="submit" data-co-next><span data-co-next-label>Continuar</span></button>
+      <button class="btn btn--red btn--block co__go" type="submit" data-co-submit><span>Fazer pedido</span><span class="co__go-total" data-co-total>R$ 0,00</span></button>
+      <p class="co__hint" data-co-hint>Você confirma o envio no WhatsApp da pizzaria.</p>
     </div>
   </form>
+</dialog>
+
+<!-- Depois do envio pela Fase 1: o pedido está escrito no WhatsApp da
+     pizzaria, falta o cliente tocar em enviar. Nada aqui finge confirmação. -->
+<dialog class="aviso" id="pedido-whats" aria-labelledby="pw-title">
+  <div class="aviso__card">
+    <p class="entrega__kicker">Planeta Pizza</p>
+    <h2 class="entrega__title" id="pw-title">Seu pedido está no WhatsApp</h2>
+    <p class="entrega__text">Toque em enviar na conversa da pizzaria. A confirmação e o tempo de entrega chegam por lá.</p>
+    <a class="btn btn--wa btn--block" href="#" target="_blank" rel="noopener" data-pw-again><svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Abrir o WhatsApp de novo</span></a>
+    <button class="btn btn--red btn--block" type="button" data-pw-sent>Já enviei</button>
+    <button class="btn btn--quiet btn--block" type="button" data-pw-close>Voltar à comanda</button>
+  </div>
 </dialog>
 
 <!-- Pedido recebido: the same ride as the Entrega act, played on its own
@@ -1078,8 +1093,10 @@
 <!-- Configuração da pizzaria, conforme a loja oficial na Anotaí.
      whatsapp: só dígitos, com DDI e DDD. Vazio = o botão fica no lugar e
      avisa, sem abrir contato nenhum. entrega: taxa única da loja, em reais;
-     tempoEntrega e retirada (endereço e tempo) também vêm da loja na Anotaí. -->
-<script type="application/json" id="planeta-config">{"whatsapp": "553484089429", "entrega": 10, "tempoEntrega": "45 a 60 min", "retirada": {"endereco": "Rua Padre Anchieta, 154, Jardim Regina, Araguari - MG", "tempo": "20 a 25 min"}}</script>
+     tempoEntrega e retirada (endereço e tempo) também vêm da loja na Anotaí;
+     "retirada": null tira a opção de retirar na pizzaria do pedido.
+     pagamentoOnline: false até o Mercado Pago entrar (Fase 3, CHECKOUT.md). -->
+<script type="application/json" id="planeta-config">{"whatsapp": "553484089429", "entrega": 10, "tempoEntrega": "45 a 60 min", "retirada": {"endereco": "Rua Padre Anchieta, 154, Jardim Regina, Araguari - MG", "tempo": "20 a 25 min"}, "pagamentoOnline": false}</script>
 <!-- Bordas, acréscimos e molhos da Anotaí (gerado por tools/cardapio.py). -->
 <!-- opcoes:inicio -->
 <script type="application/json" id="planeta-opcoes">{"bordas":{"pizza":[["Catupiry",8],["Cream cheese",12],["Chocolate",12],["Cheddar",8],["Muçarela",12],["Presunto e muçarela",12]],"doce":[["Catupiry",8],["Cheddar",8],["Cream cheese",8],["Muçarela",12],["Chocolate",12],["Presunto e muçarela",12]]},"acrescimos":{"pizza":[["Milho",6],["Alho",6],["Pimentão",6],["Bacon",8],["Catupiry",8],["Palmito",8],["Cheddar",8],["Cream cheese",12]]},"cone":{"molhos":["Molho de alho","Molho de barbecue","Molho de catchup","Molho de maionese com pimenta","Molho rosé"],"acrescimos":[["Molho de catchup",1],["Molho de barbecue",1],["Molho de maionese com pimenta",1],["Molho de alho",1],["Molho rosé",1],["Calabresa",2],["Muçarela",2],["Bacon",2]]}}</script>

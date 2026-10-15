@@ -589,6 +589,7 @@
   var FEE = 0;
   try { FEE = +JSON.parse(document.getElementById('planeta-config').textContent).entrega || 0; } catch (e) {}
   var feeEls = document.querySelectorAll('[data-fee]');
+  var subtotalEls = document.querySelectorAll('[data-subtotal]');
   var orderMode = 'entrega';          // or 'retirada', chosen at checkout: no fee
   function totals() {
     var q = 0, sum = 0;
@@ -638,11 +639,13 @@
       n.hidden = !t.fee;
       n.querySelector('[data-fee-value]').textContent = money(t.fee);
     });
+    subtotalEls.forEach(function (n) { n.textContent = money(t.sum); });
     emptyBox.hidden = t.qty > 0;
     linesHosts.forEach(function (host) {
       host.textContent = '';
       cart.forEach(function (it) { host.appendChild(lineEl(it)); });
     });
+    if (coReady) { paintCo(); paintRepeat(); }
   }
 
   function addToCart(line, n) {
@@ -666,7 +669,9 @@
 
   function openDrawer(from) {
     drawerOpener = from || null;
+    if (coReady) prepCo();
     if (typeof drawer.showModal === 'function') drawer.showModal(); else drawer.setAttribute('open', '');
+    if (coReady) revealSections();
   }
   function closeDrawer() {
     if (drawer.open) { if (typeof drawer.close === 'function') drawer.close(); else drawer.removeAttribute('open'); }
@@ -697,7 +702,7 @@
         toast('Escolha sua pizza no cardápio primeiro.');
         document.getElementById('cardapio').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
       } else {
-        openCheckout(t.closest('[data-checkout]'));
+        openDrawer(t.closest('[data-checkout]'));
       }
     }
   });
@@ -724,26 +729,23 @@
   });
 
   // ---------------------------------------------------- finish the order ----
-  // The whole order is put together here, in the order the delivery apps use:
-  // who orders, delivery or pickup (and where), how to pay, review.
-  //  * Pay on delivery or at pickup: the complete order goes to the
-  //    pizzaria's WhatsApp, where the store already takes orders.
-  //  * Pay now (Pix or card): Anotaí's checkout, once Anotaí opens an
-  //    integration for it. It registers
-  //      PlanetaPizza.integracao.abrirCheckout(pedido)
-  //    Until then this order goes to WhatsApp as well, marked as such.
-  //  * PlanetaPizza.integracao.enviarPedido(pedido), returning a promise of
-  //    { recebido: true, numero?, previsao? }, sends the order directly; only
-  //    a confirmed order plays the delivery film.
+  // Sua comanda is the bag and the checkout in one scroll, in the order the
+  // delivery apps use (CHECKOUT.md): items, "peça também", delivery or
+  // pickup, payment, who orders, summary.
+  //  * Phase 1: the complete order goes to the pizzaria's WhatsApp, where the
+  //    store already takes orders. Nothing here pretends it was received.
+  //  * PlanetaPizza.integracao.enviarPedido(pedido) → promise of
+  //    { recebido, numero?, previsao? }: the store's own system (Phase 2).
+  //    Only a confirmed order plays the delivery film.
+  //  * PlanetaPizza.integracao.abrirCheckout(pedido): paying now with Pix or
+  //    card (Phase 3), offered once CONFIG.pagamentoOnline is on.
   var RET = CONFIG.retirada || {};
-  var co = document.getElementById('checkout');
-  var coForm = co.querySelector('[data-co-form]');
-  var coTitle = co.querySelector('[data-co-title]');
-  var coBack = co.querySelector('[data-co-back]');
-  var coNext = co.querySelector('[data-co-next-label]');
-  var coTotal = co.querySelector('[data-co-total]');
-  var coScroll = co.querySelector('[data-co-scroll]');
-  var STEPS = ['dados', 'entrega', 'pagamento', 'revisao'];
+  var coForm = drawer.querySelector('[data-co-form]');
+  var coScroll = drawer.querySelector('[data-co-scroll]');
+  var coTotal = drawer.querySelector('[data-co-total]');
+  var coClosed = drawer.querySelector('[data-co-closed]');
+  var pw = document.getElementById('pedido-whats');
+  var repeatBox = document.querySelector('[data-repeat]');
   var PAGAR = {
     dinheiro: { quando: 'entrega', nome: 'Dinheiro' },
     'cartao-entrega': { quando: 'entrega', nome: 'Cartão de crédito na maquininha' },
@@ -751,13 +753,26 @@
     'cartao-online': { quando: 'agora', nome: 'Cartão de crédito' }
   };
   var SAVE = ['nome', 'fone', 'cep', 'rua', 'numero', 'bairro', 'complemento', 'referencia'];
-  var SAVE_KEY = 'planeta-cliente';
-  var step = 0, coOpener = null, cepCity = '', sending = false;
+  var SAVE_KEY = 'planeta-cliente', LAST_KEY = 'planeta-ultimo';
+  var cepCity = '', sending = false, lastMsg = '';
 
-  co.querySelector('[data-co-info-entrega]').textContent = (CONFIG.tempoEntrega ? CONFIG.tempoEntrega + ' · ' : '') + money(FEE);
-  co.querySelector('[data-co-info-retirada]').textContent = (RET.tempo ? RET.tempo + ' · ' : '') + 'sem taxa';
-  co.querySelector('[data-co-pickup]').textContent = RET.endereco
-    ? 'Retire na pizzaria: ' + RET.endereco + '.' + (RET.tempo ? ' Fica pronto em ' + RET.tempo + '.' : '') : '';
+  drawer.querySelector('[data-co-info-entrega]').textContent = (CONFIG.tempoEntrega ? CONFIG.tempoEntrega + ' · ' : '') + money(FEE);
+  drawer.querySelector('[data-co-info-retirada]').textContent = (RET.tempo ? RET.tempo + ' · ' : '') + 'sem taxa';
+  drawer.querySelector('[data-co-pickup-text]').textContent = RET.endereco
+    ? 'Retire em ' + RET.endereco + '.' + (RET.tempo ? ' Fica pronto em ' + RET.tempo + '.' : '') : '';
+  // pickup only when the store's address is in the config ("retirada": null
+  // turns it off); then delivery is the one choice and comes chosen
+  var temRetirada = !!RET.endereco;
+  if (!temRetirada) {
+    drawer.querySelector('#co-tipo-retirada').closest('label').hidden = true;
+    drawer.querySelector('[data-grp="tipo"]').classList.add('co__choice--one');
+    drawer.querySelector('#co-h-entrega').textContent = 'Entrega';
+    drawer.querySelector('#co-tipo-entrega').checked = true;
+  }
+  var mapLink = drawer.querySelector('[data-co-map]');
+  if (RET.endereco) mapLink.href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('Planeta Pizza, ' + RET.endereco);
+  else mapLink.hidden = true;
+  drawer.querySelector('[data-co-online]').hidden = !CONFIG.pagamentoOnline;
 
   function val(name) { var e = coForm.elements[name]; return e && e.value != null ? String(e.value).trim() : ''; }
   function radio(name) { var c = coForm.querySelector('input[name="' + name + '"]:checked'); return c ? c.value : ''; }
@@ -774,8 +789,17 @@
     if (d.length < 11) return '(' + d.slice(0, 2) + ') ' + d.slice(2, 6) + '-' + d.slice(6);
     return '(' + d.slice(0, 2) + ') ' + d.slice(2, 7) + '-' + d.slice(7);
   }
+  function lojaAberta() {
+    var m = minutesInSaoPaulo();
+    return m >= HOURS.open && m < HOURS.close;
+  }
+  function textoFechado() {
+    var m = minutesInSaoPaulo();
+    return 'Fechado agora. Abre ' + (m < HOURS.open ? 'hoje' : 'amanhã') + ' às ' + HOURS.opensLabel +
+      '. Pode montar o pedido: ele fica aqui até a pizzaria abrir.';
+  }
 
-  // ---- errors: on the field itself, read out with it
+  // ---- errors: on the field or the group, read out with it
   function fieldErr(name, msg) {
     var input = coForm.elements[name];
     var f = input.closest('.field');
@@ -794,51 +818,60 @@
   function groupErr(name, msg) {
     var g = coForm.querySelector('[data-grp="' + name + '"]');
     g.classList.add('is-missing');
-    toast(msg);
+    var p = document.getElementById('err-' + name);
+    if (!p) {
+      p = el('p', 'field__err field__err--grp');
+      p.id = 'err-' + name;
+      g.parentNode.insertBefore(p, g.nextSibling);
+      g.setAttribute('aria-describedby', p.id);
+    }
+    p.textContent = msg;
     return g.querySelector('input');
   }
-  function clearErrs() {
-    Array.prototype.forEach.call(coForm.querySelectorAll('.field.is-err'), function (f) {
-      f.classList.remove('is-err');
-      var i = f.querySelector('input');
-      i.removeAttribute('aria-invalid');
-      var p = f.querySelector('.field__err');
-      if (p) p.textContent = '';
-    });
-    Array.prototype.forEach.call(coForm.querySelectorAll('.grp.is-missing'), function (g) { g.classList.remove('is-missing'); });
+  function clearField(f) {
+    f.classList.remove('is-err');
+    f.querySelector('input').removeAttribute('aria-invalid');
+    var p = f.querySelector('.field__err');
+    if (p) p.textContent = '';
   }
-  function validate(name) {
-    var bad = null;
-    function fail(x) { if (!bad) bad = x; }
-    if (name === 'dados') {
-      if (val('nome').length < 2) fail(fieldErr('nome', 'Escreva o seu nome.'));
-      var d = digits(val('fone'));
-      if (d.length < 10 || d.length > 11) fail(fieldErr('fone', 'Confira o celular, com DDD.'));
-    } else if (name === 'entrega') {
-      var tipo = radio('tipo');
-      if (!tipo) return groupErr('tipo', 'Escolha entrega ou retirada.');
-      if (tipo === 'entrega') {
-        var cep = digits(val('cep'));
-        if (cep && cep.length !== 8) fail(fieldErr('cep', 'O CEP tem 8 números.'));
-        else if (cepCity && plain(cepCity) !== 'araguari') fail(fieldErr('cep', 'Esse CEP é de ' + cepCity + '. A pizzaria entrega em Araguari.'));
-        if (!val('rua')) fail(fieldErr('rua', 'Escreva a rua.'));
-        if (!val('numero')) fail(fieldErr('numero', 'Escreva o número (ou "s/n").'));
-        if (!val('bairro')) fail(fieldErr('bairro', 'Escreva o bairro.'));
-      }
-    } else if (name === 'pagamento') {
-      var pag = radio('pag');
-      if (!pag) return groupErr('pag', 'Escolha como você vai pagar.');
-      if (pag === 'dinheiro' && radio('precisaTroco') === 'sim') {
-        var troco = parseMoney(val('troco'));
-        var total = totals().total;
-        if (!troco) fail(fieldErr('troco', 'Diga para quanto é o troco.'));
-        else if (troco <= total) fail(fieldErr('troco', 'O troco precisa ser maior que o total, ' + money(total) + '.'));
-      }
+  function clearGroup(g) {
+    g.classList.remove('is-missing');
+    var p = document.getElementById('err-' + g.getAttribute('data-grp'));
+    if (p) p.textContent = '';
+  }
+  function clearErrs() {
+    Array.prototype.forEach.call(coForm.querySelectorAll('.field.is-err'), clearField);
+    Array.prototype.forEach.call(coForm.querySelectorAll('[data-grp].is-missing'), clearGroup);
+  }
+  // checked in the order of the screen; every problem is marked, the first is
+  // where the customer is taken
+  function validate() {
+    var first = null;
+    function fail(x) { if (!first) first = x; }
+    var tipo = radio('tipo');
+    if (!tipo) fail(groupErr('tipo', 'Escolha entrega ou retirada.'));
+    else if (tipo === 'entrega') {
+      var cep = digits(val('cep'));
+      if (cep && cep.length !== 8) fail(fieldErr('cep', 'O CEP tem 8 números.'));
+      else if (cepCity && plain(cepCity) !== 'araguari') fail(fieldErr('cep', 'Esse CEP é de ' + cepCity + '. A pizzaria entrega em Araguari.'));
+      if (!val('rua')) fail(fieldErr('rua', 'Escreva a rua.'));
+      if (!val('numero')) fail(fieldErr('numero', 'Escreva o número (ou "s/n").'));
+      if (!val('bairro')) fail(fieldErr('bairro', 'Escreva o bairro.'));
     }
-    return bad;
+    var pag = radio('pag');
+    if (!pag) fail(groupErr('pag', 'Escolha como você vai pagar.'));
+    else if (pag === 'dinheiro' && radio('precisaTroco') === 'sim') {
+      var troco = parseMoney(val('troco')), total = totals().total;
+      if (!troco) fail(fieldErr('troco', 'Diga para quanto é o troco.'));
+      else if (troco <= total) fail(fieldErr('troco', 'O troco precisa ser maior que o total, ' + money(total) + '.'));
+    }
+    if (val('nome').length < 2) fail(fieldErr('nome', 'Escreva o seu nome.'));
+    var d = digits(val('fone'));
+    if (d.length < 10 || d.length > 11) fail(fieldErr('fone', 'Confira o celular, com DDD.'));
+    return first;
   }
 
-  // ---- the order, as one object (also what an integration receives)
+  // ---- the order, as one object (the same one the next phases receive)
   function montarPedido() {
     var t = totals(), tipo = radio('tipo') || orderMode, pag = radio('pag'), forma = PAGAR[pag] || {};
     var troco = pag === 'dinheiro' && radio('precisaTroco') === 'sim' ? parseMoney(val('troco')) : 0;
@@ -864,9 +897,7 @@
     if (g.forma === 'dinheiro') return 'Dinheiro, ' + onde + (g.trocoPara ? ', troco para ' + money(g.trocoPara) : ', sem troco');
     return g.nome + ', ' + onde;
   }
-  function enderecoTexto(e) {
-    return e.rua + ', ' + e.numero + ', ' + e.bairro + ', Araguari - MG';
-  }
+  function enderecoTexto(e) { return e.rua + ', ' + e.numero + ', ' + e.bairro + ', Araguari - MG'; }
   // the WhatsApp message, in the order of a printed comanda
   function mensagem(p) {
     var L = ['Olá, Planeta Pizza! Quero fazer este pedido pelo site:', ''];
@@ -896,103 +927,63 @@
     return L.join('\n');
   }
 
-  // ---- review
-  function revisar() {
-    var p = montarPedido(), box = co.querySelector('[data-co-review]');
-    box.textContent = '';
-    function sec(title, goto, fill) {
-      var s = el('div', 'co__sec');
-      var h = el('div', 'co__sec-head');
-      h.appendChild(el('h3', null, title));
-      var b = el('button', 'co__edit', 'Alterar');
-      b.type = 'button';
-      b.setAttribute('data-co-goto', goto);
-      b.setAttribute('aria-label', 'Alterar ' + title.toLowerCase());
-      h.appendChild(b);
-      s.appendChild(h);
-      fill(s);
-      box.appendChild(s);
-    }
-    sec('Seus dados', 'dados', function (s) {
-      s.appendChild(el('p', null, p.cliente.nome));
-      s.appendChild(el('small', null, p.cliente.telefone));
-    });
-    sec(p.tipo === 'entrega' ? 'Entrega' : 'Retirada', 'entrega', function (s) {
-      if (p.tipo === 'entrega') {
-        s.appendChild(el('p', null, enderecoTexto(p.endereco)));
-        if (p.endereco.complemento) s.appendChild(el('small', null, 'Complemento: ' + p.endereco.complemento));
-        if (p.endereco.referencia) s.appendChild(el('small', null, 'Referência: ' + p.endereco.referencia));
-        if (CONFIG.tempoEntrega) s.appendChild(el('small', null, 'Chega em ' + CONFIG.tempoEntrega + '.'));
-      } else {
-        s.appendChild(el('p', null, RET.endereco || 'Na pizzaria'));
-        if (RET.tempo) s.appendChild(el('small', null, 'Fica pronto em ' + RET.tempo + '.'));
-      }
-    });
-    sec('Itens', 'itens', function (s) {
-      p.itens.forEach(function (it) {
-        var line = el('p', 'co__line');
-        line.appendChild(el('span', null, it.quantidade + 'x ' + it.nome));
-        line.appendChild(el('span', null, money(it.quantidade * it.unitario)));
-        s.appendChild(line);
-        if (it.detalhes.length) s.appendChild(el('small', null, it.detalhes.join(' · ')));
-      });
-      var sub = el('p', 'co__line');
-      sub.appendChild(el('span', null, 'Subtotal'));
-      sub.appendChild(el('span', null, money(p.subtotal)));
-      s.appendChild(sub);
-      if (p.tipo === 'entrega') {
-        var fee = el('p', 'co__line');
-        fee.appendChild(el('span', null, 'Taxa de entrega'));
-        fee.appendChild(el('span', null, money(p.entrega)));
-        s.appendChild(fee);
-      }
-    });
-    sec('Pagamento', 'pagamento', function (s) {
-      s.appendChild(el('p', null, pagamentoTexto(p)));
-    });
-    if (p.pagamento.quando === 'agora' && !online()) {
-      box.appendChild(el('p', 'co__warn', 'O seu pedido vai completo para o WhatsApp da pizzaria, e o pagamento com ' +
-        p.pagamento.nome.toLowerCase() + ' é combinado por lá.'));
-    }
-  }
-  function online() {
-    var api = window.PlanetaPizza && window.PlanetaPizza.integracao;
-    return !!(api && typeof api.abrirCheckout === 'function');
-  }
-
-  // ---- steps
-  function showStep(i, keepFocus) {
-    step = Math.max(0, Math.min(STEPS.length - 1, i));
-    var name = STEPS[step];
-    Array.prototype.forEach.call(co.querySelectorAll('[data-co-step]'), function (s) {
-      s.hidden = s.getAttribute('data-co-step') !== name;
-      if (!s.hidden) coTitle.textContent = s.getAttribute('data-title');
-    });
-    Array.prototype.forEach.call(co.querySelectorAll('[data-co-dot]'), function (d, k) {
-      d.classList.toggle('is-done', k < step);
-      d.classList.toggle('is-now', k === step);
-      if (k === step) d.setAttribute('aria-current', 'step'); else d.removeAttribute('aria-current');
-    });
-    coBack.hidden = step === 0;
-    if (name === 'pagamento') {
-      co.querySelector('[data-co-pag-entrega]').textContent = radio('tipo') === 'retirada' ? 'Pagar na retirada' : 'Pagar na entrega';
-    }
-    if (name === 'revisao') revisar();
-    var last = step === STEPS.length - 1;
-    var agora = (PAGAR[radio('pag')] || {}).quando === 'agora';
-    coNext.textContent = !last ? 'Continuar' : (agora && online() ? 'Ir para o pagamento' : 'Enviar pedido pelo WhatsApp');
-    paintCoTotal();
-    coScroll.scrollTop = 0;
-    if (!keepFocus) coTitle.focus({ preventScroll: true });
-  }
-  function paintCoTotal() { coTotal.textContent = money(totals().total); }
+  // ---- painting the panel
   function syncFields() {
     var tipo = radio('tipo');
-    co.querySelector('[data-co-addr]').hidden = tipo !== 'entrega';
-    co.querySelector('[data-co-pickup]').hidden = tipo !== 'retirada';
+    drawer.querySelector('[data-co-addr]').hidden = tipo !== 'entrega';
+    drawer.querySelector('[data-co-pickup]').hidden = tipo !== 'retirada';
     var dinheiro = radio('pag') === 'dinheiro';
-    co.querySelector('[data-co-troco]').hidden = !dinheiro;
-    co.querySelector('[data-co-troco-valor]').hidden = !(dinheiro && radio('precisaTroco') === 'sim');
+    drawer.querySelector('[data-co-troco]').hidden = !dinheiro;
+    drawer.querySelector('[data-co-troco-valor]').hidden = !(dinheiro && radio('precisaTroco') === 'sim');
+  }
+  function buildUpsell() {
+    var host = drawer.querySelector('[data-upsell]');
+    var inCart = {};
+    cart.forEach(function (it) { inCart[it.id] = 1; });
+    var list = Object.keys(rows).map(function (k) { return rows[k]; }).filter(function (r) {
+      return r.kind === 'bebida' && !r.choices && !inCart[r.id];
+    });
+    var sig = list.map(function (r) { return r.id; }).join(',');
+    if (host.getAttribute('data-sig') === sig) return;
+    host.setAttribute('data-sig', sig);
+    host.textContent = '';
+    list.forEach(function (r) {
+      var li = el('li');
+      var b = el('button', 'co__up');
+      b.type = 'button';
+      b.setAttribute('data-up', r.id);
+      b.setAttribute('aria-label', 'Adicionar ' + r.name + ', ' + money(r.price));
+      b.appendChild(el('span', 'co__up-name', r.name));
+      var row = el('span', 'co__up-row');
+      row.appendChild(el('span', null, money(r.price)));
+      var plus = el('span', 'co__up-plus');
+      plus.innerHTML = '<svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg>';
+      row.appendChild(plus);
+      b.appendChild(row);
+      li.appendChild(b);
+      host.appendChild(li);
+    });
+    drawer.querySelector('[data-upsell-wrap]').hidden = !list.length;
+  }
+  function paintCo() {
+    var t = totals(), tipo = radio('tipo') || orderMode;
+    drawer.querySelector('[data-co-sub]').textContent = money(t.sum);
+    drawer.querySelector('[data-co-fee-line]').hidden = tipo !== 'entrega';
+    drawer.querySelector('[data-co-fee]').textContent = money(t.fee);
+    drawer.querySelector('[data-co-sum]').textContent = money(t.total);
+    var txt = money(t.total);
+    if (coTotal.textContent !== txt) {
+      coTotal.textContent = txt;
+      coTotal.classList.remove('is-bump'); void coTotal.offsetWidth; coTotal.classList.add('is-bump');
+    }
+    var troco = radio('pag') === 'dinheiro' && radio('precisaTroco') === 'sim' ? parseMoney(val('troco')) : 0;
+    drawer.querySelector('[data-co-troco-line]').hidden = !troco;
+    drawer.querySelector('[data-co-troco-val]').textContent = money(troco);
+    drawer.querySelector('[data-co-pag-title]').textContent = tipo === 'retirada' ? 'Pagamento na retirada' : 'Pagamento na entrega';
+    var aberta = lojaAberta();
+    coClosed.hidden = aberta;
+    if (!aberta) coClosed.textContent = textoFechado();
+    buildUpsell();
   }
   function salvar() {
     try {
@@ -1006,49 +997,55 @@
     try {
       var o = JSON.parse(localStorage.getItem(SAVE_KEY) || '{}') || {};
       SAVE.forEach(function (k) { if (o[k] && !val(k)) coForm.elements[k].value = o[k]; });
-      if (o.tipo && !radio('tipo')) {
+      if (o.tipo && !radio('tipo') && (temRetirada || o.tipo === 'entrega')) {
         var r = coForm.querySelector('input[name="tipo"][value="' + o.tipo + '"]');
-        if (r) { r.checked = true; orderMode = o.tipo; render(); }
+        if (r) { r.checked = true; orderMode = o.tipo; }
       }
     } catch (e) {}
   }
-
-  function openCheckout(from) {
-    coOpener = from || null;
-    if (drawer.open) { drawerOpener = null; closeDrawer(); }
+  function prepCo() {
     clearErrs();
     restaurar();
     syncFields();
-    showStep(0, true);
-    if (typeof co.showModal === 'function') co.showModal(); else co.setAttribute('open', '');
-    coTitle.focus({ preventScroll: true });
+    render();
+    coScroll.scrollTop = 0;
   }
-  function closeCheckout() {
-    if (co.open) { if (typeof co.close === 'function') co.close(); else co.removeAttribute('open'); }
+
+  // the sections come in as the customer scrolls the panel
+  var coSecs = drawer.querySelectorAll('.co__sec');
+  var coIO = !reduce && 'IntersectionObserver' in window ? new IntersectionObserver(function (entries) {
+    var k = 0;
+    entries.forEach(function (en) {
+      if (!en.isIntersecting) return;
+      en.target.style.transitionDelay = (k++ * 70) + 'ms';
+      en.target.classList.remove('is-out');
+      coIO.unobserve(en.target);
+    });
+  }, { root: coScroll, threshold: 0.08 }) : null;
+  function revealSections() {
+    if (!coIO) return;
+    Array.prototype.forEach.call(coSecs, function (sec) {
+      if (sec.hidden) return;
+      sec.classList.add('is-out');
+      coIO.observe(sec);
+    });
   }
-  co.addEventListener('close', function () {
-    if (coOpener && document.contains(coOpener)) coOpener.focus({ preventScroll: true });
-    coOpener = null;
-  });
-  co.addEventListener('click', function (e) {
-    if (e.target === co) { closeCheckout(); return; }
-    if (e.target.closest('[data-co-close]')) { closeCheckout(); return; }
-    if (e.target.closest('[data-co-back]')) { clearErrs(); showStep(step - 1); return; }
-    var go = e.target.closest('[data-co-goto]');
-    if (go) {
-      var where = go.getAttribute('data-co-goto');
-      if (where === 'itens') { coOpener = null; closeCheckout(); openDrawer(null); }
-      else showStep(STEPS.indexOf(where));
-    }
-  });
+
+  // ---- what the customer does in the panel
   coForm.addEventListener('change', function (e) {
     var n = e.target.name;
     if (n === 'tipo') { orderMode = e.target.value; render(); }
     var g = e.target.closest('[data-grp]');
-    if (g) g.classList.remove('is-missing');
+    if (g && e.target.type === 'radio' && g.classList.contains('is-missing')) clearGroup(g);
     syncFields();
-    paintCoTotal();
+    paintCo();
   });
+  // a corrected field loses its error as the customer types
+  coForm.addEventListener('input', function (e) {
+    var f = e.target.closest && e.target.closest('.field.is-err');
+    if (f && e.target.value.trim()) clearField(f);
+  });
+  coForm.elements.troco.addEventListener('input', paintCo);
   coForm.elements.fone.addEventListener('input', function () { this.value = maskFone(this.value); });
   coForm.elements.cep.addEventListener('input', function () {
     var d = digits(this.value).slice(0, 8);
@@ -1062,17 +1059,32 @@
       if (j.bairro && !val('bairro')) coForm.elements.bairro.value = j.bairro;
     }).catch(function () {});
   });
+  drawer.addEventListener('click', function (e) {
+    var up = e.target.closest && e.target.closest('[data-up]');
+    if (!up) return;
+    var r = rows[up.getAttribute('data-up')];
+    if (r) addToCart({ key: [r.id, '', '', '', '', ''].join('|'), id: r.id, name: r.name, details: [], unit: r.price }, 1);
+  });
   coForm.addEventListener('submit', function (e) {
     e.preventDefault();
+    if (!totals().qty) { toast('Sua comanda está vazia.'); return; }
     clearErrs();
-    var bad = validate(STEPS[step]);
+    if (!lojaAberta()) {
+      paintCo();
+      toast(textoFechado().split('. Pode')[0] + '.');
+      coScroll.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+      return;
+    }
+    var bad = validate();
     if (bad) {
-      if (bad.focus) bad.focus();
-      if (bad.scrollIntoView) bad.scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' });
+      var why = document.getElementById('err-' + bad.name);
+      if (why) toast(why.textContent);
+      bad.focus({ preventScroll: true });
+      var box = bad.closest('.field') || bad.closest('[data-grp]') || bad;
+      box.scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' });
       return;
     }
     salvar();
-    if (step < STEPS.length - 1) { showStep(step + 1); return; }
     enviar(montarPedido());
   });
 
@@ -1085,9 +1097,10 @@
       toast('Enviando o seu pedido...');
       Promise.resolve(api.enviarPedido(p)).then(function (res) {
         if (res && res.recebido) {
+          guardarUltimo();
           cart = [];
           render();
-          closeCheckout();
+          closeDrawer();
           pedidoRecebido(res);
         } else {
           toast('Não conseguimos confirmar o pedido. Tente de novo.');
@@ -1100,7 +1113,7 @@
       });
       return;
     }
-    if (p.pagamento.quando === 'agora' && online()) {
+    if (p.pagamento.quando === 'agora' && api && typeof api.abrirCheckout === 'function') {
       api.abrirCheckout(p);
       return;
     }
@@ -1108,10 +1121,60 @@
       toast('O envio do pedido pelo site ainda não está ativo.');
       return;
     }
-    window.open(waLink(mensagem(p)), '_blank', 'noopener');
-    closeCheckout();
-    toast('Abrimos o WhatsApp com o seu pedido completo. É só tocar em enviar.');
+    lastMsg = mensagem(p);
+    window.open(waLink(lastMsg), '_blank', 'noopener');
+    drawerOpener = null;
+    closeDrawer();
+    pw.querySelector('[data-pw-again]').href = waLink(lastMsg);
+    if (typeof pw.showModal === 'function') pw.showModal(); else pw.setAttribute('open', '');
   }
+  pw.addEventListener('click', function (e) {
+    if (e.target === pw || e.target.closest('[data-pw-close]')) {
+      pw.close();
+      openDrawer(null);
+    } else if (e.target.closest('[data-pw-sent]')) {
+      guardarUltimo();
+      cart = [];
+      render();
+      pw.close();
+      toast('Comanda limpa. Bom apetite!');
+    }
+  });
+
+  // ---- pedir de novo: the last order sent, back with one tap
+  function guardarUltimo() {
+    try {
+      localStorage.setItem(LAST_KEY, JSON.stringify(cart.map(function (it) {
+        return { key: it.key, id: it.id, name: it.name, details: it.details, unit: it.unit, qty: it.qty, base: rows[it.id] ? rows[it.id].price : null };
+      })));
+    } catch (e) {}
+  }
+  function ultimo() {
+    try {
+      var l = JSON.parse(localStorage.getItem(LAST_KEY) || '[]');
+      // a line comes back only while its price is still the menu's price
+      return Array.isArray(l) ? l.filter(function (x) { return x && rows[x.id] && rows[x.id].price === x.base; }) : [];
+    } catch (e) { return []; }
+  }
+  function paintRepeat() {
+    var l = ultimo();
+    repeatBox.hidden = !l.length || totals().qty > 0;
+    if (l.length) repeatBox.querySelector('[data-repeat-sum]').textContent = l.map(function (x) { return x.qty + 'x ' + x.name; }).join(', ');
+  }
+  repeatBox.querySelector('[data-repeat-add]').addEventListener('click', function () {
+    var l = ultimo();
+    l.forEach(function (x) {
+      var it = cart.filter(function (c) { return c.key === x.key; })[0];
+      if (it) it.qty += x.qty;
+      else cart.push({ key: x.key, id: x.id, name: x.name, details: x.details.slice(), unit: x.unit, qty: x.qty });
+    });
+    render();
+    var t = totals();
+    toast('Último pedido na comanda. ' + itemsLabel(t.qty) + ', ' + money(t.sum) + '.');
+  });
+
+  var coReady = true;
+  render();
 
   // ------------------------------------------------- delivery film ----
   // The Entrega act, played by itself like a short film once an order is
