@@ -22,7 +22,8 @@ esta pasta com estes nomes:
 | l1-capa.png            | file_00000000490c820e9a9b43d97f92737b.png      | L1 |
 
 Ainda faltam: as fotos do cardápio, M1 a M34 do `PROMPTS-CHATGPT.md` (hoje só a
-calabresa é foto, tirada da V6), e a S1, opcional. Os grupos Q, B e P saíram:
+calabresa é foto, tirada da V6; os outros sabores têm ilustração provisória), e
+a S1, opcional. Os grupos Q, B e P saíram:
 as cenas e os itens deles não estão mais no site.
 
 ## Logo oficial

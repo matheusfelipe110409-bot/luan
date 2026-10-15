@@ -27,9 +27,10 @@ levantada com a pizza inteira, encaixa a caixa fechada no contorno da aberta e
 recorta o motoboy. `--check` no ingest mostra o que falta.
 
 Já são fotos do ChatGPT: a vitrine inteira (V1 a V6), a caixa, o motoboy, a
-rua, a capa da loja e a calabresa do cardápio. Ainda são ilustrações
-provisórias: muçarela, marguerita, frango catupiry, 4 queijos e banana no
-cardápio. Os outros sabores aparecem sem foto até chegar uma foto de verdade.
+rua, a capa da loja e a calabresa do cardápio. As outras pizzas do cardápio
+são ilustrações provisórias, todas no mesmo estilo e com os ingredientes da
+descrição de cada sabor na Anotaí. A Calabresa Barbecue fica sem imagem até a
+pizzaria confirmar os ingredientes dela.
 
 **Fotos do cardápio:** o `PROMPTS-CHATGPT.md` tem um prompt por pizza (M1 a
 M34), com os ingredientes da descrição de cada sabor na Anotaí. Cada foto vem
@@ -108,7 +109,7 @@ Regras da Anotaí que o site segue:
 
 ## A confirmar com a pizzaria
 
-- **Fotos** dos sabores sem foto e das ilustrações provisórias.
+- **Fotos de verdade** no lugar das ilustrações provisórias (prompts M1 a M34).
 - **Calabresa Barbecue:** na Anotaí ela tem a mesma descrição da Calabresa
   Cheese (com cream cheese, sem barbecue). O site repete o que está lá.
 - **Textos** com promessas da casa ("massa aberta na hora", "molho da casa").
