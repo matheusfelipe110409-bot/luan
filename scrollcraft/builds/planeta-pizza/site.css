@@ -987,6 +987,7 @@ dialog::backdrop { background: rgb(24 6 6 / 0.58); }
   font-size: 0.86rem; color: var(--on-red-soft);
 }
 .foot p { margin: 0; }
+.foot__legal { flex-basis: 100%; font-size: 0.78rem; line-height: 1.5; }
 .brand--foot { margin: 0; }
 .brand--foot .brand__mark { width: 30px; height: 30px; }
 

@@ -484,7 +484,16 @@ site ficou intacto.
   preço da Anotaí (`README.md`, seção Cardápio).
 - **Logo oficial:** em todos os lugares do logo provisório. O arquivo é o da
   Anotaí, sem alteração.
-- **WhatsApp:** o número oficial da loja, (34) 98408-9429.
+- **WhatsApp:** pedidos pelo (34) 98837-1707, o da fachada. O (34) 98408-9429,
+  cadastrado na Anotaí, é o das mensagens automáticas (confirmado pelo
+  cliente: a loja tem os dois).
+- **Retirada:** a loja faz (confirmado pelo cliente). "Só delivery" virou
+  "Delivery e retirada" em todo o site.
+- **Rodapé legal:** Andrade e Zanon Alimentação e Comércio, CNPJ
+  33.363.935/0001-91, Rua Padre Anchieta, 154, Loja A, Jardim Regina,
+  Araguari - MG, 38440-132 (dados abertos da Receita, via BrasilAPI e
+  CNPJ.ws). Situação na Receita: inapta desde 28/05/2026, por omissão de
+  declarações.
 - **Horário, prazo e taxa:**
   - 17h45 às 23h, todos os dias;
   - entrega de 45 a 60 min;
