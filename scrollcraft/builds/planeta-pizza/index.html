@@ -1,0 +1,1112 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Planeta Pizza · A melhor pizza da cidade pelo melhor preço</title>
+<meta name="description" content="Pizza delivery em Araguari. Massa aberta na hora, recheio até a borda e pizzas a partir de R$ 32. Veja o cardápio e faça seu pedido.">
+<meta name="theme-color" content="#B8141B">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Planeta Pizza · A melhor pizza da cidade pelo melhor preço">
+<meta property="og:description" content="Delivery e retirada em Araguari. Pizzas a partir de R$ 32, feitas na hora e entregues quentinhas.">
+<meta property="og:image" content="assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/logo.jpg" type="image/jpeg">
+<link rel="apple-touch-icon" href="assets/logo.jpg">
+<link rel="preload" href="fonts/bricolage.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="assets/vt/ball-m.webp" media="(max-width: 860px)">
+<link rel="preload" as="image" href="assets/vt/ball-d.webp" media="(min-width: 861px)">
+<link rel="stylesheet" href="scrollcraft.css">
+<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="assets/vt/frames.css">
+<noscript><style>
+  /* Without the engine nothing drives the cues or the film: show the
+     finished pizza and every line of copy, still. */
+  [data-sc-cue] { opacity: 1 !important; transform: none !important; }
+  .vt .L, .vt .drops, .vt .steam, .vt .glow, .beat:not(.beat--hero) { display: none; }
+  .vt .L-final { display: block; opacity: 1; }
+  .vitrine { height: auto !important; }
+  .vitrine [data-sc-stage] { position: relative; }
+  .ride { display: none; }
+  .loja { margin-top: 0 !important; }
+  .vt { opacity: 1 !important; }
+</style></noscript>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Restaurant","name":"Planeta Pizza","servesCuisine":"Pizza","address":{"@type":"PostalAddress","addressLocality":"Araguari","addressRegion":"MG","addressCountry":"BR"},"sameAs":["https://www.instagram.com/planetapizzaaraguari"]}
+</script>
+</head>
+<body>
+
+<!-- Icons: Lucide (ISC licence), inlined as a sprite. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-insta" viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></symbol>
+  <symbol id="i-wa" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M9 9.5c0 2.8 2.7 5.5 5.5 5.5l1.2-1.4-1.9-1.1-.9.7a4.4 4.4 0 0 1-2.1-2.1l.7-.9-1.1-1.9Z"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+  <symbol id="i-bike" viewBox="0 0 24 24"><circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></symbol>
+</svg>
+
+<a class="skip" href="#cardapio">Pular para o cardápio</a>
+<div class="sc-grain" aria-hidden="true"></div>
+
+<header class="bar">
+  <a class="brand" href="#topo" aria-label="Planeta Pizza, voltar ao início">
+    <img class="brand__mark" src="assets/logo.jpg" alt="" width="200" height="200">
+    <span class="brand__name">Planeta <b>Pizza</b></span>
+  </a>
+  <p class="status" data-status>
+    <span class="status__dot" aria-hidden="true"></span>
+    <span data-status-text>Todos os dias, 17h45 às 23h</span>
+  </p>
+  <a class="btn btn--wa bar__wa" href="#cardapio" data-whatsapp>
+    <svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg>
+    <span>Fazer pedido no WhatsApp</span>
+  </a>
+  <a class="btn btn--light bar__cta" href="#cardapio" data-order>
+    <svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg>
+    <span>Fazer pedido</span>
+    <span class="count" data-count hidden>0</span>
+  </a>
+</header>
+
+<main>
+
+  <!-- ===================================================== VITRINE ====
+       One pinned act. Promise, proof, payoff. The engine publishes --sc-p
+       on this section; site.css drives every layer of the pizza from it. -->
+  <section id="topo" class="vitrine" data-sc-act="pin" data-sc-span="4.3" aria-label="A pizza da casa, montada na sua frente">
+    <div data-sc-stage class="vt">
+      <div class="vt__ground" aria-hidden="true"></div>
+      <div class="vt__ground vt__ground--hot" aria-hidden="true"></div>
+
+      <div class="pizza" data-sc-tilt="4">
+        <div class="pizza__spin">
+          <picture><source media="(max-width: 860px)" srcset="assets/vt/ball-m.webp"><img class="L L-ball" src="assets/vt/ball-d.webp" alt="" width="1440" height="1440" fetchpriority="high"></picture>
+          <picture><source media="(max-width: 860px)" srcset="assets/vt/dough-m.webp"><img class="L L-dough" src="assets/vt/dough-d.webp" alt="" width="1440" height="1440"></picture>
+          <picture><source media="(max-width: 860px)" srcset="assets/vt/sauce-m.webp"><img class="L L-sauce" src="assets/vt/sauce-d.webp" alt="" width="1440" height="1440" fetchpriority="low" decoding="async"></picture>
+          <picture><source media="(max-width: 860px)" srcset="assets/vt/cheese1-m.webp"><img class="L L-c L-c1" src="assets/vt/cheese1-d.webp" alt="" width="1440" height="1440" fetchpriority="low" decoding="async"></picture>
+          <picture><source media="(max-width: 860px)" srcset="assets/vt/cheese2-m.webp"><img class="L L-c L-c2" src="assets/vt/cheese2-d.webp" alt="" width="1440" height="1440" fetchpriority="low" decoding="async"></picture>
+          <picture><source media="(max-width: 860px)" srcset="assets/vt/cheese3-m.webp"><img class="L L-c L-c3" src="assets/vt/cheese3-d.webp" alt="" width="1440" height="1440" fetchpriority="low" decoding="async"></picture>
+          <picture><source media="(max-width: 860px)" srcset="assets/vt/melt-m.webp"><img class="L L-melt" src="assets/vt/melt-d.webp" alt="" width="1440" height="1440" fetchpriority="low" decoding="async"></picture>
+          <picture><source media="(max-width: 860px)" srcset="assets/vt/baked-m.webp"><img class="L L-baked" src="assets/vt/baked-d.webp" alt="" width="1440" height="1440" fetchpriority="low" decoding="async"></picture>
+          <div class="drops" aria-hidden="true" data-drops></div>
+          <picture><source media="(max-width: 860px)" srcset="assets/vt/final-m.webp"><img class="L L-final" src="assets/vt/final-d.webp" alt="Pizza de calabresa vista de cima: borda dourada, mussarela derretida, calabresa fatiada, cebola, azeitona e orégano" width="1440" height="1440" fetchpriority="low" decoding="async"></picture>
+        </div>
+        <div class="glow" aria-hidden="true"></div>
+        <div class="steam" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      </div>
+
+      <!-- The signature: the ticket prints a line as each layer lands, then
+           takes the stamp. Below the fold the same ticket is the order. -->
+      <aside class="ticket ticket--vt" data-ticket aria-label="Comanda da casa">
+        <div class="ticket__paper">
+          <p class="ticket__head"><span>Planeta Pizza</span><span>Araguari · Delivery e retirada</span></p>
+          <ul class="ticket__lines ticket__lines--checks">
+            <li data-line="1"><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span>Massa aberta na hora</span></li>
+            <li data-line="2"><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span>Molho da casa</span></li>
+            <li data-line="3"><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span>Mussarela sem dó</span></li>
+            <li data-line="4"><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span>Recheio até a borda</span></li>
+          </ul>
+          <p class="ticket__claim" data-line="5">A melhor pizza da cidade,<span class="sr"> pelo melhor preço da cidade.</span></p>
+          <p class="stamp" aria-hidden="true"><span>pelo</span><span>melhor preço</span><span>da cidade</span></p>
+        </div>
+      </aside>
+
+      <!-- An invitation to scroll, under the dough ball. It leaves the moment
+           the visitor starts scrolling; the order buttons stay where they are. -->
+      <p class="nudge" aria-hidden="true"><span class="nudge__icon"><svg><use href="#i-chevron"/></svg><svg><use href="#i-chevron"/></svg></span><span>Role e veja sua pizza nascer</span></p>
+
+      <div class="beat beat--hero" data-sc-cue="0 0.11 0 0.4">
+        <h1 class="display display--hero" data-sc-kinetic="lines">A melhor pizza da cidade pelo melhor preço.</h1>
+        <p class="lede">Delivery e retirada em Araguari. Feita na hora e entregue quentinha.</p>
+        <a class="btn btn--wa btn--block hero__wa" href="#cardapio" data-whatsapp>
+          <svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Fazer pedido no WhatsApp</span>
+        </a>
+      </div>
+
+      <div class="beat" data-sc-cue="0.10 0.265 0.2 0.2">
+        <h2 class="display display--beat">Primeiro, a massa.</h2>
+        <p class="lede">Aberta na hora. Leve no meio, borda que estala.</p>
+      </div>
+      <div class="beat" data-sc-cue="0.255 0.415 0.2 0.2">
+        <h2 class="display display--beat">Depois, o molho.</h2>
+        <p class="lede">Tomate encorpado, temperado do nosso jeito.</p>
+      </div>
+      <div class="beat" data-sc-cue="0.405 0.575 0.2 0.2">
+        <h2 class="display display--beat">Mussarela sem dó.</h2>
+        <p class="lede">Cai muita. Derrete no forno e chega puxando fio.</p>
+      </div>
+      <div class="beat" data-sc-cue="0.565 0.77 0.2 0.2">
+        <h2 class="display display--beat">Recheio até a borda.</h2>
+        <p class="lede">Calabresa, cebola e azeitona. Sem economizar.</p>
+      </div>
+
+      <div class="beat beat--payoff" data-sc-cue="0.835 1 0.18 0">
+        <p class="payoff__lead">Pizzas a partir de</p>
+        <p class="price price--hero"><span class="price__cur">R$</span><span class="price__int">32</span><span class="price__dec">,00</span></p>
+        <p class="payoff__note">8 fatias. A melhor pizza da cidade, pelo melhor preço.</p>
+        <a class="btn btn--light btn--lg" href="#cardapio" data-order data-payoff-cta data-sc-magnet="0.24">
+          <svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg><span>Fazer pedido</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================= LOJA =====
+       The counter, now laid out like the delivery apps people already
+       know: cover, store card, search, highlights, sticky categories,
+       rows with the photo on the right. Tapping an item opens its sheet. -->
+  <section id="cardapio" class="loja" data-sc-act="flow" aria-labelledby="loja-nome">
+    <div class="loja__capa">
+      <img src="assets/scene/cover-m.webp" srcset="assets/scene/cover-m.webp 900w, assets/scene/cover-d.webp 1536w" sizes="100vw" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+    </div>
+    <div class="loja__sheet">
+      <header class="wrap loja__head">
+        <span class="loja__logo" aria-hidden="true"><img src="assets/logo.jpg" alt="" width="200" height="200"></span>
+        <div class="loja__id">
+          <h2 id="loja-nome" class="loja__nome">Planeta Pizza</h2>
+          <p class="loja__meta">Pizzaria · Delivery e retirada · Araguari, MG</p>
+        </div>
+        <ul class="loja__info" role="list">
+          <li class="info info--status" data-status><span class="status__dot" aria-hidden="true"></span><span data-status-text>Todos os dias, 17h45 às 23h</span></li>
+          <li class="info"><svg class="ico" aria-hidden="true"><use href="#i-clock"/></svg>Todos os dias, 17h45 às 23h</li>
+          <li class="info"><svg class="ico" aria-hidden="true"><use href="#i-bike"/></svg>45 a 60 min · Entrega R$ 10,00</li>
+          <li class="info info--price">Pizzas a partir de <b>R$ 32</b></li>
+        </ul>
+        <div class="repeat" data-repeat hidden>
+          <div class="repeat__txt"><p class="repeat__t">Pedir de novo</p><p class="repeat__s" data-repeat-sum></p></div>
+          <button class="add" type="button" data-repeat-add><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Adicionar</span></button>
+        </div>
+      </header>
+
+      <div class="wrap busca">
+        <label class="busca__box">
+          <svg class="ico" aria-hidden="true"><use href="#i-search"/></svg>
+          <span class="sr">Buscar no cardápio</span>
+          <input type="search" placeholder="Buscar no cardápio" autocomplete="off" enterkeyhint="search" data-search>
+        </label>
+      </div>
+
+      <section class="destaques" aria-labelledby="h-destaques" data-destaques>
+        <h3 id="h-destaques" class="wrap cat__title">Destaques</h3>
+        <ul class="rail" role="list">
+          <!-- destaques:inicio -->
+          <li><button class="card" type="button" data-open="calabresa" aria-haspopup="dialog">
+            <img class="card__img" src="assets/menu/calabresa.webp" alt="" width="520" height="520" loading="lazy" decoding="async">
+            <span class="card__name">Calabresa</span>
+            <span class="card__price">R$ 36,00</span>
+          </button></li>
+          <li><button class="card" type="button" data-open="mucarela" aria-haspopup="dialog">
+            <img class="card__img" src="assets/menu/mussarela.webp" alt="" width="520" height="520" loading="lazy" decoding="async">
+            <span class="card__name">Muçarela</span>
+            <span class="card__price">R$ 32,00</span>
+          </button></li>
+          <li><button class="card" type="button" data-open="frango-catupiry" aria-haspopup="dialog">
+            <img class="card__img" src="assets/menu/frango-catupiry.webp" alt="" width="520" height="520" loading="lazy" decoding="async">
+            <span class="card__name">Frango Catupiry</span>
+            <span class="card__price">R$ 40,00</span>
+          </button></li>
+          <li><button class="card" type="button" data-open="4-queijos" aria-haspopup="dialog">
+            <img class="card__img" src="assets/menu/quatro-queijos.webp" alt="" width="520" height="520" loading="lazy" decoding="async">
+            <span class="card__name">4 Queijos</span>
+            <span class="card__price">R$ 40,00</span>
+          </button></li>
+          <li><button class="card" type="button" data-open="banana" aria-haspopup="dialog">
+            <img class="card__img" src="assets/menu/banana-canela.webp" alt="" width="520" height="520" loading="lazy" decoding="async">
+            <span class="card__name">Banana</span>
+            <span class="card__price">R$ 45,00</span>
+          </button></li>
+          <!-- destaques:fim -->
+        </ul>
+      </section>
+
+      <!-- cardapio:inicio -->
+      <nav class="tabs" aria-label="Categorias do cardápio">
+        <div class="tabs__track wrap">
+          <a href="#salgadas" class="tab" aria-current="true">Salgadas</a>
+          <a href="#doces" class="tab">Doces</a>
+          <a href="#esfihas" class="tab">Esfihas</a>
+          <a href="#cone" class="tab">Planeta Cone</a>
+          <a href="#bebidas" class="tab">Bebidas</a>
+        </div>
+      </nav>
+
+      <div class="wrap menu">
+      <section id="salgadas" class="cat" aria-labelledby="h-salgadas" data-cat>
+        <h3 id="h-salgadas" class="cat__title">Pizzas salgadas</h3>
+        <p class="cat__note">8 fatias. Pode ser meio a meio: vale o preço do sabor mais caro.</p>
+        <ul class="items" role="list">
+          <li class="item" data-item="mucarela" data-name="Muçarela" data-price="32.00" data-kind="salgada" data-img="assets/menu/mussarela.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="mucarela" aria-haspopup="dialog">Muçarela</button></h4>
+              <p class="item__desc">Muçarela, tomate, azeitona, orégano e molho de tomate.</p>
+              <p class="item__price">R$ 32,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/mussarela.webp" alt="Pizza de muçarela com tomate e azeitona, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="marguerita" data-name="Marguerita" data-price="32.00" data-kind="salgada" data-img="assets/menu/marguerita.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="marguerita" aria-haspopup="dialog">Marguerita</button></h4>
+              <p class="item__desc">Muçarela, tomate, azeitona, manjericão e molho de tomate.</p>
+              <p class="item__price">R$ 32,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/marguerita.webp" alt="Pizza marguerita com tomate e manjericão, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="calabresa" data-name="Calabresa" data-price="36.00" data-kind="salgada" data-img="assets/menu/calabresa.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="calabresa" aria-haspopup="dialog">Calabresa</button></h4>
+              <p class="item__desc">Calabresa, muçarela, cebola, azeitona, orégano e molho de tomate.</p>
+              <p class="item__price">R$ 36,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/calabresa.webp" alt="Pizza de calabresa com cebola e azeitona, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="lombo-canadense" data-name="Lombo Canadense" data-price="36.00" data-kind="salgada" data-img="assets/menu/lombo-canadense.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="lombo-canadense" aria-haspopup="dialog">Lombo Canadense</button></h4>
+              <p class="item__desc">Lombo canadense, muçarela, tomate, azeitona, orégano e molho de tomate.</p>
+              <p class="item__price">R$ 36,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/lombo-canadense.webp" alt="Pizza Lombo Canadense, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="napolitana" data-name="Napolitana" data-price="36.00" data-kind="salgada" data-img="assets/menu/napolitana.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="napolitana" aria-haspopup="dialog">Napolitana</button></h4>
+              <p class="item__desc">Presunto, muçarela, tomate, azeitona, orégano e molho de tomate.</p>
+              <p class="item__price">R$ 36,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/napolitana.webp" alt="Pizza Napolitana, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="alho" data-name="Alho" data-price="36.00" data-kind="salgada" data-img="assets/menu/alho.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="alho" aria-haspopup="dialog">Alho</button></h4>
+              <p class="item__desc">Muçarela, parmesão, alho, tomate, azeitona, orégano e molho de tomate.</p>
+              <p class="item__price">R$ 36,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/alho.webp" alt="Pizza Alho, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="4-queijos" data-name="4 Queijos" data-price="40.00" data-kind="salgada" data-img="assets/menu/quatro-queijos.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="4-queijos" aria-haspopup="dialog">4 Queijos</button></h4>
+              <p class="item__desc">Muçarela, catupiry, provolone, parmesão, azeitona, orégano e molho de tomate.</p>
+              <p class="item__price">R$ 40,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/quatro-queijos.webp" alt="Pizza quatro queijos, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="franbacon" data-name="Franbacon" data-price="40.00" data-kind="salgada" data-img="assets/menu/franbacon.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="franbacon" aria-haspopup="dialog">Franbacon</button></h4>
+              <p class="item__desc">Frango, bacon, muçarela, azeitona, orégano e molho de tomate.</p>
+              <p class="item__price">R$ 40,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/franbacon.webp" alt="Pizza Franbacon, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="frango-catupiry" data-name="Frango Catupiry" data-price="40.00" data-kind="salgada" data-img="assets/menu/frango-catupiry.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="frango-catupiry" aria-haspopup="dialog">Frango Catupiry</button></h4>
+              <p class="item__desc">Frango, catupiry, muçarela, azeitona, orégano e molho de tomate.</p>
+              <p class="item__price">R$ 40,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/frango-catupiry.webp" alt="Pizza de frango com catupiry, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="calabresa-catupiry" data-name="Calabresa Catupiry" data-price="40.00" data-kind="salgada" data-img="assets/menu/calabresa-catupiry.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="calabresa-catupiry" aria-haspopup="dialog">Calabresa Catupiry</button></h4>
+              <p class="item__desc">Calabresa, catupiry, muçarela, cebola, azeitona, orégano e molho de tomate.</p>
+              <p class="item__price">R$ 40,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/calabresa-catupiry.webp" alt="Pizza Calabresa Catupiry, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="lombo-catupiry" data-name="Lombo Catupiry" data-price="40.00" data-kind="salgada" data-img="assets/menu/lombo-catupiry.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="lombo-catupiry" aria-haspopup="dialog">Lombo Catupiry</button></h4>
+              <p class="item__desc">Lombo canadense, catupiry, muçarela, tomate, azeitona, orégano e molho de tomate.</p>
+              <p class="item__price">R$ 40,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/lombo-catupiry.webp" alt="Pizza Lombo Catupiry, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="napolitana-catupiry" data-name="Napolitana Catupiry" data-price="40.00" data-kind="salgada" data-img="assets/menu/napolitana-catupiry.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="napolitana-catupiry" aria-haspopup="dialog">Napolitana Catupiry</button></h4>
+              <p class="item__desc">Presunto, muçarela, catupiry, tomate, azeitona, orégano e molho de tomate.</p>
+              <p class="item__price">R$ 40,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/napolitana-catupiry.webp" alt="Pizza Napolitana Catupiry, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="toscana" data-name="Toscana" data-price="40.00" data-kind="salgada" data-img="assets/menu/toscana.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="toscana" aria-haspopup="dialog">Toscana</button></h4>
+              <p class="item__desc">Calabresa, presunto, muçarela, cebola, azeitona, orégano e molho de tomate.</p>
+              <p class="item__price">R$ 40,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/toscana.webp" alt="Pizza Toscana, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="bacon-catupiry" data-name="Bacon Catupiry" data-price="40.00" data-kind="salgada" data-img="assets/menu/bacon-catupiry.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="bacon-catupiry" aria-haspopup="dialog">Bacon Catupiry</button></h4>
+              <p class="item__desc">Bacon, muçarela, catupiry, azeitona, orégano e molho de tomate.</p>
+              <p class="item__price">R$ 40,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/bacon-catupiry.webp" alt="Pizza Bacon Catupiry, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="bacon-cheddar" data-name="Bacon Cheddar" data-price="40.00" data-kind="salgada" data-img="assets/menu/bacon-cheddar.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="bacon-cheddar" aria-haspopup="dialog">Bacon Cheddar</button></h4>
+              <p class="item__desc">Bacon, muçarela, cheddar, azeitona, orégano e molho de tomate.</p>
+              <p class="item__price">R$ 40,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/bacon-cheddar.webp" alt="Pizza Bacon Cheddar, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="calabacon" data-name="Calabacon" data-price="40.00" data-kind="salgada" data-img="assets/menu/calabacon.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="calabacon" aria-haspopup="dialog">Calabacon</button></h4>
+              <p class="item__desc">Calabresa, bacon, muçarela, cebola, azeitona, orégano e molho de tomate.</p>
+              <p class="item__price">R$ 40,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/calabacon.webp" alt="Pizza Calabacon, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="palmito" data-name="Palmito" data-price="40.00" data-kind="salgada" data-img="assets/menu/palmito.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="palmito" aria-haspopup="dialog">Palmito</button></h4>
+              <p class="item__desc">Palmito, muçarela, catupiry, tomate, azeitona, orégano e molho de tomate.</p>
+              <p class="item__price">R$ 40,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/palmito.webp" alt="Pizza Palmito, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="vegetariana" data-name="Vegetariana" data-price="40.00" data-kind="salgada" data-img="assets/menu/vegetariana.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="vegetariana" aria-haspopup="dialog">Vegetariana</button></h4>
+              <p class="item__desc">Muçarela, palmito, milho, pimentão, cebola, tomate, azeitona, orégano e molho de tomate.</p>
+              <p class="item__price">R$ 40,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/vegetariana.webp" alt="Pizza Vegetariana, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="atum" data-name="Atum" data-price="40.00" data-kind="salgada" data-img="assets/menu/atum.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="atum" aria-haspopup="dialog">Atum</button></h4>
+              <p class="item__desc">Atum, muçarela, tomate, cebola, azeitona, orégano e molho de tomate.</p>
+              <p class="item__price">R$ 40,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/atum.webp" alt="Pizza Atum, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="planeta-pizza" data-name="Planeta Pizza" data-price="45.00" data-kind="salgada" data-img="assets/menu/planeta-pizza.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="planeta-pizza" aria-haspopup="dialog">Planeta Pizza</button></h4>
+              <p class="item__desc">Muçarela, calabresa, frango, bacon, cupim, milho, catupiry, cebola, azeitona, orégano e molho de tomate.</p>
+              <p class="item__price">R$ 45,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/planeta-pizza.webp" alt="Pizza Planeta Pizza, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="mineira" data-name="Mineira" data-price="45.00" data-kind="salgada" data-img="assets/menu/mineira.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="mineira" aria-haspopup="dialog">Mineira</button></h4>
+              <p class="item__desc">Muçarela, calabresa, presunto, bacon, cebola, catupiry, azeitona, milho, orégano e molho de tomate.</p>
+              <p class="item__price">R$ 45,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/mineira.webp" alt="Pizza Mineira, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="5-queijos" data-name="5 Queijos" data-price="45.00" data-kind="salgada" data-img="assets/menu/5-queijos.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="5-queijos" aria-haspopup="dialog">5 Queijos</button></h4>
+              <p class="item__desc">Muçarela, catupiry, provolone, parmesão, cheddar, azeitona, orégano e molho de tomate.</p>
+              <p class="item__price">R$ 45,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/5-queijos.webp" alt="Pizza 5 Queijos, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="cupim" data-name="Cupim" data-price="45.00" data-kind="salgada" data-img="assets/menu/cupim.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="cupim" aria-haspopup="dialog">Cupim</button></h4>
+              <p class="item__desc">Cupim desfiado, muçarela, catupiry, azeitona, orégano e molho de tomate.</p>
+              <p class="item__price">R$ 45,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/cupim.webp" alt="Pizza Cupim, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="strogonoff" data-name="Strogonoff" data-price="45.00" data-kind="salgada" data-img="assets/menu/strogonoff.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="strogonoff" aria-haspopup="dialog">Strogonoff</button></h4>
+              <p class="item__desc">Frango, muçarela, catupiry, milho, batata palha, azeitona, orégano e molho de tomate.</p>
+              <p class="item__price">R$ 45,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/strogonoff.webp" alt="Pizza Strogonoff, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="lombanana" data-name="Lombanana" data-price="45.00" data-kind="salgada" data-img="assets/menu/lombanana.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="lombanana" aria-haspopup="dialog">Lombanana</button></h4>
+              <p class="item__desc">Lombo canadense, banana, bacon, muçarela, azeitona, orégano e molho de tomate.</p>
+              <p class="item__price">R$ 45,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/lombanana.webp" alt="Pizza Lombanana, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="frango-cream-cheese" data-name="Frango Cream Cheese" data-price="48.00" data-kind="salgada" data-img="assets/menu/frango-cream-cheese.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="frango-cream-cheese" aria-haspopup="dialog">Frango Cream Cheese</button></h4>
+              <p class="item__desc">Frango, muçarela, cream cheese, azeitona, orégano e molho de tomate.</p>
+              <p class="item__price">R$ 48,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/frango-cream-cheese.webp" alt="Pizza Frango Cream Cheese, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="cupim-cream-cheese" data-name="Cupim Cream Cheese" data-price="48.00" data-kind="salgada" data-img="assets/menu/cupim-cream-cheese.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="cupim-cream-cheese" aria-haspopup="dialog">Cupim Cream Cheese</button></h4>
+              <p class="item__desc">Cupim desfiado, muçarela, cream cheese, alho frito, azeitona, orégano e molho de tomate.</p>
+              <p class="item__price">R$ 48,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/cupim-cream-cheese.webp" alt="Pizza Cupim Cream Cheese, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="bacon-cream-cheese" data-name="Bacon Cream Cheese" data-price="48.00" data-kind="salgada" data-img="assets/menu/bacon-cream-cheese.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="bacon-cream-cheese" aria-haspopup="dialog">Bacon Cream Cheese</button></h4>
+              <p class="item__desc">Bacon, muçarela, cream cheese, azeitona, orégano e molho de tomate.</p>
+              <p class="item__price">R$ 48,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/bacon-cream-cheese.webp" alt="Pizza Bacon Cream Cheese, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="brocolis" data-name="Brócolis" data-price="48.00" data-kind="salgada" data-img="assets/menu/brocolis.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="brocolis" aria-haspopup="dialog">Brócolis</button></h4>
+              <p class="item__desc">Muçarela, brócolis, bacon, cream cheese, alho, cebola, tomate, azeitona, orégano e molho de tomate.</p>
+              <p class="item__price">R$ 48,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/brocolis.webp" alt="Pizza Brócolis, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="calabresa-cheese" data-name="Calabresa Cheese" data-price="48.00" data-kind="salgada" data-img="assets/menu/calabresa-cheese.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="calabresa-cheese" aria-haspopup="dialog">Calabresa Cheese</button></h4>
+              <p class="item__desc">Calabresa, muçarela, cream cheese, alho, cebola, azeitona, orégano e molho de tomate.</p>
+              <p class="item__price">R$ 48,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/calabresa-cheese.webp" alt="Pizza Calabresa Cheese, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item item--plain" data-item="calabresa-barbecue" data-name="Calabresa Barbecue" data-price="48.00" data-kind="salgada">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="calabresa-barbecue" aria-haspopup="dialog">Calabresa Barbecue</button></h4>
+              <p class="item__desc">Calabresa, muçarela, cream cheese, alho, cebola, azeitona, orégano e molho de tomate.</p>
+              <p class="item__price">R$ 48,00</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+      <section id="doces" class="cat" aria-labelledby="h-doces" data-cat>
+        <h3 id="h-doces" class="cat__title">Pizzas doces</h3>
+        <p class="cat__note">8 fatias. Pode ser meio a meio: vale o preço do sabor mais caro.</p>
+        <ul class="items" role="list">
+          <li class="item" data-item="banana" data-name="Banana" data-price="45.00" data-kind="doce" data-img="assets/menu/banana-canela.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="banana" aria-haspopup="dialog">Banana</button></h4>
+              <p class="item__desc">Banana, muçarela, leite condensado e canela.</p>
+              <p class="item__price">R$ 45,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/banana-canela.webp" alt="Pizza de banana com canela, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="banana-chocolate" data-name="Banana Chocolate" data-price="45.00" data-kind="doce" data-img="assets/menu/banana-chocolate.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="banana-chocolate" aria-haspopup="dialog">Banana Chocolate</button></h4>
+              <p class="item__desc">Banana, muçarela, chocolate e leite condensado.</p>
+              <p class="item__price">R$ 45,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/banana-chocolate.webp" alt="Pizza Banana Chocolate, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="prestigio" data-name="Prestígio" data-price="45.00" data-kind="doce" data-img="assets/menu/prestigio.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="prestigio" aria-haspopup="dialog">Prestígio</button></h4>
+              <p class="item__desc">Chocolate, muçarela, coco ralado e leite condensado.</p>
+              <p class="item__price">R$ 45,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/prestigio.webp" alt="Pizza Prestígio, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="brigadeiro" data-name="Brigadeiro" data-price="45.00" data-kind="doce" data-img="assets/menu/brigadeiro.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="brigadeiro" aria-haspopup="dialog">Brigadeiro</button></h4>
+              <p class="item__desc">Chocolate, muçarela, granulado e leite condensado.</p>
+              <p class="item__price">R$ 45,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/brigadeiro.webp" alt="Pizza Brigadeiro, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+          <li class="item" data-item="confete" data-name="Confete" data-price="45.00" data-kind="doce" data-img="assets/menu/confete.webp">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="confete" aria-haspopup="dialog">Confete</button></h4>
+              <p class="item__desc">Chocolate, muçarela e confete.</p>
+              <p class="item__price">R$ 45,00</p>
+            </div>
+            <img class="item__img" src="assets/menu/confete.webp" alt="Pizza Confete, vista de cima" width="520" height="520" loading="lazy" decoding="async">
+          </li>
+        </ul>
+      </section>
+      <section id="esfihas" class="cat" aria-labelledby="h-esfihas" data-cat>
+        <h3 id="h-esfihas" class="cat__title">Esfihas</h3>
+        <ul class="items" role="list">
+          <li class="item item--plain" data-item="esfiha-4-queijos" data-name="Esfiha 4 Queijos" data-price="7.00" data-kind="esfiha">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="esfiha-4-queijos" aria-haspopup="dialog">Esfiha 4 Queijos</button></h4>
+              <p class="item__desc">Muçarela, catupiry, parmesão e provolone.</p>
+              <p class="item__price">R$ 7,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="esfiha-5-queijos" data-name="Esfiha 5 Queijos" data-price="7.00" data-kind="esfiha">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="esfiha-5-queijos" aria-haspopup="dialog">Esfiha 5 Queijos</button></h4>
+              <p class="item__desc">Muçarela, catupiry, parmesão, provolone e cheddar.</p>
+              <p class="item__price">R$ 7,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="esfiha-alho" data-name="Esfiha Alho" data-price="7.00" data-kind="esfiha">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="esfiha-alho" aria-haspopup="dialog">Esfiha Alho</button></h4>
+              <p class="item__desc">Muçarela, parmesão, alho.</p>
+              <p class="item__price">R$ 7,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="esfiha-bacon" data-name="Esfiha Bacon" data-price="7.00" data-kind="esfiha">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="esfiha-bacon" aria-haspopup="dialog">Esfiha Bacon</button></h4>
+              <p class="item__desc">Bacon, catupiry e muçarela.</p>
+              <p class="item__price">R$ 7,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="esfiha-bacon-cheddar" data-name="Esfiha Bacon Cheddar" data-price="7.00" data-kind="esfiha">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="esfiha-bacon-cheddar" aria-haspopup="dialog">Esfiha Bacon Cheddar</button></h4>
+              <p class="item__desc">Bacon, cheddar e muçarela.</p>
+              <p class="item__price">R$ 7,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="esfiha-calabresa" data-name="Esfiha Calabresa" data-price="7.00" data-kind="esfiha">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="esfiha-calabresa" aria-haspopup="dialog">Esfiha Calabresa</button></h4>
+              <p class="item__desc">Calabresa e muçarela.</p>
+              <p class="item__price">R$ 7,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="esfiha-franbacon" data-name="Esfiha Franbacon" data-price="7.00" data-kind="esfiha">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="esfiha-franbacon" aria-haspopup="dialog">Esfiha Franbacon</button></h4>
+              <p class="item__desc">Frango, bacon e muçarela.</p>
+              <p class="item__price">R$ 7,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="esfiha-frango-catupiry" data-name="Esfiha Frango Catupiry" data-price="7.00" data-kind="esfiha">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="esfiha-frango-catupiry" aria-haspopup="dialog">Esfiha Frango Catupiry</button></h4>
+              <p class="item__desc">Frango, catupiry e milho.</p>
+              <p class="item__price">R$ 7,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="esfiha-franqueijo" data-name="Esfiha Franqueijo" data-price="7.00" data-kind="esfiha">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="esfiha-franqueijo" aria-haspopup="dialog">Esfiha Franqueijo</button></h4>
+              <p class="item__desc">Frango, muçarela, milho.</p>
+              <p class="item__price">R$ 7,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="esfiha-lombo-canadense" data-name="Esfiha Lombo Canadense" data-price="7.00" data-kind="esfiha">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="esfiha-lombo-canadense" aria-haspopup="dialog">Esfiha Lombo Canadense</button></h4>
+              <p class="item__desc">Lombo canadense e muçarela.</p>
+              <p class="item__price">R$ 7,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="esfiha-marguerita" data-name="Esfiha Marguerita" data-price="7.00" data-kind="esfiha">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="esfiha-marguerita" aria-haspopup="dialog">Esfiha Marguerita</button></h4>
+              <p class="item__desc">Muçarela, parmesão, tomate e manjericão.</p>
+              <p class="item__price">R$ 7,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="esfiha-milho" data-name="Esfiha Milho" data-price="7.00" data-kind="esfiha">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="esfiha-milho" aria-haspopup="dialog">Esfiha Milho</button></h4>
+              <p class="item__desc">Milho e muçarela.</p>
+              <p class="item__price">R$ 7,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="esfiha-palmito" data-name="Esfiha Palmito" data-price="7.00" data-kind="esfiha">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="esfiha-palmito" aria-haspopup="dialog">Esfiha Palmito</button></h4>
+              <p class="item__desc">Palmito e muçarela.</p>
+              <p class="item__price">R$ 7,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="esfiha-pizza" data-name="Esfiha Pizza" data-price="7.00" data-kind="esfiha">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="esfiha-pizza" aria-haspopup="dialog">Esfiha Pizza</button></h4>
+              <p class="item__desc">Presunto, muçarela e orégano.</p>
+              <p class="item__price">R$ 7,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="esfiha-queijo" data-name="Esfiha Queijo" data-price="7.00" data-kind="esfiha">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="esfiha-queijo" aria-haspopup="dialog">Esfiha Queijo</button></h4>
+              <p class="item__desc">Muçarela.</p>
+              <p class="item__price">R$ 7,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="esfiha-banana" data-name="Esfiha Banana" data-price="8.00" data-kind="esfiha">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="esfiha-banana" aria-haspopup="dialog">Esfiha Banana</button></h4>
+              <p class="item__desc">Banana, muçarela, leite condensado e canela.</p>
+              <p class="item__price">R$ 8,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="esfiha-banana-choco" data-name="Esfiha Banana Choco" data-price="8.00" data-kind="esfiha">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="esfiha-banana-choco" aria-haspopup="dialog">Esfiha Banana Choco</button></h4>
+              <p class="item__desc">Banana, muçarela, chocolate e leite condensado.</p>
+              <p class="item__price">R$ 8,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="esfiha-brigadeiro" data-name="Esfiha Brigadeiro" data-price="8.00" data-kind="esfiha">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="esfiha-brigadeiro" aria-haspopup="dialog">Esfiha Brigadeiro</button></h4>
+              <p class="item__desc">Chocolate, muçarela, granulado e leite condensado.</p>
+              <p class="item__price">R$ 8,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="esfiha-confete" data-name="Esfiha Confete" data-price="8.00" data-kind="esfiha">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="esfiha-confete" aria-haspopup="dialog">Esfiha Confete</button></h4>
+              <p class="item__desc">Confete, chocolate e muçarela.</p>
+              <p class="item__price">R$ 8,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="esfiha-cupim" data-name="Esfiha Cupim" data-price="8.00" data-kind="esfiha">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="esfiha-cupim" aria-haspopup="dialog">Esfiha Cupim</button></h4>
+              <p class="item__desc">Cupim desfiado, muçarela, catupiry.</p>
+              <p class="item__price">R$ 8,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="esfiha-prestigio" data-name="Esfiha Prestígio" data-price="8.00" data-kind="esfiha">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="esfiha-prestigio" aria-haspopup="dialog">Esfiha Prestígio</button></h4>
+              <p class="item__desc">Chocolate, muçarela, coco ralado e leite condensado.</p>
+              <p class="item__price">R$ 8,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="esfiha-romeu-e-julieta" data-name="Esfiha Romeu e Julieta" data-price="8.00" data-kind="esfiha">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="esfiha-romeu-e-julieta" aria-haspopup="dialog">Esfiha Romeu e Julieta</button></h4>
+              <p class="item__desc">Muçarela e goiabada.</p>
+              <p class="item__price">R$ 8,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="esfiha-bacon-cream-cheese" data-name="Esfiha Bacon Cream Cheese" data-price="9.00" data-kind="esfiha">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="esfiha-bacon-cream-cheese" aria-haspopup="dialog">Esfiha Bacon Cream Cheese</button></h4>
+              <p class="item__desc">Bacon, muçarela, cream cheese.</p>
+              <p class="item__price">R$ 9,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="esfiha-cream-cheese" data-name="Esfiha Cream Cheese" data-price="9.00" data-kind="esfiha">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="esfiha-cream-cheese" aria-haspopup="dialog">Esfiha Cream Cheese</button></h4>
+              <p class="item__desc">Frango, cream cheese.</p>
+              <p class="item__price">R$ 9,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="esfiha-planeta-pizza" data-name="Esfiha Planeta Pizza" data-price="13.00" data-kind="esfiha">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="esfiha-planeta-pizza" aria-haspopup="dialog">Esfiha Planeta Pizza</button></h4>
+              <p class="item__desc">Frango, cupim, calabresa, bacon, muçarela, milho e tomate.</p>
+              <p class="item__price">R$ 13,00</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+      <section id="cone" class="cat" aria-labelledby="h-cone" data-cat>
+        <h3 id="h-cone" class="cat__title">Planeta Cone</h3>
+        <ul class="items" role="list">
+          <li class="item item--plain" data-item="batata-palito-no-cone" data-name="Batata Palito no Cone" data-price="7.00" data-kind="cone">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="batata-palito-no-cone" aria-haspopup="dialog">Batata Palito no Cone</button></h4>
+              <p class="item__desc">Com 1 molho à escolha.</p>
+              <p class="item__price">R$ 7,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="batata-palito-com-calabresa-no-cone" data-name="Batata Palito com Calabresa no Cone" data-price="9.00" data-kind="cone">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="batata-palito-com-calabresa-no-cone" aria-haspopup="dialog">Batata Palito com Calabresa no Cone</button></h4>
+              <p class="item__desc">Com 1 molho à escolha.</p>
+              <p class="item__price">R$ 9,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="batata-palito-com-mucarela-no-cone" data-name="Batata Palito com Muçarela no Cone" data-price="9.00" data-kind="cone">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="batata-palito-com-mucarela-no-cone" aria-haspopup="dialog">Batata Palito com Muçarela no Cone</button></h4>
+              <p class="item__desc">Com 1 molho à escolha.</p>
+              <p class="item__price">R$ 9,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="batata-palito-com-cheddar-e-bacon-no-cone" data-name="Batata Palito com Cheddar e Bacon no Cone" data-price="12.00" data-kind="cone">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="batata-palito-com-cheddar-e-bacon-no-cone" aria-haspopup="dialog">Batata Palito com Cheddar e Bacon no Cone</button></h4>
+              <p class="item__desc">Com 1 molho à escolha.</p>
+              <p class="item__price">R$ 12,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="churros-no-cone" data-name="Churros no Cone" data-price="12.00" data-kind="cone">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="churros-no-cone" aria-haspopup="dialog">Churros no Cone</button></h4>
+              <p class="item__desc">Com 1 molho à escolha.</p>
+              <p class="item__price">R$ 12,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="bolinha-de-queijo-no-cone" data-name="Bolinha de Queijo no Cone" data-price="14.00" data-kind="cone">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="bolinha-de-queijo-no-cone" aria-haspopup="dialog">Bolinha de Queijo no Cone</button></h4>
+              <p class="item__desc">Com 1 molho à escolha.</p>
+              <p class="item__price">R$ 14,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="bolinho-de-arroz-com-mucarela-no-cone" data-name="Bolinho de Arroz com Muçarela no Cone" data-price="14.00" data-kind="cone">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="bolinho-de-arroz-com-mucarela-no-cone" aria-haspopup="dialog">Bolinho de Arroz com Muçarela no Cone</button></h4>
+              <p class="item__desc">Com 1 molho à escolha.</p>
+              <p class="item__price">R$ 14,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="coxinha-de-frango-com-catupiry-no-cone" data-name="Coxinha de Frango com Catupiry no Cone" data-price="14.00" data-kind="cone">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="coxinha-de-frango-com-catupiry-no-cone" aria-haspopup="dialog">Coxinha de Frango com Catupiry no Cone</button></h4>
+              <p class="item__desc">Com 1 molho à escolha.</p>
+              <p class="item__price">R$ 14,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="quibe-com-mucarela-no-cone" data-name="Quibe com Muçarela no Cone" data-price="14.00" data-kind="cone">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="quibe-com-mucarela-no-cone" aria-haspopup="dialog">Quibe com Muçarela no Cone</button></h4>
+              <p class="item__desc">Com 1 molho à escolha.</p>
+              <p class="item__price">R$ 14,00</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+      <section id="bebidas" class="cat" aria-labelledby="h-bebidas" data-cat>
+        <h3 id="h-bebidas" class="cat__title">Bebidas</h3>
+        <ul class="items" role="list">
+          <li class="item item--plain" data-item="agua-sem-gas" data-name="Água sem gás" data-price="3.00" data-kind="bebida">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="agua-sem-gas" aria-haspopup="dialog">Água sem gás</button></h4>
+              <p class="item__price">R$ 3,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="agua-com-gas" data-name="Água com gás" data-price="4.00" data-kind="bebida">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="agua-com-gas" aria-haspopup="dialog">Água com gás</button></h4>
+              <p class="item__price">R$ 4,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="coca-cola-1-l" data-name="Coca-Cola 1 L" data-price="8.00" data-kind="bebida">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="coca-cola-1-l" aria-haspopup="dialog">Coca-Cola 1 L</button></h4>
+              <p class="item__price">R$ 8,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="coca-cola-zero-1-l" data-name="Coca-Cola Zero 1 L" data-price="8.00" data-kind="bebida">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="coca-cola-zero-1-l" aria-haspopup="dialog">Coca-Cola Zero 1 L</button></h4>
+              <p class="item__price">R$ 8,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="coca-cola-2-l" data-name="Coca-Cola 2 L" data-price="12.00" data-kind="bebida">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="coca-cola-2-l" aria-haspopup="dialog">Coca-Cola 2 L</button></h4>
+              <p class="item__price">R$ 12,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="coca-cola-zero-2-l" data-name="Coca-Cola Zero 2 L" data-price="12.00" data-kind="bebida">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="coca-cola-zero-2-l" aria-haspopup="dialog">Coca-Cola Zero 2 L</button></h4>
+              <p class="item__price">R$ 12,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="kuat-2-l" data-name="Kuat 2 L" data-price="10.00" data-kind="bebida">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="kuat-2-l" aria-haspopup="dialog">Kuat 2 L</button></h4>
+              <p class="item__price">R$ 10,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="fanta-1-l" data-name="Fanta 1 L" data-price="8.00" data-kind="bebida">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="fanta-1-l" aria-haspopup="dialog">Fanta 1 L</button></h4>
+              <p class="item__price">R$ 8,00</p>
+            </div>
+          </li>
+          <li class="item item--plain" data-item="fanta-laranja-2-l" data-name="Fanta Laranja 2 L" data-price="12.00" data-kind="bebida">
+            <div class="item__txt">
+              <h4 class="item__name"><button class="item__open" type="button" data-open="fanta-laranja-2-l" aria-haspopup="dialog">Fanta Laranja 2 L</button></h4>
+              <p class="item__price">R$ 12,00</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+      <!-- cardapio:fim -->
+        <p class="menu__empty" data-search-empty hidden>Nada no cardápio com “<span data-search-term></span>”.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================== ENTREGA ====
+       The second pinned act: the lid closes, the house stamp lands on it,
+       the box shrinks into the rider's bag and the bike crosses the night
+       street. Geometry for the match cut is measured in site.js. -->
+  <section id="entrega" class="ride" data-sc-act="pin" data-sc-span="2.8" aria-label="A pizza saindo para a entrega">
+    <div data-sc-stage class="rd">
+      <div class="rd__night" aria-hidden="true">
+        <img class="rd__street" src="assets/scene/street-m.webp" srcset="assets/scene/street-m.webp 1152w, assets/scene/street-d.webp 1536w" sizes="100vw" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+      </div>
+      <div class="rd__box" data-rd-box>
+        <img class="rd__open" src="assets/scene/box-open-m.webp" srcset="assets/scene/box-open-m.webp 720w, assets/scene/box-open-d.webp 1024w" sizes="(max-width: 860px) 86vw, 56svh" alt="Pizza de calabresa na caixa, com uma fatia puxando queijo" width="1024" height="1536" loading="lazy" decoding="async">
+        <img class="rd__shut" src="assets/scene/box-shut-m.webp" srcset="assets/scene/box-shut-m.webp 720w, assets/scene/box-shut-d.webp 1024w" sizes="(max-width: 860px) 86vw, 56svh" alt="" width="1024" height="1536" loading="lazy" decoding="async">
+        <span class="rd__edge" aria-hidden="true"></span>
+        <p class="rd__stamp" aria-hidden="true"><img src="assets/logo.jpg" alt="" width="200" height="200" loading="lazy" decoding="async"></p>
+      </div>
+      <div class="rd__rider" data-rd-rider aria-hidden="true">
+        <img src="assets/scene/rider-m.webp" srcset="assets/scene/rider-m.webp 640w, assets/scene/rider-d.webp 1100w" sizes="(max-width: 860px) 84vw, 46vw" alt="" width="1100" height="879" loading="lazy" decoding="async">
+      </div>
+      <div class="beat beat--box" data-sc-cue="0 0.40 0 0.22">
+        <h2 class="display display--beat">Saiu do forno, direto pra caixa.</h2>
+        <p class="lede">Fechada na hora, com o carimbo da casa.</p>
+      </div>
+      <div class="beat beat--ride" data-sc-cue="0.6 1 0.14 0">
+        <h2 class="display display--beat">Do forno até a sua porta.</h2>
+        <p class="lede">Entrega em Araguari. Sai quentinha e chega quentinha.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================== COMANDA ====
+       The close: the same ticket, now carrying what the visitor picked. -->
+  <section id="comanda" class="fecho" data-sc-act="flow" aria-labelledby="comanda-title">
+    <div class="wrap fecho__grid">
+      <div class="fecho__copy">
+        <h2 id="comanda-title" class="display display--section">Sua comanda</h2>
+        <p class="lede">Escolha no cardápio e ela se imprime aqui. Fechou, é só pedir.</p>
+        <ul class="facts">
+          <li><svg class="ico" aria-hidden="true"><use href="#i-bike"/></svg>Entrega em Araguari, de 45 a 60 min</li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg>Retirada na Rua Padre Anchieta, 154, Jardim Regina</li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-clock"/></svg>Todos os dias, das 17h45 às 23h</li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg><a href="#cardapio" data-whatsapp>WhatsApp (34) 98837-1707</a></li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-insta"/></svg><a href="https://www.instagram.com/planetapizzaaraguari" rel="noopener" target="_blank">@planetapizzaaraguari</a></li>
+        </ul>
+      </div>
+      <div class="ticket ticket--order" data-sc-reveal="up" data-sc-reveal-at="0.04 0.40">
+        <div class="ticket__paper">
+          <p class="ticket__head"><span>Planeta Pizza</span><span>Seu pedido</span></p>
+          <ol class="ticket__lines" data-order-lines aria-live="polite"></ol>
+          <div class="ticket__empty" data-order-empty>
+            <p>Sua comanda ainda está em branco.</p>
+            <button class="add add--inline" type="button" data-open="calabresa" aria-haspopup="dialog"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Começar pela Calabresa, R$ 36,00</span></button>
+          </div>
+          <p class="ticket__fee" data-fee hidden><span>Entrega</span><span data-fee-value>R$ 10,00</span></p>
+          <p class="ticket__total"><span>Total</span><span data-total>R$ 0,00</span></p>
+          <button class="btn btn--red btn--block" type="button" data-checkout><svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg><span>Fazer pedido</span></button>
+        </div>
+      </div>
+    </div>
+    <footer class="foot wrap">
+      <span class="brand brand--foot"><img class="brand__mark" src="assets/logo.jpg" alt="" width="200" height="200" loading="lazy" decoding="async"><span class="brand__name">Planeta <b>Pizza</b></span></span>
+      <p>Delivery e retirada em Araguari.</p>
+      <p class="foot__legal">Andrade e Zanon Alimentação e Comércio · CNPJ 33.363.935/0001-91 · Rua Padre Anchieta, 154, Loja A, Jardim Regina, Araguari - MG, 38440-132</p>
+    </footer>
+  </section>
+</main>
+
+<div class="orderbar" data-orderbar>
+  <a class="btn btn--red btn--block orderbar__btn" href="#cardapio" data-order>
+    <svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg>
+    <span data-order-label>Fazer pedido</span>
+    <span class="orderbar__sum" data-sum hidden></span>
+  </a>
+</div>
+
+<!-- The item sheet: one dialog, filled from the row that opened it. -->
+<dialog class="sheet" id="sheet" aria-labelledby="sheet-name">
+  <form class="sheet__form" method="dialog" data-sheet-form>
+    <button class="sheet__close" value="cancel" aria-label="Fechar"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button>
+    <div class="sheet__media" data-sheet-media><img alt="" width="520" height="520" data-sheet-img></div>
+    <div class="sheet__body">
+      <h2 id="sheet-name" class="sheet__name" data-sheet-name></h2>
+      <p class="sheet__desc" data-sheet-desc></p>
+      <p class="sheet__meta" data-sheet-meta></p>
+      <p class="sheet__price" data-sheet-price></p>
+      <div data-sheet-groups></div>
+      <div class="obs">
+        <p class="obs__head"><label for="sheet-obs">Alguma observação?</label><span data-obs-count>0/140</span></p>
+        <textarea id="sheet-obs" maxlength="140" rows="3" placeholder="Ex.: sem cebola, bem assada." data-obs></textarea>
+      </div>
+    </div>
+    <div class="sheet__foot">
+      <div class="stepper" role="group" aria-label="Quantidade">
+        <button type="button" data-step="-1" aria-label="Diminuir quantidade"><svg class="ico" aria-hidden="true"><use href="#i-minus"/></svg></button>
+        <output data-qty aria-live="polite">1</output>
+        <button type="button" data-step="1" aria-label="Aumentar quantidade"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg></button>
+      </div>
+      <button type="button" class="btn btn--red sheet__add" data-sheet-add><span>Adicionar</span><span data-sheet-total></span></button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Sua comanda: a sacola e a finalização numa rolagem só, como nos apps de
+     delivery (ver CHECKOUT.md): itens, peça também, entrega ou retirada,
+     pagamento, seus dados, resumo. Na Fase 1 o pedido segue pelo WhatsApp. -->
+<dialog class="drawer comanda" id="drawer" aria-labelledby="drawer-title">
+  <form class="drawer__panel" data-co-form novalidate>
+    <header class="drawer__head">
+      <h2 id="drawer-title" class="drawer__title" tabindex="-1">Sua comanda</h2>
+      <button class="drawer__close" type="button" data-drawer-close aria-label="Fechar"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button>
+    </header>
+    <div class="drawer__scroll" data-co-scroll>
+      <p class="co__closed" data-co-closed role="status" hidden></p>
+
+      <section class="co__sec" data-co-sec="itens" aria-labelledby="co-h-itens">
+        <h3 class="co__h sr" id="co-h-itens">Itens</h3>
+        <div class="ticket ticket--drawer">
+          <div class="ticket__paper">
+            <p class="ticket__head"><span>Planeta Pizza</span><span>Seu pedido</span></p>
+            <ol class="ticket__lines" data-order-lines></ol>
+            <p class="ticket__total"><span>Subtotal</span><span data-subtotal>R$ 0,00</span></p>
+          </div>
+        </div>
+        <button class="co__more" type="button" data-more><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Adicionar mais itens</span></button>
+      </section>
+
+      <section class="co__sec" data-co-sec="upsell" aria-labelledby="co-h-upsell" data-upsell-wrap hidden>
+        <h3 class="co__h" id="co-h-upsell">Peça também</h3>
+        <ul class="co__rail" role="list" data-upsell></ul>
+      </section>
+
+      <section class="co__sec" data-co-sec="entrega" aria-labelledby="co-h-entrega">
+        <h3 class="co__h" id="co-h-entrega">Entrega ou retirada</h3>
+        <div class="co__choice" role="radiogroup" aria-labelledby="co-h-entrega" data-grp="tipo">
+          <label class="co__card"><input type="radio" name="tipo" value="entrega" id="co-tipo-entrega"><span class="co__card-t"><svg class="ico" aria-hidden="true"><use href="#i-bike"/></svg>Entrega</span><span class="co__card-s" data-co-info-entrega></span></label>
+          <label class="co__card"><input type="radio" name="tipo" value="retirada" id="co-tipo-retirada"><span class="co__card-t"><svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg>Retirada</span><span class="co__card-s" data-co-info-retirada></span></label>
+        </div>
+        <div class="co__addr" data-co-addr hidden>
+          <div class="field"><label for="co-cep">CEP <span>(opcional, preenche a rua)</span></label><input id="co-cep" name="cep" inputmode="numeric" autocomplete="postal-code" placeholder="38440-000"></div>
+          <div class="field"><label for="co-rua">Rua</label><input id="co-rua" name="rua" autocomplete="address-line1"></div>
+          <div class="field-row">
+            <div class="field"><label for="co-num">Número</label><input id="co-num" name="numero" inputmode="numeric"></div>
+            <div class="field"><label for="co-bairro">Bairro</label><input id="co-bairro" name="bairro"></div>
+          </div>
+          <div class="field"><label for="co-comp">Complemento <span>(opcional)</span></label><input id="co-comp" name="complemento" placeholder="Apto, bloco, casa dos fundos"></div>
+          <div class="field"><label for="co-ref">Ponto de referência <span>(opcional)</span></label><input id="co-ref" name="referencia"></div>
+          <p class="co__note"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg>Entregamos em Araguari, MG.</p>
+        </div>
+        <div class="co__pickup" data-co-pickup hidden>
+          <p data-co-pickup-text></p>
+          <a href="#" target="_blank" rel="noopener" data-co-map>Ver no mapa</a>
+        </div>
+      </section>
+
+      <section class="co__sec" data-co-sec="pagamento" aria-labelledby="co-h-pag">
+        <h3 class="co__h" id="co-h-pag" data-co-pag-title>Pagamento na entrega</h3>
+        <div class="co__opts" role="radiogroup" aria-labelledby="co-h-pag" data-grp="pag">
+          <label class="opt"><span class="opt__txt"><span class="opt__name">Dinheiro</span></span><input type="radio" name="pag" value="dinheiro" id="co-pag-dinheiro"></label>
+          <div class="co__troco" data-co-troco hidden>
+            <p class="co__sub" id="co-troco-t">Vai precisar de troco?</p>
+            <div class="co__seg" role="radiogroup" aria-labelledby="co-troco-t">
+              <label><input type="radio" name="precisaTroco" value="nao" id="co-troco-nao" checked><span>Não</span></label>
+              <label><input type="radio" name="precisaTroco" value="sim" id="co-troco-sim"><span>Sim</span></label>
+            </div>
+            <div class="field" data-co-troco-valor hidden><label for="co-troco">Troco para quanto?</label><input id="co-troco" name="troco" inputmode="decimal" placeholder="R$ 100,00"></div>
+          </div>
+          <label class="opt"><span class="opt__txt"><span class="opt__name">Cartão de crédito na maquininha</span></span><input type="radio" name="pag" value="cartao-entrega" id="co-pag-cartao-entrega"></label>
+          <div class="co__online" data-co-online hidden>
+            <p class="co__sub">Pagar agora, pelo site</p>
+            <label class="opt"><span class="opt__txt"><span class="opt__name">Pix</span></span><input type="radio" name="pag" value="pix" id="co-pag-pix"></label>
+            <label class="opt"><span class="opt__txt"><span class="opt__name">Cartão de crédito</span></span><input type="radio" name="pag" value="cartao-online" id="co-pag-cartao-online"></label>
+          </div>
+        </div>
+      </section>
+
+      <section class="co__sec" data-co-sec="dados" aria-labelledby="co-h-dados">
+        <h3 class="co__h" id="co-h-dados">Seus dados</h3>
+        <p class="co__lede">Para a pizzaria falar com você sobre o pedido.</p>
+        <div class="field"><label for="co-nome">Nome</label><input id="co-nome" name="nome" autocomplete="name" autocapitalize="words"></div>
+        <div class="field"><label for="co-fone">Celular com DDD</label><input id="co-fone" name="fone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="(34) 99999-9999"></div>
+      </section>
+
+      <section class="co__sec co__resumo" data-co-sec="resumo" aria-labelledby="co-h-resumo">
+        <h3 class="co__h" id="co-h-resumo">Resumo</h3>
+        <p class="co__line"><span>Subtotal</span><span data-co-sub>R$ 0,00</span></p>
+        <p class="co__line" data-co-fee-line><span>Taxa de entrega</span><span data-co-fee>R$ 0,00</span></p>
+        <p class="co__line co__line--total"><span>Total</span><span data-co-sum>R$ 0,00</span></p>
+        <p class="co__line co__line--troco" data-co-troco-line hidden><span>Troco para</span><span data-co-troco-val></span></p>
+      </section>
+    </div>
+    <div class="drawer__foot">
+      <button class="btn btn--red btn--block co__go" type="submit" data-co-submit><span>Fazer pedido</span><span class="co__go-total" data-co-total>R$ 0,00</span></button>
+      <p class="co__hint" data-co-hint>Você confirma o envio no WhatsApp da pizzaria.</p>
+    </div>
+  </form>
+</dialog>
+
+<!-- Depois do envio pela Fase 1: o pedido está escrito no WhatsApp da
+     pizzaria, falta o cliente tocar em enviar. Nada aqui finge confirmação. -->
+<dialog class="aviso" id="pedido-whats" aria-labelledby="pw-title">
+  <div class="aviso__card">
+    <p class="entrega__kicker">Planeta Pizza</p>
+    <h2 class="entrega__title" id="pw-title">Seu pedido está no WhatsApp</h2>
+    <p class="entrega__text">Toque em enviar na conversa da pizzaria. A confirmação e o tempo de entrega chegam por lá.</p>
+    <a class="btn btn--wa btn--block" href="#" target="_blank" rel="noopener" data-pw-again><svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg><span>Abrir o WhatsApp de novo</span></a>
+    <button class="btn btn--red btn--block" type="button" data-pw-sent>Já enviei</button>
+    <button class="btn btn--quiet btn--block" type="button" data-pw-close>Voltar à comanda</button>
+  </div>
+</dialog>
+
+<!-- Pedido recebido: the same ride as the Entrega act, played on its own
+     like a short film. Opened only by PlanetaPizza.pedidoRecebido(), which
+     the order integration calls once the pizzeria has the order. -->
+<dialog class="entrega" id="pedido-recebido" aria-label="Pedido recebido">
+  <div class="rd rd--auto" data-auto-ride>
+    <div class="rd__night" aria-hidden="true">
+      <img class="rd__street" src="assets/scene/street-m.webp" srcset="assets/scene/street-m.webp 1152w, assets/scene/street-d.webp 1536w" sizes="100vw" alt="" width="1536" height="1024" decoding="async">
+    </div>
+    <div class="rd__box" data-rd-box aria-hidden="true">
+      <img class="rd__open" src="assets/scene/box-open-m.webp" srcset="assets/scene/box-open-m.webp 720w, assets/scene/box-open-d.webp 1024w" sizes="(max-width: 860px) 86vw, 56svh" alt="" width="1024" height="1536" decoding="async">
+      <img class="rd__shut" src="assets/scene/box-shut-m.webp" srcset="assets/scene/box-shut-m.webp 720w, assets/scene/box-shut-d.webp 1024w" sizes="(max-width: 860px) 86vw, 56svh" alt="" width="1024" height="1536" decoding="async">
+      <span class="rd__edge"></span>
+      <p class="rd__stamp"><img src="assets/logo.jpg" alt="" width="200" height="200" decoding="async"></p>
+    </div>
+    <div class="rd__rider" data-rd-rider aria-hidden="true">
+      <img src="assets/scene/rider-m.webp" srcset="assets/scene/rider-m.webp 640w, assets/scene/rider-d.webp 1100w" sizes="(max-width: 860px) 84vw, 46vw" alt="" width="1100" height="879" decoding="async">
+    </div>
+  </div>
+  <button class="entrega__skip" type="button" data-entrega-skip>Pular</button>
+  <div class="entrega__card" data-entrega-card hidden>
+    <p class="entrega__kicker">Planeta Pizza</p>
+    <h2 class="entrega__title">Pedido recebido!</h2>
+    <p class="entrega__text">A pizzaria já tem o seu pedido e começou a preparar. Logo ela sai quentinha até a sua porta.</p>
+    <p class="entrega__meta" data-entrega-meta hidden></p>
+    <button class="btn btn--red btn--block" type="button" data-entrega-close>Fechar</button>
+  </div>
+</dialog>
+
+<p class="toast" role="status" aria-live="polite" data-toast></p>
+
+<!-- Configuração da pizzaria, conforme a loja oficial na Anotaí.
+     whatsapp: o número de pedidos (o da fachada), só dígitos, com DDI e DDD.
+     O (34) 98408-9429, cadastrado na Anotaí, é o das mensagens automáticas e
+     não recebe pedidos do site. Vazio = o botão fica no lugar e avisa, sem
+     abrir contato nenhum. entrega: taxa única da loja, em reais;
+     tempoEntrega e retirada (endereço e tempo) também vêm da loja na Anotaí;
+     "retirada": null tira a opção de retirar na pizzaria do pedido.
+     pagamentoOnline: false até o Mercado Pago entrar (Fase 3, CHECKOUT.md). -->
+<script type="application/json" id="planeta-config">{"whatsapp": "5534988371707", "entrega": 10, "tempoEntrega": "45 a 60 min", "retirada": {"endereco": "Rua Padre Anchieta, 154, Jardim Regina, Araguari - MG", "tempo": "20 a 25 min"}, "pagamentoOnline": false}</script>
+<!-- Bordas, acréscimos e molhos da Anotaí (gerado por tools/cardapio.py). -->
+<!-- opcoes:inicio -->
+<script type="application/json" id="planeta-opcoes">{"bordas":{"pizza":[["Catupiry",8],["Cream cheese",12],["Chocolate",12],["Cheddar",8],["Muçarela",12],["Presunto e muçarela",12]],"doce":[["Catupiry",8],["Cheddar",8],["Cream cheese",8],["Muçarela",12],["Chocolate",12],["Presunto e muçarela",12]]},"acrescimos":{"pizza":[["Milho",6],["Alho",6],["Pimentão",6],["Bacon",8],["Catupiry",8],["Palmito",8],["Cheddar",8],["Cream cheese",12]]},"cone":{"molhos":["Molho de alho","Molho de barbecue","Molho de catchup","Molho de maionese com pimenta","Molho rosé"],"acrescimos":[["Molho de catchup",1],["Molho de barbecue",1],["Molho de maionese com pimenta",1],["Molho de alho",1],["Molho rosé",1],["Calabresa",2],["Muçarela",2],["Bacon",2]]}}</script>
+<!-- opcoes:fim -->
+<script type="application/json" id="drops-layout">{"frame":1440,"atlas":[1024,1112],"sprites":[{"kind":"calabresa","x":0.78333,"y":0.65208,"w":0.06389,"h":0.07778,"box":[523,969,92,112]},{"kind":"calabresa","x":0.64653,"y":0.22604,"w":0.06528,"h":0.09653,"box":[145,969,94,139]},{"kind":"calabresa","x":0.36389,"y":0.22083,"w":0.125,"h":0.13056,"box":[792,223,180,188]},{"kind":"calabresa","x":0.78993,"y":0.57257,"w":0.09931,"h":0.09931,"box":[0,969,143,143]},{"kind":"calabresa","x":0.74583,"y":0.64549,"w":0.09306,"h":0.09375,"box":[241,969,134,135]},{"kind":"calabresa","x":0.48333,"y":0.21076,"w":0.13194,"h":0.13681,"box":[404,223,190,197]},{"kind":"calabresa","x":0.25069,"y":0.63924,"w":0.10833,"h":0.11458,"box":[0,802,156,165]},{"kind":"calabresa","x":0.24236,"y":0.4066,"w":0.11667,"h":0.11597,"box":[714,622,168,167]},{"kind":"calabresa","x":0.51528,"y":0.77812,"w":0.17778,"h":0.12847,"box":[403,432,256,185]},{"kind":"calabresa","x":0.61632,"y":0.75035,"w":0.11736,"h":0.15347,"box":[0,0,169,221]},{"kind":"calabresa","x":0.39549,"y":0.24618,"w":0.09236,"h":0.14653,"box":[171,0,133,211]},{"kind":"calabresa","x":0.23785,"y":0.53333,"w":0.14097,"h":0.13056,"box":[198,432,203,188]},{"kind":"calabresa","x":0.38785,"y":0.72639,"w":0.11736,"h":0.12361,"box":[0,622,169,178]},{"kind":"calabresa","x":0.32361,"y":0.68646,"w":0.1,"h":0.09375,"box":[377,969,144,135]},{"kind":"calabresa","x":0.32431,"y":0.32674,"w":0.14583,"h":0.14375,"box":[0,223,210,207]},{"kind":"calabresa","x":0.26181,"y":0.4125,"w":0.13611,"h":0.13056,"box":[0,432,196,188]},{"kind":"calabresa","x":0.74514,"y":0.49792,"w":0.12917,"h":0.12222,"box":[171,622,186,176]},{"kind":"calabresa","x":0.71285,"y":0.5934,"w":0.08264,"h":0.10486,"box":[441,802,119,151]},{"kind":"calabresa","x":0.64062,"y":0.64583,"w":0.04375,"h":0.04444,"box":[617,969,63,64]},{"kind":"calabresa","x":0.61562,"y":0.63646,"w":0.08958,"h":0.10625,"box":[310,802,129,153]},{"kind":"calabresa","x":0.37361,"y":0.61076,"w":0.07917,"h":0.12569,"box":[661,432,114,181]},{"kind":"calabresa","x":0.34444,"y":0.47326,"w":0.13472,"h":0.09931,"box":[739,802,194,143]},{"kind":"calabresa","x":0.42049,"y":0.38229,"w":0.13264,"h":0.14514,"box":[639,0,191,209]},{"kind":"calabresa","x":0.44861,"y":0.62292,"w":0.10556,"h":0.11944,"box":[560,622,152,172]},{"kind":"calabresa","x":0.62743,"y":0.42986,"w":0.14931,"h":0.125,"box":[777,432,215,180]},{"kind":"calabresa","x":0.62674,"y":0.5316,"w":0.13819,"h":0.12014,"box":[359,622,199,173]},{"kind":"calabresa","x":0.55521,"y":0.58472,"w":0.13403,"h":0.14583,"box":[306,0,193,210]},{"kind":"calabresa","x":0.51597,"y":0.42292,"w":0.13194,"h":0.14167,"box":[212,223,190,204]},{"kind":"calabresa","x":0.45417,"y":0.50938,"w":0.13472,"h":0.13542,"box":[596,223,194,195]},{"kind":"azeitona","x":0.71319,"y":0.74097,"w":0.09444,"h":0.14583,"box":[501,0,136,210]},{"kind":"azeitona","x":0.77743,"y":0.45347,"w":0.12153,"h":0.10278,"box":[562,802,175,148]},{"kind":"azeitona","x":0.46458,"y":0.6934,"w":0.10417,"h":0.10764,"box":[158,802,150,155]}]}</script>
+<script src="scrollcraft.js"></script>
+<script src="site.js"></script>
+</body>
+</html>

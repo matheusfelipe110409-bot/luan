@@ -1,0 +1,650 @@
+{
+ "fonte": "https://pedido.anota.ai/loja/anotaai-planeta-pizza",
+ "secoes": [
+  {
+   "id": "salgadas",
+   "titulo": "Pizzas salgadas",
+   "itens": [
+    {
+     "id": "mucarela",
+     "nome": "Muçarela",
+     "desc": "Muçarela, tomate, azeitona, orégano e molho de tomate.",
+     "preco": 32.0
+    },
+    {
+     "id": "marguerita",
+     "nome": "Marguerita",
+     "desc": "Muçarela, tomate, azeitona, manjericão e molho de tomate.",
+     "preco": 32.0
+    },
+    {
+     "id": "calabresa",
+     "nome": "Calabresa",
+     "desc": "Calabresa, muçarela, cebola, azeitona, orégano e molho de tomate.",
+     "preco": 36.0
+    },
+    {
+     "id": "lombo-canadense",
+     "nome": "Lombo Canadense",
+     "desc": "Lombo canadense, muçarela, tomate, azeitona, orégano e molho de tomate.",
+     "preco": 36.0
+    },
+    {
+     "id": "napolitana",
+     "nome": "Napolitana",
+     "desc": "Presunto, muçarela, tomate, azeitona, orégano e molho de tomate.",
+     "preco": 36.0
+    },
+    {
+     "id": "alho",
+     "nome": "Alho",
+     "desc": "Muçarela, parmesão, alho, tomate, azeitona, orégano e molho de tomate.",
+     "preco": 36.0
+    },
+    {
+     "id": "4-queijos",
+     "nome": "4 Queijos",
+     "desc": "Muçarela, catupiry, provolone, parmesão, azeitona, orégano e molho de tomate.",
+     "preco": 40.0
+    },
+    {
+     "id": "franbacon",
+     "nome": "Franbacon",
+     "desc": "Frango, bacon, muçarela, azeitona, orégano e molho de tomate.",
+     "preco": 40.0
+    },
+    {
+     "id": "frango-catupiry",
+     "nome": "Frango Catupiry",
+     "desc": "Frango, catupiry, muçarela, azeitona, orégano e molho de tomate.",
+     "preco": 40.0
+    },
+    {
+     "id": "calabresa-catupiry",
+     "nome": "Calabresa Catupiry",
+     "desc": "Calabresa, catupiry, muçarela, cebola, azeitona, orégano e molho de tomate.",
+     "preco": 40.0
+    },
+    {
+     "id": "lombo-catupiry",
+     "nome": "Lombo Catupiry",
+     "desc": "Lombo canadense, catupiry, muçarela, tomate, azeitona, orégano e molho de tomate.",
+     "preco": 40.0
+    },
+    {
+     "id": "napolitana-catupiry",
+     "nome": "Napolitana Catupiry",
+     "desc": "Presunto, muçarela, catupiry, tomate, azeitona, orégano e molho de tomate.",
+     "preco": 40.0
+    },
+    {
+     "id": "toscana",
+     "nome": "Toscana",
+     "desc": "Calabresa, presunto, muçarela, cebola, azeitona, orégano e molho de tomate.",
+     "preco": 40.0
+    },
+    {
+     "id": "bacon-catupiry",
+     "nome": "Bacon Catupiry",
+     "desc": "Bacon, muçarela, catupiry, azeitona, orégano e molho de tomate.",
+     "preco": 40.0
+    },
+    {
+     "id": "bacon-cheddar",
+     "nome": "Bacon Cheddar",
+     "desc": "Bacon, muçarela, cheddar, azeitona, orégano e molho de tomate.",
+     "preco": 40.0
+    },
+    {
+     "id": "calabacon",
+     "nome": "Calabacon",
+     "desc": "Calabresa, bacon, muçarela, cebola, azeitona, orégano e molho de tomate.",
+     "preco": 40.0
+    },
+    {
+     "id": "palmito",
+     "nome": "Palmito",
+     "desc": "Palmito, muçarela, catupiry, tomate, azeitona, orégano e molho de tomate.",
+     "preco": 40.0
+    },
+    {
+     "id": "vegetariana",
+     "nome": "Vegetariana",
+     "desc": "Muçarela, palmito, milho, pimentão, cebola, tomate, azeitona, orégano e molho de tomate.",
+     "preco": 40.0
+    },
+    {
+     "id": "atum",
+     "nome": "Atum",
+     "desc": "Atum, muçarela, tomate, cebola, azeitona, orégano e molho de tomate.",
+     "preco": 40.0
+    },
+    {
+     "id": "planeta-pizza",
+     "nome": "Planeta Pizza",
+     "desc": "Muçarela, calabresa, frango, bacon, cupim, milho, catupiry, cebola, azeitona, orégano e molho de tomate.",
+     "preco": 45.0
+    },
+    {
+     "id": "mineira",
+     "nome": "Mineira",
+     "desc": "Muçarela, calabresa, presunto, bacon, cebola, catupiry, azeitona, milho, orégano e molho de tomate.",
+     "preco": 45.0
+    },
+    {
+     "id": "5-queijos",
+     "nome": "5 Queijos",
+     "desc": "Muçarela, catupiry, provolone, parmesão, cheddar, azeitona, orégano e molho de tomate.",
+     "preco": 45.0
+    },
+    {
+     "id": "cupim",
+     "nome": "Cupim",
+     "desc": "Cupim desfiado, muçarela, catupiry, azeitona, orégano e molho de tomate.",
+     "preco": 45.0
+    },
+    {
+     "id": "strogonoff",
+     "nome": "Strogonoff",
+     "desc": "Frango, muçarela, catupiry, milho, batata palha, azeitona, orégano e molho de tomate.",
+     "preco": 45.0
+    },
+    {
+     "id": "lombanana",
+     "nome": "Lombanana",
+     "desc": "Lombo canadense, banana, bacon, muçarela, azeitona, orégano e molho de tomate.",
+     "preco": 45.0
+    },
+    {
+     "id": "frango-cream-cheese",
+     "nome": "Frango Cream Cheese",
+     "desc": "Frango, muçarela, cream cheese, azeitona, orégano e molho de tomate.",
+     "preco": 48.0
+    },
+    {
+     "id": "cupim-cream-cheese",
+     "nome": "Cupim Cream Cheese",
+     "desc": "Cupim desfiado, muçarela, cream cheese, alho frito, azeitona, orégano e molho de tomate.",
+     "preco": 48.0
+    },
+    {
+     "id": "bacon-cream-cheese",
+     "nome": "Bacon Cream Cheese",
+     "desc": "Bacon, muçarela, cream cheese, azeitona, orégano e molho de tomate.",
+     "preco": 48.0
+    },
+    {
+     "id": "brocolis",
+     "nome": "Brócolis",
+     "desc": "Muçarela, brócolis, bacon, cream cheese, alho, cebola, tomate, azeitona, orégano e molho de tomate.",
+     "preco": 48.0
+    },
+    {
+     "id": "calabresa-cheese",
+     "nome": "Calabresa Cheese",
+     "desc": "Calabresa, muçarela, cream cheese, alho, cebola, azeitona, orégano e molho de tomate.",
+     "preco": 48.0
+    },
+    {
+     "id": "calabresa-barbecue",
+     "nome": "Calabresa Barbecue",
+     "desc": "Calabresa, muçarela, cream cheese, alho, cebola, azeitona, orégano e molho de tomate.",
+     "preco": 48.0
+    }
+   ]
+  },
+  {
+   "id": "doces",
+   "titulo": "Pizzas doces",
+   "itens": [
+    {
+     "id": "banana",
+     "nome": "Banana",
+     "desc": "Banana, muçarela, leite condensado e canela.",
+     "preco": 45.0
+    },
+    {
+     "id": "banana-chocolate",
+     "nome": "Banana Chocolate",
+     "desc": "Banana, muçarela, chocolate e leite condensado.",
+     "preco": 45.0
+    },
+    {
+     "id": "prestigio",
+     "nome": "Prestígio",
+     "desc": "Chocolate, muçarela, coco ralado e leite condensado.",
+     "preco": 45.0
+    },
+    {
+     "id": "brigadeiro",
+     "nome": "Brigadeiro",
+     "desc": "Chocolate, muçarela, granulado e leite condensado.",
+     "preco": 45.0
+    },
+    {
+     "id": "confete",
+     "nome": "Confete",
+     "desc": "Chocolate, muçarela e confete.",
+     "preco": 45.0
+    }
+   ]
+  },
+  {
+   "id": "esfihas",
+   "titulo": "Esfihas",
+   "itens": [
+    {
+     "id": "esfiha-4-queijos",
+     "nome": "Esfiha 4 Queijos",
+     "desc": "Muçarela, catupiry, parmesão e provolone.",
+     "preco": 7.0
+    },
+    {
+     "id": "esfiha-5-queijos",
+     "nome": "Esfiha 5 Queijos",
+     "desc": "Muçarela, catupiry, parmesão, provolone e cheddar.",
+     "preco": 7.0
+    },
+    {
+     "id": "esfiha-alho",
+     "nome": "Esfiha Alho",
+     "desc": "Muçarela, parmesão, alho.",
+     "preco": 7.0
+    },
+    {
+     "id": "esfiha-bacon",
+     "nome": "Esfiha Bacon",
+     "desc": "Bacon, catupiry e muçarela.",
+     "preco": 7.0
+    },
+    {
+     "id": "esfiha-bacon-cheddar",
+     "nome": "Esfiha Bacon Cheddar",
+     "desc": "Bacon, cheddar e muçarela.",
+     "preco": 7.0
+    },
+    {
+     "id": "esfiha-calabresa",
+     "nome": "Esfiha Calabresa",
+     "desc": "Calabresa e muçarela.",
+     "preco": 7.0
+    },
+    {
+     "id": "esfiha-franbacon",
+     "nome": "Esfiha Franbacon",
+     "desc": "Frango, bacon e muçarela.",
+     "preco": 7.0
+    },
+    {
+     "id": "esfiha-frango-catupiry",
+     "nome": "Esfiha Frango Catupiry",
+     "desc": "Frango, catupiry e milho.",
+     "preco": 7.0
+    },
+    {
+     "id": "esfiha-franqueijo",
+     "nome": "Esfiha Franqueijo",
+     "desc": "Frango, muçarela, milho.",
+     "preco": 7.0
+    },
+    {
+     "id": "esfiha-lombo-canadense",
+     "nome": "Esfiha Lombo Canadense",
+     "desc": "Lombo canadense e muçarela.",
+     "preco": 7.0
+    },
+    {
+     "id": "esfiha-marguerita",
+     "nome": "Esfiha Marguerita",
+     "desc": "Muçarela, parmesão, tomate e manjericão.",
+     "preco": 7.0
+    },
+    {
+     "id": "esfiha-milho",
+     "nome": "Esfiha Milho",
+     "desc": "Milho e muçarela.",
+     "preco": 7.0
+    },
+    {
+     "id": "esfiha-palmito",
+     "nome": "Esfiha Palmito",
+     "desc": "Palmito e muçarela.",
+     "preco": 7.0
+    },
+    {
+     "id": "esfiha-pizza",
+     "nome": "Esfiha Pizza",
+     "desc": "Presunto, muçarela e orégano.",
+     "preco": 7.0
+    },
+    {
+     "id": "esfiha-queijo",
+     "nome": "Esfiha Queijo",
+     "desc": "Muçarela.",
+     "preco": 7.0
+    },
+    {
+     "id": "esfiha-banana",
+     "nome": "Esfiha Banana",
+     "desc": "Banana, muçarela, leite condensado e canela.",
+     "preco": 8.0
+    },
+    {
+     "id": "esfiha-banana-choco",
+     "nome": "Esfiha Banana Choco",
+     "desc": "Banana, muçarela, chocolate e leite condensado.",
+     "preco": 8.0
+    },
+    {
+     "id": "esfiha-brigadeiro",
+     "nome": "Esfiha Brigadeiro",
+     "desc": "Chocolate, muçarela, granulado e leite condensado.",
+     "preco": 8.0
+    },
+    {
+     "id": "esfiha-confete",
+     "nome": "Esfiha Confete",
+     "desc": "Confete, chocolate e muçarela.",
+     "preco": 8.0
+    },
+    {
+     "id": "esfiha-cupim",
+     "nome": "Esfiha Cupim",
+     "desc": "Cupim desfiado, muçarela, catupiry.",
+     "preco": 8.0
+    },
+    {
+     "id": "esfiha-prestigio",
+     "nome": "Esfiha Prestígio",
+     "desc": "Chocolate, muçarela, coco ralado e leite condensado.",
+     "preco": 8.0
+    },
+    {
+     "id": "esfiha-romeu-e-julieta",
+     "nome": "Esfiha Romeu e Julieta",
+     "desc": "Muçarela e goiabada.",
+     "preco": 8.0
+    },
+    {
+     "id": "esfiha-bacon-cream-cheese",
+     "nome": "Esfiha Bacon Cream Cheese",
+     "desc": "Bacon, muçarela, cream cheese.",
+     "preco": 9.0
+    },
+    {
+     "id": "esfiha-cream-cheese",
+     "nome": "Esfiha Cream Cheese",
+     "desc": "Frango, cream cheese.",
+     "preco": 9.0
+    },
+    {
+     "id": "esfiha-planeta-pizza",
+     "nome": "Esfiha Planeta Pizza",
+     "desc": "Frango, cupim, calabresa, bacon, muçarela, milho e tomate.",
+     "preco": 13.0
+    }
+   ]
+  },
+  {
+   "id": "cone",
+   "titulo": "Planeta Cone",
+   "itens": [
+    {
+     "id": "batata-palito-no-cone",
+     "nome": "Batata Palito no Cone",
+     "desc": "Com 1 molho à escolha.",
+     "preco": 7.0
+    },
+    {
+     "id": "batata-palito-com-calabresa-no-cone",
+     "nome": "Batata Palito com Calabresa no Cone",
+     "desc": "Com 1 molho à escolha.",
+     "preco": 9.0
+    },
+    {
+     "id": "batata-palito-com-mucarela-no-cone",
+     "nome": "Batata Palito com Muçarela no Cone",
+     "desc": "Com 1 molho à escolha.",
+     "preco": 9.0
+    },
+    {
+     "id": "batata-palito-com-cheddar-e-bacon-no-cone",
+     "nome": "Batata Palito com Cheddar e Bacon no Cone",
+     "desc": "Com 1 molho à escolha.",
+     "preco": 12.0
+    },
+    {
+     "id": "churros-no-cone",
+     "nome": "Churros no Cone",
+     "desc": "Com 1 molho à escolha.",
+     "preco": 12.0
+    },
+    {
+     "id": "bolinha-de-queijo-no-cone",
+     "nome": "Bolinha de Queijo no Cone",
+     "desc": "Com 1 molho à escolha.",
+     "preco": 14.0
+    },
+    {
+     "id": "bolinho-de-arroz-com-mucarela-no-cone",
+     "nome": "Bolinho de Arroz com Muçarela no Cone",
+     "desc": "Com 1 molho à escolha.",
+     "preco": 14.0
+    },
+    {
+     "id": "coxinha-de-frango-com-catupiry-no-cone",
+     "nome": "Coxinha de Frango com Catupiry no Cone",
+     "desc": "Com 1 molho à escolha.",
+     "preco": 14.0
+    },
+    {
+     "id": "quibe-com-mucarela-no-cone",
+     "nome": "Quibe com Muçarela no Cone",
+     "desc": "Com 1 molho à escolha.",
+     "preco": 14.0
+    }
+   ]
+  },
+  {
+   "id": "bebidas",
+   "titulo": "Bebidas",
+   "itens": [
+    {
+     "id": "agua-sem-gas",
+     "nome": "Água sem gás",
+     "desc": "",
+     "preco": 3.0
+    },
+    {
+     "id": "agua-com-gas",
+     "nome": "Água com gás",
+     "desc": "",
+     "preco": 4.0
+    },
+    {
+     "id": "coca-cola-1-l",
+     "nome": "Coca-Cola 1 L",
+     "desc": "",
+     "preco": 8.0
+    },
+    {
+     "id": "coca-cola-zero-1-l",
+     "nome": "Coca-Cola Zero 1 L",
+     "desc": "",
+     "preco": 8.0
+    },
+    {
+     "id": "coca-cola-2-l",
+     "nome": "Coca-Cola 2 L",
+     "desc": "",
+     "preco": 12.0
+    },
+    {
+     "id": "coca-cola-zero-2-l",
+     "nome": "Coca-Cola Zero 2 L",
+     "desc": "",
+     "preco": 12.0
+    },
+    {
+     "id": "kuat-2-l",
+     "nome": "Kuat 2 L",
+     "desc": "",
+     "preco": 10.0
+    },
+    {
+     "id": "fanta-1-l",
+     "nome": "Fanta 1 L",
+     "desc": "",
+     "preco": 8.0
+    },
+    {
+     "id": "fanta-laranja-2-l",
+     "nome": "Fanta Laranja 2 L",
+     "desc": "",
+     "preco": 12.0
+    }
+   ]
+  }
+ ],
+ "opcoes": {
+  "bordas": {
+   "pizza": [
+    [
+     "Catupiry",
+     8
+    ],
+    [
+     "Cream cheese",
+     12
+    ],
+    [
+     "Chocolate",
+     12
+    ],
+    [
+     "Cheddar",
+     8
+    ],
+    [
+     "Muçarela",
+     12
+    ],
+    [
+     "Presunto e muçarela",
+     12
+    ]
+   ],
+   "doce": [
+    [
+     "Catupiry",
+     8
+    ],
+    [
+     "Cheddar",
+     8
+    ],
+    [
+     "Cream cheese",
+     8
+    ],
+    [
+     "Muçarela",
+     12
+    ],
+    [
+     "Chocolate",
+     12
+    ],
+    [
+     "Presunto e muçarela",
+     12
+    ]
+   ]
+  },
+  "acrescimos": {
+   "pizza": [
+    [
+     "Milho",
+     6
+    ],
+    [
+     "Alho",
+     6
+    ],
+    [
+     "Pimentão",
+     6
+    ],
+    [
+     "Bacon",
+     8
+    ],
+    [
+     "Catupiry",
+     8
+    ],
+    [
+     "Palmito",
+     8
+    ],
+    [
+     "Cheddar",
+     8
+    ],
+    [
+     "Cream cheese",
+     12
+    ]
+   ]
+  },
+  "cone": {
+   "molhos": [
+    "Molho de alho",
+    "Molho de barbecue",
+    "Molho de catchup",
+    "Molho de maionese com pimenta",
+    "Molho rosé"
+   ],
+   "acrescimos": [
+    [
+     "Molho de catchup",
+     1
+    ],
+    [
+     "Molho de barbecue",
+     1
+    ],
+    [
+     "Molho de maionese com pimenta",
+     1
+    ],
+    [
+     "Molho de alho",
+     1
+    ],
+    [
+     "Molho rosé",
+     1
+    ],
+    [
+     "Calabresa",
+     2
+    ],
+    [
+     "Muçarela",
+     2
+    ],
+    [
+     "Bacon",
+     2
+    ]
+   ]
+  }
+ },
+ "pausados_na_anotai": [
+  "Franbacon no Cone",
+  "Coca Cola Zero Mini",
+  "Escolha o molho: Molho de bacon",
+  "Acréscimo: Molho de bacon"
+ ]
+}
