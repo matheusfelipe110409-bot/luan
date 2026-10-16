@@ -59,8 +59,10 @@ Pode ser aos poucos: sabor sem foto continua sem foto.
 
 - **WhatsApp e taxa de entrega:** no fim do `index.html`, em
   `<script type="application/json" id="planeta-config">`.
-  - `"whatsapp"`: só dígitos, com DDI e DDD. Hoje é o da loja na Anotaí,
-    (34) 98408-9429 (`553484089429`).
+  - `"whatsapp"`: só dígitos, com DDI e DDD. É o WhatsApp de pedidos, o da
+    fachada: (34) 98837-1707 (`5534988371707`). O (34) 98408-9429, cadastrado
+    na Anotaí, é o das mensagens automáticas do robô dela e não recebe pedidos
+    do site.
   - `"entrega"`: a taxa única da loja na Anotaí, R$ 10.
   - Com o número, os botões "Fazer pedido no WhatsApp" abrem a conversa, e o
     "Fazer pedido" da comanda manda a comanda pronta (itens, entrega e total).
@@ -76,6 +78,16 @@ Pode ser aos poucos: sabor sem foto continua sem foto.
 - **Logo:** `assets/logo.jpg` é o arquivo oficial da loja na Anotaí, sem
   nenhuma alteração. Aparece na barra, no cartão da loja, na tampa da caixa,
   no rodapé e como ícone da aba.
+
+## Próximas fases e testes
+
+- `CHECKOUT.md`: a finalização do pedido (Fase 1, pronta).
+- `BACKEND.md`: o prompt completo do sistema próprio. Cobre:
+  - banco de dados, API de pedidos e motor de preço;
+  - painel da cozinha, painel de gestão, acompanhamento e relatórios;
+  - Mercado Pago e WhatsApp em modo de teste, e o passo a passo para ligar.
+- `tests/`: os testes de navegador do cardápio e do checkout. Veja
+  `tests/README.md`.
 
 ## Cardápio (vem da Anotaí)
 
